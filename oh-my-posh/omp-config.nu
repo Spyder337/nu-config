@@ -4,7 +4,7 @@ if ($env.config? | is-not-empty) {
 }
 
 $env.POWERLINE_COMMAND = 'oh-my-posh'
-$env.POSH_THEME = (echo "C:\\Users\\spyder\\AppData\\Local\\oh-my-posh\\config.228b6fc64c862de71b109a277af39834c85c17a6ce2dafc7480bceeb4dde947e.omp.json")
+$env.POSH_THEME = $OMP_LOCAL_THEME
 $env.PROMPT_INDICATOR = ""
 $env.POSH_SESSION_ID = (echo "8395bd81-d45c-4e1a-b708-1b641620558b")
 $env.POSH_SHELL_VERSION = (version | get version)

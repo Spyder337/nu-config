@@ -113,8 +113,11 @@ const $OMP_CONFIG = 'C:\Users\spyder\AppData\Roaming\nushell\oh-my-posh\omp-conf
 const $OMP_REMOTE = false
 const $OMP_REMOTE_THEME = 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/smoothie.omp.json'
 const $OMP_LOCAL_THEME = 'C:\Users\spyder\AppData\Roaming\nushell\oh-my-posh\custom-theme.omp.json'
+
+$env.OMP_THEME = $OMP_LOCAL_THEME
+
 if $OMP_REMOTE {
     oh-my-posh init nu --config $OMP_REMOTE_THEME --print | save $OMP_CONFIG --force
 } else {
-    oh-my-posh init nu --config $OMP_CONFIG
+    oh-my-posh init nu --config $OMP_LOCAL_THEME
 }
