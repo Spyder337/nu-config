@@ -115,6 +115,7 @@ const $OMP_REMOTE_THEME = 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-m
 const $OMP_LOCAL_THEME = 'C:\Users\spyder\AppData\Roaming\nushell\oh-my-posh\custom-theme.omp.json'
 
 $env.OMP_THEME = $OMP_LOCAL_THEME
+const $CONFIG_PATH = 'C:\Users\spyder\AppData\Roaming\nushell\'
 
 if $OMP_REMOTE {
     oh-my-posh init nu --config $OMP_REMOTE_THEME --print | save $OMP_CONFIG --force

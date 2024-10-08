@@ -895,42 +895,5 @@ $env.config = {
 source ~/.zoxide.nu
 source $OMP_CONFIG
 
-def default_crates [] {
-    cargo add dirs_next
-    cargo add serde --features derive
-    cargo add serde_json
-    cargo add lazy_static
-}
-
-def default_async_crates [] {
-    default_crates
-    cargo add tokio --features full
-}
-
-def default_web_crates [parsing: bool] {
-    default_async_crates
-    cargo add reqwest
-    if $parsing {
-        cargo add select
-    }
-}
-
-def fetch_git_ignore [ignore_file: string] {
-    let url = $"($env.GitIgnore_Repo_Base_URL)($ignore_file).gitignore"
-    http get $url | save ".gitignore"
-}
-
-def obsidian [vault_path: string] {
-    
-}
-
-alias cat = bat
-alias cdc = default_crates
-alias cdac = default_async_crates
-alias cdwc = default_web_crates
-alias repos = cd $env.PERSONAL_REPOS
-alias notes = cd $env.NOTES_DIR
-alias plan = cd $env.PLANS_DIR
-alias seed = random chars
-alias ivs = fetch_git_ignore "Visual Studio"
-alias irs = fetch_git_ignore "Rust"
+source ./commands.nu
+source ./aliases.nu
