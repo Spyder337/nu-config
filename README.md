@@ -14,8 +14,13 @@ Handles:
 - Append global namespace
 
 # Todo
-- [ ] Set the current theme inn omp-config.nu based on how init is called.
-    - [ ] **Remote:** Predictable out path for a fetched theme.
-        - [ ] Use curl to request the theme file.
-        - [ ] Save the output to custom-theme.omp.json
-    - [ ] If there is already a local file use that one.
+- [x] Set the current theme inn omp-config.nu based on how init is called.
+    - [x] **Remote:** Predictable out path for a fetched theme.
+        - [x] Use curl to request the theme file.
+        - [x] Save the output to custom-theme.omp.json
+    - [x] If there is already a local file use that one.
+- [x] Fetching `.gitignore` files.
+- [x] Rust cargo shortcuts for adding crates
+    - [x] Default
+    - [x] Async
+    - [x] Web
