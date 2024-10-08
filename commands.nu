@@ -22,3 +22,21 @@ def fetch_git_ignore [ignore_file: string] {
     let url = $"($env.GitIgnore_Repo_Base_URL)($ignore_file).gitignore"
     http get $url | save ".gitignore"
 }
+
+def list_plugins [] {
+    let plugins = glob ~/.cargo/bin/nu_plugin_*.*
+    for $p in $plugins {
+        print $p
+    }
+}
+
+def source_completions [] {
+    source ./completions/git-completions.nu
+    source ./completions/gh-completions.nu
+    source ./completions/cargo-completions.nu
+    source ./completions/bat-completions.nu
+    source ./completions/rustup-completions.nu
+    source ./completions/vscode-completions.nu
+    source ./completions/ssh-completions.nu
+    source ./completions/curl-completions.nu
+}

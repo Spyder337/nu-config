@@ -125,6 +125,7 @@ $env.PLANS_DIR = ('~\repos\plans' | path expand)
 $env.NOTES_DIR = ('~\notes' | path expand)
 $env.OMP_THEME = $OMP_LOCAL_THEME
 $env.NU_COMPLETION_DIR = $COMPLETIONS_PATH
+$env.CARGO_HOME = ('~\.cargo\bin' | path expand)
 
 if ($OMP_LOCAL_THEME | path exists) == false {
     curl $OMP_REMOTE_THEME -o $OMP_LOCAL_THEME
