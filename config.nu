@@ -901,6 +901,12 @@ source ~/.zoxide.nu
 source ~\AppData\Roaming\nushell\oh-my-posh\omp-config.nu
 
 source ./completions/git-completions.nu
+source ./completions/gh-completions.nu
 source ./completions/cargo-completions.nu
+source ./completions/bat-completions.nu
+source ./completions/rustup-completions.nu
+source ./completions/vscode-completions.nu
+source ./completions/ssh-completions.nu
+source ./completions/curl-completions.nu
 source ./commands.nu
 source ./aliases.nu

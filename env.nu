@@ -137,13 +137,49 @@ if ('~/.zoxide' | path exists) == false {
     zoxide init nushell
 }
 
-let git_completions: string  = [$COMPLETIONS_PATH, 'git-completions.nu'] | path join
 # Git Completions
+let git_completions: string  = [$COMPLETIONS_PATH, 'git-completions.nu'] | path join
 if ($git_completions | path exists) == false {
     curl https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/git/git-completions.nu -o $git_completions
 }
+
+let gh_completions: string = [$COMPLETIONS_PATH, 'gh-completions.nu'] | path join
+if ($gh_completions | path exists) == false {
+    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/gh/gh-completions.nu -o $gh_completions
+}
+
 # Cargo Completions
 let cargo_completions: string = [$COMPLETIONS_PATH, 'cargo-completions.nu'] | path join
 if ($cargo_completions | path exists) == false {
     curl https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/cargo/cargo-completions.nu -o $cargo_completions
+}
+
+# Bat Completions
+let bat_completions: string = [$COMPLETIONS_PATH, 'bat-completions.nu'] | path join
+if ($bat_completions | path exists) == false {
+    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/bat/bat-completions.nu -o $bat_completions
+}
+
+# Rustup Completions
+let rustup_completions: string = [$COMPLETIONS_PATH, 'rustup-completions.nu'] | path join
+if ($rustup_completions | path exists) == false {
+    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/rustup/rustup-completions.nu -o $rustup_completions
+}
+
+# VSCode Completions
+let vscode_completions: string = [$COMPLETIONS_PATH, 'vscode-completions.nu'] | path join
+if ($vscode_completions | path exists) == false {
+    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/vscode/vscode-completions.nu -o $vscode_completions
+}
+
+# SSH Completions
+let ssh_completions: string = [$COMPLETIONS_PATH, 'ssh-completions.nu'] | path join
+if ($ssh_completions | path exists) == false {
+    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/ssh/ssh-completions.nu -o $ssh_completions
+}
+
+# Curl Completions
+let curl_completions: string = [$COMPLETIONS_PATH, 'curl-completions.nu'] | path join
+if ($curl_completions | path exists) == false {
+    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/curl/curl-completions.nu -o $curl_completions
 }
