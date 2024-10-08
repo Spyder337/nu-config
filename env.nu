@@ -112,6 +112,7 @@ const $OMP_CONFIG = [$OMP_PATH,  'omp-config.nu'] | path join
 const $OMP_REMOTE_THEME = 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/smoothie.omp.json'
 # The location on the disk where the theme is located.
 const $OMP_LOCAL_THEME = [$OMP_PATH, 'custom-theme.omp.json'] | path join
+const $COMPLETIONS_PATH = [$CONFIG_PATH, 'completions'] | path join
 
 #############################
 #   Environment Variables   #
@@ -123,9 +124,21 @@ $env.CLONED_REPOS = ('~\repos\cloned' | path expand)
 $env.PLANS_DIR = ('~\repos\plans' | path expand)
 $env.NOTES_DIR = ('~\notes' | path expand)
 $env.OMP_THEME = $OMP_LOCAL_THEME
+$env.NU_COMPLETION_DIR = $COMPLETIONS_PATH
 
 if ($OMP_LOCAL_THEME | path exists) == false {
     curl $OMP_REMOTE_THEME -o $OMP_LOCAL_THEME
 }
 
 oh-my-posh init nu --config $OMP_LOCAL_THEME
+
+let git_completions: string  = [$COMPLETIONS_PATH, 'git-completions.nu'] | path join
+# Git Completions
+if ($git_completions | path exists) == false {
+    curl https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/git/git-completions.nu -o $git_completions
+}
+# Cargo Completions
+let cargo_completions: string = [$COMPLETIONS_PATH, 'cargo-completions.nu'] | path join
+if ($cargo_completions | path exists) == false {
+    curl https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/cargo/cargo-completions.nu -o $cargo_completions
+}
