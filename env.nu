@@ -137,49 +137,62 @@ if ('~/.zoxide' | path exists) == false {
     zoxide init nushell
 }
 
+if ($COMPLETIONS_PATH | path exists) == false {
+    mkdir $COMPLETIONS_PATH
+}
+
 # Git Completions
 let git_completions: string  = [$COMPLETIONS_PATH, 'git-completions.nu'] | path join
+print $"Creating: ($git_completions)"
 if ($git_completions | path exists) == false {
-    curl https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/git/git-completions.nu -o $git_completions
+    curl -L https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/git/git-completions.nu -Lo $git_completions
+    sleep 2sec
 }
 
 let gh_completions: string = [$COMPLETIONS_PATH, 'gh-completions.nu'] | path join
+print $"Creating: ($gh_completions)"
 if ($gh_completions | path exists) == false {
-    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/gh/gh-completions.nu -o $gh_completions
+    curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/gh/gh-completions.nu | save $gh_completions
+    sleep 2sec
 }
-
 # Cargo Completions
 let cargo_completions: string = [$COMPLETIONS_PATH, 'cargo-completions.nu'] | path join
 if ($cargo_completions | path exists) == false {
-    curl https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/cargo/cargo-completions.nu -o $cargo_completions
+    curl -L https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/cargo/cargo-completions.nu | save $cargo_completions
+    sleep 2sec
 }
 
 # Bat Completions
 let bat_completions: string = [$COMPLETIONS_PATH, 'bat-completions.nu'] | path join
 if ($bat_completions | path exists) == false {
-    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/bat/bat-completions.nu -o $bat_completions
+    curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/bat/bat-completions.nu | save $bat_completions
+    sleep 2sec
 }
 
 # Rustup Completions
 let rustup_completions: string = [$COMPLETIONS_PATH, 'rustup-completions.nu'] | path join
 if ($rustup_completions | path exists) == false {
-    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/rustup/rustup-completions.nu -o $rustup_completions
+    curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/rustup/rustup-completions.nu | save $rustup_completions
+    sleep 2sec
 }
 
 # VSCode Completions
 let vscode_completions: string = [$COMPLETIONS_PATH, 'vscode-completions.nu'] | path join
 if ($vscode_completions | path exists) == false {
-    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/vscode/vscode-completions.nu -o $vscode_completions
+    curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/vscode/vscode-completions.nu | save $vscode_completions
+    sleep 2sec
 }
 
 # SSH Completions
 let ssh_completions: string = [$COMPLETIONS_PATH, 'ssh-completions.nu'] | path join
 if ($ssh_completions | path exists) == false {
-    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/ssh/ssh-completions.nu -o $ssh_completions
+    curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/ssh/ssh-completions.nu | save $ssh_completions
+    sleep 2sec
 }
 
 # Curl Completions
 let curl_completions: string = [$COMPLETIONS_PATH, 'curl-completions.nu'] | path join
 if ($curl_completions | path exists) == false {
-    curl https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/curl/curl-completions.nu -o $curl_completions
+    curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/curl/curl-completions.nu | save $curl_completions
+    sleep 2sec
 }
