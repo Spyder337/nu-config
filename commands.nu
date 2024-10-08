@@ -23,10 +23,15 @@ def fetch_git_ignore [ignore_file: string] {
     http get $url | save ".gitignore"
 }
 
-def list_plugins [] {
+def nu_plugins [] {
     let plugins = glob ~/.cargo/bin/nu_plugin_*.*
-    for $p in $plugins {
-        print $p
+    return $plugins
+}
+
+def add_plugins [] {
+    let plugins = nu_plugins
+    $plugins | each {|plugin_name|
+        plugin add $plugin_name
     }
 }
 
