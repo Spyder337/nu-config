@@ -4,7 +4,8 @@ if ($env.config? | is-not-empty) {
 }
 
 $env.POWERLINE_COMMAND = 'oh-my-posh'
-$env.POSH_THEME = $OMP_LOCAL_THEME
+# $env.POSH_THEME = '~\AppData\Roaming\nushell\oh-my-posh\custom-theme.omp.json'
+$env.POSH_THEME = $env.OMP_THEME
 $env.PROMPT_INDICATOR = ""
 $env.POSH_SESSION_ID = (echo "8395bd81-d45c-4e1a-b708-1b641620558b")
 $env.POSH_SHELL_VERSION = (version | get version)

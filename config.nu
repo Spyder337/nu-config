@@ -893,7 +893,7 @@ $env.config = {
 }
 
 source ~/.zoxide.nu
-source $OMP_CONFIG
+source ~\AppData\Roaming\nushell\oh-my-posh\omp-config.nu
 
 source ./commands.nu
 source ./aliases.nu

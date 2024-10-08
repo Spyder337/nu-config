@@ -100,26 +100,29 @@ $env.NU_PLUGIN_DIRS = [
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')s
 
-$env.CUSTOM_CONFIGS = r#'C:\Users\spyder\repos\spyder\nu-configs'#
-
-$env.EDITOR = 'C:\Program Files\Microsoft VS Code Insiders\Code - Insiders.exe'
-$env.GitIgnore_Repo_Base_URL = 'https://raw.githubusercontent.com/github/gitignore/main/'
-$env.PERSONAL_REPOS = r#'C:\Users\spyder\repos\spyder'#
-$env.CLONED_REPOS = r#'C:\Users\spyder\repos\cloned'#
-$env.PLANS_DIR = r#'C:\Users\spyder\repos\plans'#
-$env.NOTES_DIR = r#'C:\Users\spyder\notes'#
-
+#############################
+#   Constant declarations   #
+#############################
+const $CONFIG_PATH = ('~\AppData\Roaming\nushell\' | path expand)
+const $OMP_PATH = [$CONFIG_PATH, 'oh-my-posh'] | path join
 # This section is dedicated to initializing oh-my-posh.
 # This is the location to the oh-my-posh main config file.
-const $OMP_CONFIG = 'C:\Users\spyder\AppData\Roaming\nushell\oh-my-posh\omp-config.nu'
+const $OMP_CONFIG = [$OMP_PATH,  'omp-config.nu'] | path join
 # There is a default remote file to fetch.
 const $OMP_REMOTE_THEME = 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/smoothie.omp.json'
 # The location on the disk where the theme is located.
-const $OMP_LOCAL_THEME = 'C:\Users\spyder\AppData\Roaming\nushell\oh-my-posh\custom-theme.omp.json'
+const $OMP_LOCAL_THEME = [$OMP_PATH, 'custom-theme.omp.json'] | path join
 
-# Environment variable to store the theme location for easy access.
+#############################
+#   Environment Variables   #
+#############################
+$env.EDITOR = 'C:\Program Files\Microsoft VS Code Insiders\Code - Insiders.exe'
+$env.GitIgnore_Repo_Base_URL = 'https://raw.githubusercontent.com/github/gitignore/main/'
+$env.PERSONAL_REPOS = ('~\repos\spyder' | path expand)
+$env.CLONED_REPOS = ('~\repos\cloned' | path expand)
+$env.PLANS_DIR = ('~\repos\plans' | path expand)
+$env.NOTES_DIR = ('~\notes' | path expand)
 $env.OMP_THEME = $OMP_LOCAL_THEME
-const $CONFIG_PATH = 'C:\Users\spyder\AppData\Roaming\nushell\'
 
 if ($OMP_LOCAL_THEME | path exists) == false {
     curl $OMP_REMOTE_THEME -o $OMP_LOCAL_THEME
