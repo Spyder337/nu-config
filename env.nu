@@ -131,6 +131,11 @@ if ($OMP_LOCAL_THEME | path exists) == false {
 }
 
 oh-my-posh init nu --config $OMP_LOCAL_THEME
+if ('~/.zoxide' | path exists) == false {
+    zoxide init nushell | save -f ~/.zoxide.nu
+} else {
+    zoxide init nushell
+}
 
 let git_completions: string  = [$COMPLETIONS_PATH, 'git-completions.nu'] | path join
 # Git Completions
