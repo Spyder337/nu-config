@@ -12,3 +12,10 @@ Handles:
 - Definitions
 - Aliases
 - Append global namespace
+
+# Todo
+- [ ] Set the current theme inn omp-config.nu based on how init is called.
+    - [ ] **Remote:** Predictable out path for a fetched theme.
+        - [ ] Use curl to request the theme file.
+        - [ ] Save the output to custom-theme.omp.json
+    - [ ] If there is already a local file use that one.

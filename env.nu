@@ -108,17 +108,21 @@ $env.PERSONAL_REPOS = r#'C:\Users\spyder\repos\spyder'#
 $env.CLONED_REPOS = r#'C:\Users\spyder\repos\cloned'#
 $env.PLANS_DIR = r#'C:\Users\spyder\repos\plans'#
 $env.NOTES_DIR = r#'C:\Users\spyder\notes'#
-const $OMP_CONFIG = 'C:\Users\spyder\AppData\Roaming\nushell\oh-my-posh\omp-config.nu'
 
-const $OMP_REMOTE = false
+# This section is dedicated to initializing oh-my-posh.
+# This is the location to the oh-my-posh main config file.
+const $OMP_CONFIG = 'C:\Users\spyder\AppData\Roaming\nushell\oh-my-posh\omp-config.nu'
+# There is a default remote file to fetch.
 const $OMP_REMOTE_THEME = 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/smoothie.omp.json'
+# The location on the disk where the theme is located.
 const $OMP_LOCAL_THEME = 'C:\Users\spyder\AppData\Roaming\nushell\oh-my-posh\custom-theme.omp.json'
 
+# Environment variable to store the theme location for easy access.
 $env.OMP_THEME = $OMP_LOCAL_THEME
 const $CONFIG_PATH = 'C:\Users\spyder\AppData\Roaming\nushell\'
 
-if $OMP_REMOTE {
-    oh-my-posh init nu --config $OMP_REMOTE_THEME --print | save $OMP_CONFIG --force
-} else {
-    oh-my-posh init nu --config $OMP_LOCAL_THEME
+if ($OMP_LOCAL_THEME | path exists) == false {
+    curl $OMP_REMOTE_THEME -o $OMP_LOCAL_THEME
 }
+
+oh-my-posh init nu --config $OMP_LOCAL_THEME
