@@ -108,11 +108,11 @@ $env.PERSONAL_REPOS = r#'C:\Users\spyder\repos\spyder'#
 $env.CLONED_REPOS = r#'C:\Users\spyder\repos\cloned'#
 $env.PLANS_DIR = r#'C:\Users\spyder\repos\plans'#
 $env.NOTES_DIR = r#'C:\Users\spyder\notes'#
-const $OMP_CONFIG = 'C:\Users\spyder\AppData\Roaming\nushell\omp-config.nu'
+const $OMP_CONFIG = 'C:\Users\spyder\AppData\Roaming\nushell\oh-my-posh\omp-config.nu'
 
 const $OMP_REMOTE = false
 const $OMP_REMOTE_THEME = 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/smoothie.omp.json'
-
+const $OMP_LOCAL_THEME = 'C:\Users\spyder\AppData\Roaming\nushell\oh-my-posh\custom-theme.omp.json'
 if $OMP_REMOTE {
     oh-my-posh init nu --config $OMP_REMOTE_THEME --print | save $OMP_CONFIG --force
 } else {
