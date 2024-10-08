@@ -13,6 +13,12 @@ Handles:
 - Aliases
 - Append global namespace
 
+## Plugins
+0. `nu_plugin_compress`
+1. `nu_plugin_emoji`
+2. `nu_plugin_gstat`
+3. `nu_plugin_highlight`
+
 # Todo
 - [x] Set the current theme inn omp-config.nu based on how init is called.
     - [x] **Remote:** Predictable out path for a fetched theme.
