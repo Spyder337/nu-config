@@ -1,2 +1,5 @@
 history.*
 completions/
+plugin.*
+plugin/
+plugins/
