@@ -143,14 +143,12 @@ if ($COMPLETIONS_PATH | path exists) == false {
 
 # Git Completions
 let git_completions: string  = [$COMPLETIONS_PATH, 'git-completions.nu'] | path join
-print $"Creating: ($git_completions)"
 if ($git_completions | path exists) == false {
     curl -L https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/git/git-completions.nu -Lo $git_completions
     sleep 2sec
 }
 
 let gh_completions: string = [$COMPLETIONS_PATH, 'gh-completions.nu'] | path join
-print $"Creating: ($gh_completions)"
 if ($gh_completions | path exists) == false {
     curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/gh/gh-completions.nu | save $gh_completions
     sleep 2sec
