@@ -108,44 +108,13 @@ $env.PERSONAL_REPOS = r#'C:\Users\spyder\repos\spyder'#
 $env.CLONED_REPOS = r#'C:\Users\spyder\repos\cloned'#
 $env.PLANS_DIR = r#'C:\Users\spyder\repos\plans'#
 $env.NOTES_DIR = r#'C:\Users\spyder\notes'#
-oh-my-posh init nu --config 'C:\Users\spyder\.config\oh-my-posh\smoothie-custom.toml' --print | save ~/.config/oh-my-posh/omp-init.nu --force
+const $OMP_CONFIG = 'C:\Users\spyder\AppData\Roaming\nushell\omp-config.nu'
 
-def default_crates [] {
-    cargo add dirs_next
-    cargo add serde --features derive
-    cargo add serde_json
-    cargo add lazy_static
+const $OMP_REMOTE = false
+const $OMP_REMOTE_THEME = 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/smoothie.omp.json'
+
+if $OMP_REMOTE {
+    oh-my-posh init nu --config $OMP_REMOTE_THEME --print | save $OMP_CONFIG --force
+} else {
+    oh-my-posh init nu --config $OMP_CONFIG
 }
-
-def default_async_crates [] {
-    default_crates
-    cargo add tokio --features full
-}
-
-def default_web_crates [parsing: bool] {
-    default_async_crates
-    cargo add reqwest
-    if $parsing {
-        cargo add select
-    }
-}
-
-def fetch_git_ignore [ignore_file: string] {
-    let url = $"($env.GitIgnore_Repo_Base_URL)($ignore_file).gitignore"
-    http get $url | save ".gitignore"
-}
-
-def obsidian [vault_path: string] {
-    
-}
-
-alias cat = bat
-alias cdc = default_crates
-alias cdac = default_async_crates
-alias cdwc = default_web_crates
-alias repos = cd $env.PERSONAL_REPOS
-alias notes = cd $env.NOTES_DIR
-alias plan = cd $env.PLANS_DIR
-alias seed = random chars
-alias ivs = fetch_git_ignore "Visual Studio"
-alias irs = fetch_git_ignore "Rust"
