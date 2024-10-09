@@ -8,3 +8,4 @@ alias plan = cd $env.PLANS_DIR
 alias seed = random chars
 alias ivs = fetch_git_ignore "Visual Studio"
 alias irs = fetch_git_ignore "Rust"
+alias gc = git clone --depth=1

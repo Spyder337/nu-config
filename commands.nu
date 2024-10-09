@@ -45,3 +45,23 @@ def source_completions [] {
     source ./completions/ssh-completions.nu
     source ./completions/curl-completions.nu
 }
+
+def install_emacs [] {
+    if (sys host).name == "Windows" {
+        print "This function is unavailable on Windows."
+    }
+    if (~/emacs | path exists) == false {
+        mkdir ~/emacs
+    }
+    cd ~/emacs
+    git clone --depth=1 git://git.sv.gnu.org/emacs.git
+    let deps = ['git', 'gcc', 'make', 'textinfo', 'autoconf', 'pkg-config', 'libcurses-dev']
+
+    deps | each {|dep|
+        sudo apt install -t $dep
+    }
+
+    make configure="--prefix=/opt/emacs CFLAGS='-O0 -g3' --without-x --with-mailutils"
+
+    sudo make install
+}
