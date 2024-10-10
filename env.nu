@@ -127,17 +127,23 @@ $env.OMP_THEME = $OMP_LOCAL_THEME
 $env.NU_COMPLETION_DIR = $COMPLETIONS_PATH
 $env.CARGO_HOME = ('~\.cargo\bin' | path expand)
 
+# Download a theme from a remote if a local theme file does not exist.
 if ($OMP_LOCAL_THEME | path exists) == false {
     curl $OMP_REMOTE_THEME -o $OMP_LOCAL_THEME
 }
 
+# Initialize OMP with the custom theme config.
 oh-my-posh init nu --config $OMP_LOCAL_THEME
+
+# Check to see if zoxide has been initialized.
+# If not then initialize it.
 if ('~/.zoxide' | path exists) == false {
     zoxide init nushell | save -f ~/.zoxide.nu
 } else {
     zoxide init nushell
 }
 
+# Create the directory for completions to go if it does not exist.
 if ($COMPLETIONS_PATH | path exists) == false {
     mkdir $COMPLETIONS_PATH
 }
@@ -149,6 +155,7 @@ if ($git_completions | path exists) == false {
     sleep 2sec
 }
 
+# Github CLI Completions
 let gh_completions: string = [$COMPLETIONS_PATH, 'gh-completions.nu'] | path join
 if ($gh_completions | path exists) == false {
     curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/gh/gh-completions.nu | save $gh_completions
