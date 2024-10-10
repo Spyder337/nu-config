@@ -87,3 +87,13 @@ def new_node_project [ts_enabled: bool = true, es_lint_enabled: bool = true] {
         npm init "@eslint/config@latest"
     }
 }
+
+def dmy_date [] {
+    let d = ((date now) | date to-record)
+    $"($d.day)-($d.month)-($d.year)"
+}
+
+def time_now [] {
+    let d = ((date now) | date to-record)
+    $"($d.hour):($d.minute):($d.second)"
+}

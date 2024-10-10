@@ -9,3 +9,4 @@ alias seed = random chars
 alias ivs = fetch_git_ignore "Visual Studio"
 alias irs = fetch_git_ignore "Rust"
 alias gc = git clone --depth=1
+alias com = git commit -m $"Updated: (dmy_date) (time_now)"
