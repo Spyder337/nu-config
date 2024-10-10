@@ -93,6 +93,11 @@ def dmy_date [] {
     $"($d.day)-($d.month)-($d.year)"
 }
 
+def mdy_date [] {
+    let d = ((date now) | date to-record)
+    $"($d.month)-($d.day)-($d.year)"
+}
+
 def time_now [] {
     let d = ((date now) | date to-record)
     $"($d.hour):($d.minute):($d.second)"
