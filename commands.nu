@@ -1,28 +1,6 @@
-def default_crates [] {
-    cargo add dirs_next
-    cargo add serde --features derive
-    cargo add serde_json
-    cargo add lazy_static
-}
-
-def default_async_crates [] {
-    default_crates
-    cargo add tokio --features full
-}
-
-def default_web_crates [parsing: bool] {
-    default_async_crates
-    cargo add reqwest
-    if $parsing {
-        cargo add select
-    }
-}
-
-def fetch_git_ignore [ignore_file: string] {
-    let url = $"($env.GitIgnore_Repo_Base_URL)($ignore_file).gitignore"
-    http get $url | save ".gitignore"
-}
-
+#################
+#   Nu Config   #
+#################
 def nu_plugins [] {
     let plugins = glob ~/.cargo/bin/nu_plugin_*.*
     return $plugins
@@ -46,24 +24,27 @@ def source_completions [] {
     source ./completions/curl-completions.nu
 }
 
-def install_emacs [] {
-    if (sys host).name == "Windows" {
-        print "This function is unavailable on Windows."
-    }
-    if (~/emacs | path exists) == false {
-        mkdir ~/emacs
-    }
-    cd ~/emacs
-    git clone --depth=1 git://git.sv.gnu.org/emacs.git
-    let deps = ['git', 'gcc', 'make', 'textinfo', 'autoconf', 'pkg-config', 'libcurses-dev']
+###############################
+#   Project Initialization    #
+###############################
+def default_crates [] {
+    cargo add dirs_next
+    cargo add serde --features derive
+    cargo add serde_json
+    cargo add lazy_static
+}
 
-    deps | each {|dep|
-        sudo apt install -t $dep
+def default_async_crates [] {
+    default_crates
+    cargo add tokio --features full
+}
+
+def default_web_crates [parsing: bool] {
+    default_async_crates
+    cargo add reqwest
+    if $parsing {
+        cargo add select
     }
-
-    make configure="--prefix=/opt/emacs CFLAGS='-O0 -g3' --without-x --with-mailutils"
-
-    sudo make install
 }
 
 def new_node_project [ts_enabled: bool = true, es_lint_enabled: bool = true] {
@@ -88,6 +69,40 @@ def new_node_project [ts_enabled: bool = true, es_lint_enabled: bool = true] {
     }
 }
 
+#####################
+#   Git Commands    #
+#####################
+def fetch_git_ignore [ignore_file: string] {
+    let url = $"($env.GitIgnore_Repo_Base_URL)($ignore_file).gitignore"
+    http get $url | save ".gitignore"
+}
+
+###############################
+#   Dependency Installation   #
+##############################3
+def install_emacs [] {
+    if (sys host).name == "Windows" {
+        print "This function is unavailable on Windows."
+    }
+    if (~/emacs | path exists) == false {
+        mkdir ~/emacs
+    }
+    cd ~/emacs
+    git clone --depth=1 git://git.sv.gnu.org/emacs.git
+    let deps = ['git', 'gcc', 'make', 'textinfo', 'autoconf', 'pkg-config', 'libcurses-dev']
+
+    deps | each {|dep|
+        sudo apt install -t $dep
+    }
+
+    make configure="--prefix=/opt/emacs CFLAGS='-O0 -g3' --without-x --with-mailutils"
+
+    sudo make install
+}
+
+#################
+#   Date/Time   #
+#################
 def dmy_date [] {
     let d = ((date now) | date to-record)
     $"($d.day)-($d.month)-($d.year)"
@@ -101,4 +116,15 @@ def mdy_date [] {
 def time_now [] {
     let d = ((date now) | date to-record)
     $"($d.hour):($d.minute):($d.second)"
+}
+
+###################
+#   File System   #
+###################
+def lf-rust [] {
+  let files = (glob **/src/**/*.{rs, toml})
+  $files | each { |path|
+      let link = $"($path | path relative-to ($env.PWD))"
+      $"($path)" | ansi link --text $link
+  }
 }

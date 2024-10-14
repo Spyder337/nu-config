@@ -126,6 +126,7 @@ $env.NOTES_DIR = ('~\.vaults\notes' | path expand)
 $env.OMP_THEME = $OMP_LOCAL_THEME
 $env.NU_COMPLETION_DIR = $COMPLETIONS_PATH
 $env.CARGO_HOME = ('~\.cargo\bin' | path expand)
+$env.NU_CONFIG = $CONFIG_PATH
 
 # Download a theme from a remote if a local theme file does not exist.
 if ($OMP_LOCAL_THEME | path exists) == false {
