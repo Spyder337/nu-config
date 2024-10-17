@@ -19,14 +19,31 @@ Handles:
 2. `nu_plugin_gstat`
 3. `nu_plugin_highlight`
 
-# Todo
+# Completion Support
+- git
+- gh
+- cargo
+- rustup
+- vscode
+- ssh
+- curl
+- bat
+
+# Todo:
+- [x] Welcome message
 - [x] Set the current theme inn omp-config.nu based on how init is called.
-    - [x] **Remote:** Predictable out path for a fetched theme.
-        - [x] Use curl to request the theme file.
-        - [x] Save the output to custom-theme.omp.json
-    - [x] If there is already a local file use that one.
+  - [x] **Remote:** Predictable out path for a fetched theme.
+    - [x] Use curl to request the theme file.
+    - [x] Save the output to custom-theme.omp.json
+  - [x] If there is already a local file use that one.
+- [x] Basic completions
 - [x] Fetching `.gitignore` files.
 - [x] Rust cargo shortcuts for adding crates
-    - [x] Default
-    - [x] Async
-    - [x] Web
+  - [x] Default
+  - [x] Async
+  - [x] Web
+- [x] Repo Commands
+  - [x] List all repos
+- [/] Program Install
+  - [x] Emacs
+  - [ ] Python 
