@@ -47,3 +47,5 @@ Handles:
 - [/] Program Install
   - [x] Emacs
   - [ ] Python 
+- [?] Dwarf Fortress Ref
+  - Writing a quick Dwarf Fortress reference script in nu would let me leverage the natural shell integration for creating my UI.
