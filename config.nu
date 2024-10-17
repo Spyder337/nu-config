@@ -902,3 +902,5 @@ source ~\AppData\Roaming\nushell\oh-my-posh\omp-config.nu
 source ./commands.nu
 source ./aliases.nu
 source_completions
+
+welcome_msg

@@ -2,7 +2,7 @@
 #   Nu Config   #
 #################
 def nu_plugins [] {
-  let plugins = glob ~/.cargo/bin/nu_plugin_*.*
+  let plugins = (glob ~/.cargo/**/bin/nu_plugin_*.*)
   return $plugins
 }
 
@@ -123,20 +123,34 @@ def install_emacs [] {
 #   Date/Time   #
 #################
 
+def full_date [] -> string {
+  let d = ((date now) | date to-record)
+  print $"Target Date: ($d.day)"
+  $"(day_of_week $d.day)"
+}
+
+def day_of_week [ day: int ]  -> string {
+  let c: table = (cal -t)
+  print $"Target Date: ($day)"
+  let row = $c | where {|r| $"($r.su)" == $"($day)" or $"($r.mo)" == $"($day)" or $"($r.tu)" == $"($day)" or $"($r.we)" == $"($day)" or $"($r.th)" == $"($day)" or $"($r.fr)" == $"($day)" or $"($r.sa)" == $"($day)"}
+  print $row 
+  return "N/A"
+}
+
 # Returns the Date in the Day-Month-Year format.
-def dmy_date [] {
+def dmy_date [] -> string {
   let d = ((date now) | date to-record)
   $"($d.day)-($d.month)-($d.year)"
 }
 
 # Returns the Date in the Month-Day-Year format.
-def mdy_date [] {
+def mdy_date [] -> string {
   let d = ((date now) | date to-record)
   $"($d.month)-($d.day)-($d.year)"
 }
 
 # Returns the current time.
-def time_now [] {
+def time_now [] -> string {
   let d = ((date now) | date to-record)
   $"($d.hour):($d.minute):($d.second)"
 }
@@ -180,4 +194,14 @@ def repos-list [] -> table {
   }
   let t = ($res | table)
   return $t
+}
+
+#######################
+#   Welcome Message   #
+#######################
+
+# Generates a welcome message when nushell starts up.
+def welcome_msg [] {
+  print $"Today's Date  \(DD-MM-YYYY\): (dmy_date)"
+  cal
 }
