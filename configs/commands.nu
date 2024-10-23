@@ -178,7 +178,7 @@ def lf-rust [] -> list<any> {
 #   - '**/.git'
 #   - '**/.obsidian'
 #   - '**/plans/**'
-def repos-list [] -> table {
+def repos-list [ include_paths: bool = false] -> table {
   let ignored_dirs = ["**/.git", "**/.obsidian", "**/*.md", "**/plans/**"]
   let res  = glob ~/repos/*/* --exclude $ignored_dirs | each {|p|
     let parent = $"(($p | path dirname) | path basename)"
@@ -202,6 +202,9 @@ def repos-list [] -> table {
 
 # Generates a welcome message when nushell starts up.
 def welcome_msg [] {
-  print $"Today's Date  \(DD-MM-YYYY\): (dmy_date)"
-  cal
+  print $"Today's Date  \(DD-MM-YYYY\): (ansi light_green)(dmy_date)(ansi reset)"
+  let c = cal -t
+  print $c
+  print $"Current Repos:"
+  repos-list
 }

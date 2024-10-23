@@ -897,10 +897,10 @@ $env.config = {
     ]
 }
 
-source ~/.zoxide.nu
-source ~\AppData\Roaming\nushell\oh-my-posh\omp-config.nu
-source ./commands.nu
-source ./aliases.nu
+source ./configs/.zoxide.nu
+source ~\AppData\Roaming\nushell\configs/oh-my-posh\omp-config.nu
+source ./configs/commands.nu
+source ./configs/aliases.nu
 source_completions
 
 welcome_msg

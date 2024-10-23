@@ -97,13 +97,19 @@ $env.NU_PLUGIN_DIRS = [
 # path add ($env.HOME | path join ".local" "bin")
 # $env.PATH = ($env.PATH | uniq)
 
+use std "path add"
+path add ~/.cargo/bin
+path add ~/.bin/go/bin
+path add ~/.bin/zig
+path add r#'C:\Program Files\Microsoft VS Code Insiders'#
+
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')s
 
 #############################
 #   Constant declarations   #
 #############################
-const $CONFIG_PATH = ('~\AppData\Roaming\nushell\' | path expand)
+const $CONFIG_PATH = ('~\AppData\Roaming\nushell\configs' | path expand)
 const $OMP_PATH = [$CONFIG_PATH, 'oh-my-posh'] | path join
 # This section is dedicated to initializing oh-my-posh.
 # This is the location to the oh-my-posh main config file.
@@ -129,6 +135,7 @@ $env.OMP_THEME = $OMP_LOCAL_THEME
 $env.NU_COMPLETION_DIR = $COMPLETIONS_PATH
 $env.CARGO_HOME = ('~\.cargo\bin' | path expand)
 $env.NU_CONFIG = $CONFIG_PATH
+$env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
 
 # Download a theme from a remote if a local theme file does not exist.
 if ($OMP_LOCAL_THEME | path exists) == false {
@@ -140,10 +147,8 @@ oh-my-posh init nu --config $OMP_LOCAL_THEME
 
 # Check to see if zoxide has been initialized.
 # If not then initialize it.
-if ('~/.zoxide' | path exists) == false {
-		zoxide init nushell | save -f ~/.zoxide.nu
-} else {
-		zoxide init nushell
+if ($env.Z_OXIDE_PATH | path exists) == false {
+		zoxide init nushell | save -f $env.Z_OXIDE_PATH
 }
 
 # Create the directory for completions to go if it does not exist.

@@ -30,3 +30,4 @@ alias cat = bat
 alias seed = random chars
 alias lf = lf-rust
 alias repos = repos-list
+alias code = exec r#'C:\Program Files\Microsoft VS Code Insiders\Code - Insiders.exe'#
