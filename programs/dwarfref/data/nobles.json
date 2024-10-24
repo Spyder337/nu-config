@@ -1,0 +1,183 @@
+{
+  "$schema": "./schemas/nobles_list.schema.json",
+  "Positions": [
+    {
+      "Title": "Baron",
+      "Url": "https://dwarffortresswiki.org/index.php/Baron",
+      "Quarters": 3,
+      "Dining Room": 3,
+      "Office": 3,
+      "Tomb": 2,
+      "Chests": 2,
+      "Cabinets": 1,
+      "Racks": 1,
+      "Stands": 1,
+      "Demands": 2,
+      "Mandates": 1
+    },
+    {
+      "Title": "Bookkeeper",
+      "Url": "https://dwarffortresswiki.org/index.php/Bookkeeper",
+      "Office": 0
+    },
+    {
+      "Title": "Broker",
+      "Url": "https://dwarffortresswiki.org/index.php/Broker"
+    },
+    {
+      "Title": "Captain of the Guard",
+      "Url": "https://dwarffortresswiki.org/index.php/Captain_of_the_guard",
+      "Quarters": 2,
+      "Dining Room": 2,
+      "Office": 2,
+      "Chests": 1,
+      "Cabinets": 1,
+      "Racks": 1,
+      "Stands": 1
+    },
+    {
+      "Title": "Champion",
+      "Url": "https://dwarffortresswiki.org/index.php/Champion",
+      "Demands": 1
+    },
+    {
+      "Title": "Chief Medical Dwarf",
+      "Url": "https://dwarffortresswiki.org/index.php/Chief_medical_dwarf"
+    },
+    {
+      "Title": "Count",
+      "Url": "https://dwarffortresswiki.org/index.php/Count",
+      "Quarters": 5,
+      "Dining Room": 5,
+      "Office": 5,
+      "Tomb": 5,
+      "Chests": 3,
+      "Cabinets": 2,
+      "Racks": 2,
+      "Stands": 2,
+      "Demands": 3,
+      "Mandates": 2
+    },
+    {
+      "Title": "Diplomat",
+      "Url": "https://dwarffortresswiki.org/index.php/Diplomat",
+      "Quarters": 5,
+      "Dining Room": 5,
+      "Office": 5,
+      "Chests": 3,
+      "Cabinets": 2,
+      "Racks": 2,
+      "Stands": 2,
+      "Demands": 3
+    },
+    {
+      "Title": "Duke",
+      "Url": "https://dwarffortresswiki.org/index.php/Duke",
+      "Quarters": 6,
+      "Dining Room": 6,
+      "Office": 6,
+      "Tomb": 6,
+      "Chests": 5,
+      "Cabinets": 3,
+      "Racks": 3,
+      "Stands": 3,
+      "Demands": 5,
+      "Mandates": 3
+    },
+    {
+      "Title": "Dungeon Master",
+      "Url": "https://dwarffortresswiki.org/index.php/Dungeon_master",
+      "Quarters": 2,
+      "Dining Room": 2,
+      "Office": 2,
+      "Chests": 1,
+      "Cabinets": 1,
+      "Racks": 1,
+      "Stands": 1
+    },
+    {
+      "Title": "Expedition Leader",
+      "Url": "https://dwarffortresswiki.org/index.php/Expedition_leader"
+    },
+    {
+      "Title": "General",
+      "Url": "https://dwarffortresswiki.org/index.php/General",
+      "Quarters": 2,
+      "Dining Room": 2,
+      "Office": 3,
+      "Tomb": 0,
+      "Chests": 2,
+      "Cabinets": 1,
+      "Racks": 3,
+      "Stands": 3,
+      "Demands": 2
+    },
+    {
+      "Title": "Hammerer",
+      "Url": "https://dwarffortresswiki.org/index.php/Hammerer"
+    },
+    {
+      "Title": "Manager",
+      "Url": "https://dwarffortresswiki.org/index.php/Manager",
+      "Office": 0
+    },
+    {
+      "Title": "Mayor",
+      "Url": "https://dwarffortresswiki.org/index.php/Mayor",
+      "Quarters": 3,
+      "Dining Room": 3,
+      "Office": 3,
+      "Chests": 2,
+      "Cabinets": 1,
+      "Racks": 1,
+      "Stands": 1,
+      "Demands": 2,
+      "Mandates": 1
+    },
+    {
+      "Title": "Militia Captain",
+      "Url": "https://dwarffortresswiki.org/index.php/Militia_captain"
+    },
+    {
+      "Title": "Militia Commander",
+      "Url": "https://dwarffortresswiki.org/index.php/Militia_commander"
+    },
+    {
+      "Title": "Monarch",
+      "Url": "https://dwarffortresswiki.org/index.php/Monarch",
+      "Quarters": 7,
+      "Dining Room": 7,
+      "Office": 7,
+      "Tomb": 7,
+      "Chests": 10,
+      "Cabinets": 5,
+      "Racks": 5,
+      "Stands": 5,
+      "Demands": 10,
+      "Mandates": 5
+    },
+    {
+      "Title": "Outpost Liason",
+      "Url": "https://dwarffortresswiki.org/index.php/Outpost_liaison",
+      "Quarters": 5,
+      "Dining Room": 5,
+      "Office": 5,
+      "Chests": 3,
+      "Cabinets": 2,
+      "Racks": 2,
+      "Stands": 2,
+      "Demands": 3
+    },
+    {
+      "Title": "Sheriff",
+      "Url": "https://dwarffortresswiki.org/index.php/Sheriff",
+      "Quarters": 1,
+      "Dining Room": 1,
+      "Office": 1,
+      "Chests": 1,
+      "Cabinets": 1,
+      "Racks": 1,
+      "Stands": 1
+    }
+  ]
+}

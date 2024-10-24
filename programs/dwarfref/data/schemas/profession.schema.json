@@ -1,0 +1,32 @@
+{
+    "$id": "./profession.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Related skills for a profession.",
+    "type": "object",
+    "properties": {
+        "Skill": {
+            "type": "array",
+            "description": "Base Skills related to the profession.",
+            "uniqueItems": true,
+            "items": {
+                "type": "string"
+            }
+        },
+        "Personality Trait": {
+            "type": "array",
+            "description": "Personality traits related to the profession.",
+            "uniqueItems": true,
+            "items": {
+                "type": "string"
+            }
+        },
+        "Attributes": {
+            "type": "array",
+            "description": "Attributes related to the profession.",
+            "uniqueItems": true,
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}

@@ -3,3 +3,4 @@ completions/
 plugin.*
 plugin/
 plugins/
+.vs/

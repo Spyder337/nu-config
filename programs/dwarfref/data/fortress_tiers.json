@@ -1,0 +1,41 @@
+{
+  "$schema": "./schemas/fortress_tier_list.schema.json",
+  "Tiers": [
+    {
+      "Title": "Outpost",
+      "Population": 0,
+      "Wealth Created": 0,
+      "Wealth Exported": 0
+    },
+    {
+      "Title": "Hamlet",
+      "Population": 20,
+      "Wealth Created": 5000,
+      "Wealth Exported": 500
+    },
+    {
+      "Title": "Village",
+      "Population": 50,
+      "Wealth Created": 25000,
+      "Wealth Exported": 2500
+    },
+    {
+      "Title": "Town",
+      "Population": 80,
+      "Wealth Created": 100000,
+      "Wealth Exported": 10000
+    },
+    {
+      "Title": "City",
+      "Population": 110,
+      "Wealth Created": 200000,
+      "Wealth Exported": 20000
+    },
+    {
+      "Title": "Metropolis",
+      "Population": 140,
+      "Wealth Created": 300000,
+      "Wealth Exported": 30000
+    }
+  ]
+}

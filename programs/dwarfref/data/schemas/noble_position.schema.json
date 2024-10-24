@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "./nobles.schema.json",
+  "title": "Noble Position",
+  "description": "A Noble position in a Fort.",
+  "type": "object",
+  "properties": {
+    "Title": {
+      "type": "string",
+      "description": "Noble title."
+    },
+    "Url": {
+      "type": "string",
+      "description": "Url to the wiki page."
+    },
+    "Quarters": {
+      "type": "integer",
+      "description": "Tier of the accomadation."
+    },
+    "Dining Room": {
+      "type": "integer",
+      "description": "Tier of the accomadation."
+    },
+    "Office": {
+      "type": "integer",
+      "description": "Tier of the accomadation."
+    },
+    "Tomb": {
+      "type": "integer",
+      "description": "Tier of the accomadation."
+    },
+    "Chests": {
+      "type": "integer",
+      "description": "Amount of furniture."
+    },
+    "Cabinets": {
+      "type": "integer",
+      "description": "Amount of furniture."
+    },
+    "Racks": {
+      "type": "integer",
+      "description": "Amount of furniture."
+    },
+    "Stands": {
+      "type": "integer",
+      "description": "Amount of furniture."
+    },
+    "Demands": {
+      "type": "integer"
+    },
+    "Mandates": {
+      "type": "integer"
+    }
+  },
+  "required": ["Title", "Url"]
+}

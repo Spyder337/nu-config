@@ -205,6 +205,6 @@ def welcome_msg [] {
   print $"Today's Date  \(DD-MM-YYYY\): (ansi light_green)(dmy_date)(ansi reset)"
   let c = cal -t
   print $c
-  print $"Current Repos:"
-  repos-list
+  #print $"Current Repos:"
+  #repos-list
 }

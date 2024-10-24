@@ -1,0 +1,96 @@
+{
+  "$schema": "./schemas/room_qualities.schema.json",
+  "Tiers": [
+    {
+      "Adjective": "Meager",
+      "Tier": 0,
+      "Value": 1
+    },
+    {
+      "Adjective": "Modest",
+      "Tier": 1,
+      "Value": 100
+    },
+    {
+      "Adjective": "",
+      "Tier": 2,
+      "Value": 250
+    },
+    {
+      "Adjective": "Decent",
+      "Tier": 3,
+      "Value": 500
+    },
+    {
+      "Adjective": "Fine",
+      "Tier": 4,
+      "Value": 1000
+    },
+    {
+      "Adjective": "Great",
+      "Tier": 5,
+      "Value": 1500
+    },
+    {
+      "Adjective": "Grand",
+      "Tier": 6,
+      "Value": 2500
+    },
+    {
+      "Adjective": "Royal",
+      "Tier": 7,
+      "Value": 10000
+    }
+  ],
+  "Descriptors": [
+    {
+      "Quarters" : "Meager Quarters",
+      "Office" : "Meager Office",
+      "Dining Room": "Meager Dining Room",
+      "Tomb": "Grave"
+    },
+    {
+      "Quarters" : "Modest Quarters",
+      "Office" : "Modest Office",
+      "Dining Room": "Modest Dining Room",
+      "Tomb": "Servant's Burial Chamber"
+    },
+    {
+
+      "Quarters" : "Quarters",
+      "Office" : "Office",
+      "Dining Room": "Dining Room",
+      "Tomb": "Burial Chamber"
+    },
+    {
+      "Quarters" : "Decent Quarters",
+      "Office" : "Decent Office",
+      "Dining Room": "Decent Dining Room",
+      "Tomb": "Tomb"
+    },
+    {
+      "Quarters" : "Fine Bedroom",
+      "Office" : "Splendid Study",
+      "Dining Room": "Fine Dining Room",
+      "Tomb": "Fine Tomb"
+    },
+    {
+      "Quarters" : "Great Bedroom",
+      "Office" : "Throne Room",
+      "Dining Room": "Great Dining Room",
+      "Tomb": "Mausoleum"
+    },
+    {
+      "Quarters" : "Grand Bedroom",
+      "Office" : "Opulent Throne Room",
+      "Dining Room": "Grand Dining Room",
+      "Tomb": "Grand Mausoleum"
+    },
+    {
+      "Quarters" : "Royal Bedroom",
+      "Office" : "Royal Throne Room",
+      "Dining Room": "Royal Dining Room",
+      "Tomb": "Royal Mausoleum"
+    }
+  ]
+}
