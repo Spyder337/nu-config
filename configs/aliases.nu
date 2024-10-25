@@ -26,6 +26,7 @@ alias push = git push
 #####################
 #   Miscellaneous   #
 #####################
+alias cd = z
 alias cat = bat
 alias seed = random chars
 alias lf = lf-rust

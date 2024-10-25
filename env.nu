@@ -144,7 +144,7 @@ def init_omp [] {
 
 	# Download a theme from a remote if a local theme file does not exist.
 	if ($OMP_LOCAL_THEME | path exists) == false {
-			curl -Ls $OMP_REMOTE_THEME -o $OMP_LOCAL_THEME
+			curl -Ls $OMP_REMOTE_THEME --print | save $OMP_LOCAL_THEME --force
 	}
 
 	# Initialize OMP with the custom theme config.
@@ -163,17 +163,18 @@ def init_z [] {
 	}
 }
 
-#	Description:
-#	Initializes completion files for:
-#		- Git
-#		- GH
-#		- Cargo
-#		-	Bat
-#		-	RustUp
-#		-	VS Code
-#		-	SSH
-#		-	Curl
-def init_completions [] {
+#Description:
+#Initializes completion files.
+#Completions:
+#	- Git
+#	- GH
+#	- Cargo
+#	- Bat
+#	- RustUp
+#	- VS Code
+#	- SSH
+#	- Curl
+def init_completions [verbose: bool = false] {
 	# Create the directory for completions to go if it does not exist.
 	if ($COMPLETIONS_PATH | path exists) == false {
 		mkdir $COMPLETIONS_PATH
@@ -193,13 +194,15 @@ def init_completions [] {
 	$urls | each { |url|
 		let f_name = ($url | regex '(([a-z]*-[a-z]*)\.nu)' | first).match
 		let op = [$COMPLETIONS_PATH, $f_name] | path join
-		if ($op | path exists) == true {
+		if ($op | path exists) == false {
 			print $"Generating ($f_name)"
 			print $"Destination: \"($op)\""
-			curl -sL $url -o $op
+			curl -sL $url --print | save -f $op
 			sleep 2sec
 		} else {
-			print $"Completion file already found for ($f_name)"
+			if $verbose == true {
+				print $"Completion file already found for ($f_name)"
+			}
 		}
 	} | ignore
 }
