@@ -105,16 +105,17 @@ path add r#'C:\Program Files\Microsoft VS Code Insiders'#
 #############################
 #   Constant declarations   #
 #############################
+const NU_PATH = ('~/AppData/Roaming/nushell' | path expand)
 const $CONFIG_PATH = ('~\AppData\Roaming\nushell\configs' | path expand)
 const $OMP_PATH = [$CONFIG_PATH, 'oh-my-posh'] | path join
 # This section is dedicated to initializing oh-my-posh.
 # This is the location to the oh-my-posh main config file.
 const $OMP_CONFIG = [$OMP_PATH,  'omp-config.nu'] | path join
 # There is a default remote file to fetch.
-const $OMP_REMOTE_THEME = 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/smoothie.omp.json'
+const $OMP_REMOTE_THEME = 'https://gist.githubusercontent.com/Spyder337/57192e3b740060d852a326e086780bf7/raw/7cc721390892cc9a2db7e529fb5da7929409be43/custom-theme.omp.json'
 # The location on the disk where the theme is located.
 const $OMP_LOCAL_THEME = [$OMP_PATH, 'custom-theme.omp.json'] | path join
-const $COMPLETIONS_PATH = [$CONFIG_PATH, 'completions'] | path join
+const $COMPLETIONS_PATH = [$NU_PATH, 'completions'] | path join
 
 #############################
 #   Environment Variables   #
@@ -134,78 +135,75 @@ $env.NU_CONFIG = $CONFIG_PATH
 $env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
 $env.WinGet_Path = ()
 
-# Download a theme from a remote if a local theme file does not exist.
-if ($OMP_LOCAL_THEME | path exists) == false {
-		curl $OMP_REMOTE_THEME -o $OMP_LOCAL_THEME
+# Description:
+#	Initializes an Oh My Posh theme and configuration if they are not found.
+def init_omp [] {
+	if ($OMP_PATH | path exists) == false {
+		mkdir $OMP_PATH
+	}
+
+	# Download a theme from a remote if a local theme file does not exist.
+	if ($OMP_LOCAL_THEME | path exists) == false {
+			curl -Ls $OMP_REMOTE_THEME -o $OMP_LOCAL_THEME
+	}
+
+	# Initialize OMP with the custom theme config.
+	if ($OMP_CONFIG | path exists) == false {
+		oh-my-posh init nu --config $OMP_LOCAL_THEME --print | save $OMP_CONFIG --force
+	}
 }
 
-# Initialize OMP with the custom theme config.
-if ($OMP_CONFIG | path exists) == false {
-	oh-my-posh init nu --config $OMP_LOCAL_THEME --print | save $OMP_CONFIG --force
+#	Description:
+#	Initializes the Z Oxide file if one is not found.
+def init_z [] {
+	# Check to see if zoxide has been initialized.
+	# If not then initialize it.
+	if ($env.Z_OXIDE_PATH | path exists) == false {
+			zoxide init nushell | save -f $env.Z_OXIDE_PATH
+	}
 }
 
-# Check to see if zoxide has been initialized.
-# If not then initialize it.
-if ($env.Z_OXIDE_PATH | path exists) == false {
-		zoxide init nushell | save -f $env.Z_OXIDE_PATH
+#	Description:
+#	Initializes completion files for:
+#		- Git
+#		- GH
+#		- Cargo
+#		-	Bat
+#		-	RustUp
+#		-	VS Code
+#		-	SSH
+#		-	Curl
+def init_completions [] {
+	# Create the directory for completions to go if it does not exist.
+	if ($COMPLETIONS_PATH | path exists) == false {
+		mkdir $COMPLETIONS_PATH
+	}
+		
+	let urls = [
+		"https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/git/git-completions.nu",
+		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/gh/gh-completions.nu",
+		"https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/cargo/cargo-completions.nu",
+		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/bat/bat-completions.nu",
+		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/rustup/rustup-completions.nu",
+		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/vscode/vscode-completions.nu",
+		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/ssh/ssh-completions.nu",
+		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/curl/curl-completions.nu"
+	]
+
+	$urls | each { |url|
+		let f_name = ($url | regex '(([a-z]*-[a-z]*)\.nu)' | first).match
+		let op = [$COMPLETIONS_PATH, $f_name] | path join
+		if ($op | path exists) == true {
+			print $"Generating ($f_name)"
+			print $"Destination: \"($op)\""
+			curl -sL $url -o $op
+			sleep 2sec
+		} else {
+			print $"Completion file already found for ($f_name)"
+		}
+	} | ignore
 }
 
-# Create the directory for completions to go if it does not exist.
-if ($COMPLETIONS_PATH | path exists) == false {
-	mkdir $COMPLETIONS_PATH
-}
-
-# Git Completions
-let git_completions: string  = [$COMPLETIONS_PATH, 'git-completions.nu'] | path join
-if ($git_completions | path exists) == false {
-	curl -L https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/git/git-completions.nu -Lo $git_completions
-	sleep 2sec
-}
-
-# Github CLI Completions
-let gh_completions: string = [$COMPLETIONS_PATH, 'gh-completions.nu'] | path join
-if ($gh_completions | path exists) == false {
-	curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/gh/gh-completions.nu | save $gh_completions
-	sleep 2sec
-}
-# Cargo Completions
-let cargo_completions: string = [$COMPLETIONS_PATH, 'cargo-completions.nu'] | path join
-if ($cargo_completions | path exists) == false {
-	curl -L https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/cargo/cargo-completions.nu | save $cargo_completions
-	sleep 2sec
-}
-
-# Bat Completions
-let bat_completions: string = [$COMPLETIONS_PATH, 'bat-completions.nu'] | path join
-if ($bat_completions | path exists) == false {
-	curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/bat/bat-completions.nu | save $bat_completions
-	sleep 2sec
-}
-
-# Rustup Completions
-let rustup_completions: string = [$COMPLETIONS_PATH, 'rustup-completions.nu'] | path join
-if ($rustup_completions | path exists) == false {
-	curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/rustup/rustup-completions.nu | save $rustup_completions
-	sleep 2sec
-}
-
-# VSCode Completions
-let vscode_completions: string = [$COMPLETIONS_PATH, 'vscode-completions.nu'] | path join
-if ($vscode_completions | path exists) == false {
-	curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/vscode/vscode-completions.nu | save $vscode_completions
-	sleep 2sec
-}
-
-# SSH Completions
-let ssh_completions: string = [$COMPLETIONS_PATH, 'ssh-completions.nu'] | path join
-if ($ssh_completions | path exists) == false {
-	curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/ssh/ssh-completions.nu | save $ssh_completions
-	sleep 2sec
-}
-
-# Curl Completions
-let curl_completions: string = [$COMPLETIONS_PATH, 'curl-completions.nu'] | path join
-if ($curl_completions | path exists) == false {
-	curl -L https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/curl/curl-completions.nu | save $curl_completions
-	sleep 2sec
-}
+init_omp
+init_z
+init_completions
