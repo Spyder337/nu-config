@@ -121,16 +121,83 @@ def install_emacs [] {
 }
 
 # Description:
-# Fetches the currrent supported versions from https://devguide.python.org/versions/#supported-versions.
-def get_versions [] {
-  let url = "https://devguide.python.org/versions/#supported-versions"
-  let selector_string = "#supported-versions > div > table"
-
+# Fetch the html document for the page.
+def fetch_web_doc [url: string] -> any {
+  try {
+    let doc = http get $url
+    return $doc
+  } catch {
+    return null
+  }
 }
 
 # Description:
-# Downloads and compiles the newest python version from https://devguide.python.org/versions/#supported-versions
+# Fetches the python source page.
+def fetch_python_source [] -> any {
+  let url = "https://www.python.org/downloads/source/"
+  let doc = fetch_web_doc $url
+  return $doc
+}
+
+# Description:
+# Fetches the latest python version from https://www.python.org/downloads/source/.
+def fetch_latest_python_version [dl_latest: bool = true] {
+  let dss  = "#content > div > section > article > div > div:nth-child(1) > ul > li > ul > li > a"
+  let doc = fetch_python_source
+  if ($doc != null) == false {
+    return "Could not fetch the version from the url."
+  }
+  let dl_link = $doc | query web --query $dss --attribute href | flatten | first
+  print $dl_link
+}
+
+# Description
+# Fetches the latest python version number from the source downloads page on
+# the python website.
+def fetch_latest_python_ver_num [] -> string {
+  let vss = "#content > div > section > article > ul > li > a"
+  let doc = fetch_python_source
+  if ($doc != null) == false {
+    return "Could not find the version number."
+  }
+
+  let version = $doc | query web --query $vss | flatten | first
+  let v = ($version | regex '(\b(([0-9]+)(\.*))+){2,}' | first)."match"
+  return $v
+}
+
+# Description:
+# Checks if pyton is installed on the system.
+def is_python_installed [] -> bool {
+  try {
+    if ((sys host).name == "Windows") == true {
+      let out = (py -V)
+      return true
+    }
+  } catch {
+    return false
+  }
+}
+
+# Description:
+# Downloads and compiles the newest python version from https://devguide.python.org/versions/#supported-version
 def install_python [] {
+  if (is_python_installed) == true {
+    print "Python is already installed."
+    py -V
+    return
+  }
+  if (sys host).name == "Windows" {
+    mut v = fetch_latest_python_ver_num
+    if ($v | str ends-with ".0") == true {
+      $v = $v | str substring 0..-3
+    }
+    print $"Winget Version: ($v)"
+    let p_name = $"Python.Python.($v)"
+    print $"Winget Package Name: ($p_name)"
+    winget install $p_name
+    return
+  }
 
 }
 

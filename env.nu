@@ -1,7 +1,3 @@
-# Nushell Environment Config File
-#
-# version = "0.97.1"
-
 def create_left_prompt [] {
 		let dir = match (do --ignore-shell-errors { $env.PWD | path relative-to $nu.home-path }) {
 				null => $env.PWD
@@ -136,6 +132,7 @@ $env.NU_COMPLETION_DIR = $COMPLETIONS_PATH
 $env.CARGO_BIN = ('~\.cargo\bin' | path expand)
 $env.NU_CONFIG = $CONFIG_PATH
 $env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
+$env.WinGet_Path = ()
 
 # Download a theme from a remote if a local theme file does not exist.
 if ($OMP_LOCAL_THEME | path exists) == false {
