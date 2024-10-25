@@ -140,7 +140,9 @@ if ($OMP_LOCAL_THEME | path exists) == false {
 }
 
 # Initialize OMP with the custom theme config.
-oh-my-posh init nu --config $OMP_LOCAL_THEME
+if ($OMP_CONFIG | path exists) == false {
+	oh-my-posh init nu --config $OMP_LOCAL_THEME --print | save $OMP_CONFIG --force
+}
 
 # Check to see if zoxide has been initialized.
 # If not then initialize it.
