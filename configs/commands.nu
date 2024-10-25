@@ -197,6 +197,8 @@ def install_python [] {
     print $"Winget Package Name: ($p_name)"
     winget install $p_name
     return
+  } else {
+    
   }
 
 }

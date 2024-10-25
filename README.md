@@ -52,9 +52,9 @@ Handles:
   - [x] Web
 - [x] Repo Commands
   - [x] List all repos
-- [/] Program Install
+- [x] Program Install
   - [x] Emacs
-  - [ ] Python
+  - [x] Python
 - [/] Dwarf Fortress Ref
   - [/] Tips/Tricks
   - [ ] Rooom Qualities
