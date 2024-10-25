@@ -133,7 +133,7 @@ $env.PLANS_DIR = ([$env.REPO_DIR, 'plans'] | path join)
 $env.NOTES_DIR = ('~\.vaults\notes' | path expand)
 $env.OMP_THEME = $OMP_LOCAL_THEME
 $env.NU_COMPLETION_DIR = $COMPLETIONS_PATH
-$env.CARGO_HOME = ('~\.cargo\bin' | path expand)
+$env.CARGO_BIN = ('~\.cargo\bin' | path expand)
 $env.NU_CONFIG = $CONFIG_PATH
 $env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
 
