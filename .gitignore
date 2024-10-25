@@ -4,3 +4,5 @@ plugin.*
 plugin/
 plugins/
 .vs/
+configs/.zoxide.nu
+configs/oh-my-posh/omp-config.nu
