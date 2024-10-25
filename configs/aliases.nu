@@ -8,10 +8,10 @@ alias cdwc = default_web_crates
 #########################
 #   Change Directory    #
 #########################
-alias cdr = cd $env.PERSONAL_REPOS
-alias cdn = cd $env.NOTES_DIR
-alias cdp = cd $env.PLANS_DIR
-alias cdnu = cd $env.NU_CONFIG
+alias cdr = cd $env.Personal_Repos
+alias cdn = cd $env.Notes_Dir
+alias cdp = cd $env.Plans_Dir
+alias cfg = cd $env.NU_CONFIG
 
 ###################
 #   Git Aliases   #

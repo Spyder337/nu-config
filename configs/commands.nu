@@ -2,7 +2,7 @@
 #   Nu Config   #
 #################
 def nu_plugins [] {
-  let plugins = (glob ~/.cargo/**/bin/nu_plugin_*.*)
+  let plugins = (glob ~/.cargo/bin/nu_plugin_*.*)
   return $plugins
 }
 
@@ -47,7 +47,7 @@ def default_web_crates [parsing: bool] {
   }
 }
 
-def new_node_project [ts_enabled: bool = true, es_lint_enabled: bool = true] {
+def create_npm_project [ts_enabled: bool = true, es_lint_enabled: bool = true] {
   print "Initializing node project..."
   npm init
 
@@ -84,6 +84,7 @@ def fetch_git_ignore [ignore_file: string] {
 #   Dependency Installation   #
 ###############################
 
+# Description:
 # Installs the newest emacs from source.
 # Installs the following dependencies:
 # - 'git'
@@ -117,6 +118,20 @@ def install_emacs [] {
   make configure="--prefix=/opt/emacs CFLAGS='-O0 -g3' --without-x --with-mailutils"
 
   sudo make install
+}
+
+# Description:
+# Fetches the currrent supported versions from https://devguide.python.org/versions/#supported-versions.
+def get_versions [] {
+  let url = "https://devguide.python.org/versions/#supported-versions"
+  let selector_string = "#supported-versions > div > table"
+
+}
+
+# Description:
+# Downloads and compiles the newest python version from https://devguide.python.org/versions/#supported-versions
+def install_python [] {
+
 }
 
 #################

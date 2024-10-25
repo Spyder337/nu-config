@@ -125,12 +125,12 @@ const $COMPLETIONS_PATH = [$CONFIG_PATH, 'completions'] | path join
 #############################
 $env.EDITOR = 'C:\Program Files\Microsoft VS Code Insiders\Code - Insiders.exe'
 $env.GitIgnore_Repo_Base_URL = 'https://raw.githubusercontent.com/github/gitignore/main/'
-$env.GIT_USER_NAME = 'Spyder337'
+$env.Git_User_Name = 'Spyder337'
 $env.REPO_DIR = ('~\repos' | path expand)
-$env.PERSONAL_REPOS = ([$env.REPO_DIR, $env.GIT_USER_NAME] | path join)
-$env.CLONED_REPOS = ([$env.REPO_DIR, 'cloned'] | path join)
-$env.PLANS_DIR = ([$env.REPO_DIR, 'plans'] | path join)
-$env.NOTES_DIR = ('~\.vaults\notes' | path expand)
+$env.Personal_Repos = ([$env.REPO_DIR, $env.Git_User_Name] | path join)
+$env.Cloned_Repos = ([$env.REPO_DIR, 'cloned'] | path join)
+$env.Plans_Dir = ([$env.REPO_DIR, 'plans'] | path join)
+$env.Notes_Dir = ('~\.vaults\notes' | path expand)
 $env.OMP_THEME = $OMP_LOCAL_THEME
 $env.NU_COMPLETION_DIR = $COMPLETIONS_PATH
 $env.CARGO_BIN = ('~\.cargo\bin' | path expand)
