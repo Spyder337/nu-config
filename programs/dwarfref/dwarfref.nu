@@ -7,15 +7,9 @@ let tips: record = ("data/tips.json" | open)
 #print $nobles."Positions"
 
 def get_noble_info (title: string) -> record {
-  let t = $nobles | get "Positions" | where {|p| $p.Title == $title}
-  let r = $room_tiers | get "Descriptors"
-  let tiers = {
-    "Qt":($t | get "Quarters" | first),
-    "Dt":($t | get "Dining Room" | first),
-    "Ot":($t | get "Office" | first),
-    "Tt":($t | get "Tomb" | first)
-  }
-  print $tiers
+  let t = $nobles | get "Positions" | where {|p| $p.Title == $title} | first
+  let r = $room_tiers | get $t."Quarters"
+  print $r
   return {}
 }
 
@@ -33,4 +27,4 @@ def all_tips () -> string {
 #get_noble_info "Baron"
 #get_noble_info "Expedition Leader"
 #random_tip
-all_tips
+#all_tips
