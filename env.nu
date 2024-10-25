@@ -191,6 +191,8 @@ def init_completions [verbose: bool = false] {
 		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/curl/curl-completions.nu"
 	]
 	
+	let config_txt = ($nu.config-path | open)
+
 	#	When there is a missing completions file then the output path is returned
 	#	from the each operator. This means that if all files already exist then
 	#	paths is an empty list.
@@ -205,7 +207,11 @@ def init_completions [verbose: bool = false] {
 			#	Fetch the page and save it
 			http get -r $url | save -f $op
 			sleep 2sec
-			return $op
+
+			#	If the config contains a reference to the path then don't add it.
+			if ($config_txt | str contains $op) != true {
+				return $op
+			}
 		} else {
 			if $verbose == true {
 				print $"Completion file already found for ($f_name)"

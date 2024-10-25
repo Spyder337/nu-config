@@ -905,9 +905,6 @@ source ./configs/commands.nu
 source ./configs/aliases.nu
 
 welcome_msg
-
-source C:\Users\spyder\AppData\Roaming\nushell\completions\ssh-completions.nu
-source C:\Users\spyder\AppData\Roaming\nushell\completions\curl-completions.nu
 source C:\Users\spyder\AppData\Roaming\nushell\completions\git-completions.nu
 source C:\Users\spyder\AppData\Roaming\nushell\completions\gh-completions.nu
 source C:\Users\spyder\AppData\Roaming\nushell\completions\cargo-completions.nu
