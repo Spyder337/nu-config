@@ -13,18 +13,6 @@ def add_plugins [] {
   }
 }
 
-const NU_PATH = ('~/AppData/Roaming/nushell' | path expand)
-def source_completions [] {
-  source $"($NU_PATH)/completions/git-completions.nu"
-  source $"($NU_PATH)/completions/gh-completions.nu"
-  source $"($NU_PATH)/completions/cargo-completions.nu"
-  source $"($NU_PATH)/completions/bat-completions.nu"
-  source $"($NU_PATH)/completions/rustup-completions.nu"
-  source $"($NU_PATH)/completions/vscode-completions.nu"
-  source $"($NU_PATH)/completions/ssh-completions.nu"
-  source $"($NU_PATH)/completions/curl-completions.nu"
-}
-
 ###############################
 #   Project Initialization    #
 ###############################

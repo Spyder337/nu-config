@@ -903,6 +903,16 @@ source ./configs/.zoxide.nu
 source ./configs/oh-my-posh\omp-config.nu
 source ./configs/commands.nu
 source ./configs/aliases.nu
-source_completions
 
 welcome_msg
+
+source C:\Users\spyder\AppData\Roaming\nushell\completions\ssh-completions.nu
+source C:\Users\spyder\AppData\Roaming\nushell\completions\curl-completions.nu
+source C:\Users\spyder\AppData\Roaming\nushell\completions\git-completions.nu
+source C:\Users\spyder\AppData\Roaming\nushell\completions\gh-completions.nu
+source C:\Users\spyder\AppData\Roaming\nushell\completions\cargo-completions.nu
+source C:\Users\spyder\AppData\Roaming\nushell\completions\bat-completions.nu
+source C:\Users\spyder\AppData\Roaming\nushell\completions\rustup-completions.nu
+source C:\Users\spyder\AppData\Roaming\nushell\completions\vscode-completions.nu
+source C:\Users\spyder\AppData\Roaming\nushell\completions\ssh-completions.nu
+source C:\Users\spyder\AppData\Roaming\nushell\completions\curl-completions.nu

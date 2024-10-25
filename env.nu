@@ -190,21 +190,40 @@ def init_completions [verbose: bool = false] {
 		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/ssh/ssh-completions.nu",
 		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/curl/curl-completions.nu"
 	]
-
-	$urls | each { |url|
+	
+	#	When there is a missing completions file then the output path is returned
+	#	from the each operator. This means that if all files already exist then
+	#	paths is an empty list.
+	let paths = $urls | each { |url|
+		#	Get the file name from the url
 		let f_name = ($url | regex '(([a-z]*-[a-z]*)\.nu)' | first).match
+		#	Create the file's output path
 		let op = [$COMPLETIONS_PATH, $f_name] | path join
 		if ($op | path exists) == false {
 			print $"Generating ($f_name)"
 			print $"Destination: \"($op)\""
-			curl -sL $url --print | save -f $op
+			#	Fetch the page and save it
+			http get -r $url | save -f $op
 			sleep 2sec
+			return $op
 		} else {
 			if $verbose == true {
 				print $"Completion file already found for ($f_name)"
 			}
 		}
-	} | ignore
+	}
+
+	#	If there are no new paths then exit the function.
+	let len = ($paths | length)
+	if ($len == 0) == true {
+		return
+	}
+
+	#	Generate a list of strings that source each new file.
+	let sources = $paths | each {|p| $"source ($p)"}
+	
+	#	Save the new sources to the config.
+	$sources | save --append ($nu.config-path)
 }
 
 init_omp
