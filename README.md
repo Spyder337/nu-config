@@ -1,25 +1,32 @@
 # Nu Configs
+
 ## `env.nu`
+
 Handles:
+
 - Evironment variables
 - Write files
 
 Having `env.nu` run first assures that files are created so that `config.nu` can read them.
 
 ## `config.nu`
+
 When in doubt the preferred location for placing things in config.
 Handles:
+
 - Definitions
 - Aliases
 - Append global namespace
 
 ## Plugins
+
 0. `nu_plugin_compress`
 1. `nu_plugin_emoji`
 2. `nu_plugin_gstat`
 3. `nu_plugin_highlight`
 
 # Completion Support
+
 - git
 - gh
 - cargo
@@ -30,6 +37,7 @@ Handles:
 - bat
 
 # Todo:
+
 - [x] Welcome message
 - [x] Set the current theme inn omp-config.nu based on how init is called.
   - [x] **Remote:** Predictable out path for a fetched theme.
@@ -46,6 +54,10 @@ Handles:
   - [x] List all repos
 - [/] Program Install
   - [x] Emacs
-  - [ ] Python 
-- [?] Dwarf Fortress Ref
-  - Writing a quick Dwarf Fortress reference script in nu would let me leverage the natural shell integration for creating my UI.
+  - [ ] Python
+- [/] Dwarf Fortress Ref
+  - [/] Tips/Tricks
+  - [ ] Rooom Qualities
+    - [ ] Localize room tiers
+  - [ ] Nobles List
+  - [ ] Fortress Tiers
