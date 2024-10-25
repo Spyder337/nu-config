@@ -905,11 +905,11 @@ source ./configs/commands.nu
 source ./configs/aliases.nu
 
 welcome_msg
-source C:\Users\spyder\AppData\Roaming\nushell\completions\git-completions.nu
-source C:\Users\spyder\AppData\Roaming\nushell\completions\gh-completions.nu
-source C:\Users\spyder\AppData\Roaming\nushell\completions\cargo-completions.nu
-source C:\Users\spyder\AppData\Roaming\nushell\completions\bat-completions.nu
-source C:\Users\spyder\AppData\Roaming\nushell\completions\rustup-completions.nu
-source C:\Users\spyder\AppData\Roaming\nushell\completions\vscode-completions.nu
-source C:\Users\spyder\AppData\Roaming\nushell\completions\ssh-completions.nu
-source C:\Users\spyder\AppData\Roaming\nushell\completions\curl-completions.nu
+source ./completions/git-completions.nu
+source ./completions/gh-completions.nu
+source ./completions/cargo-completions.nu
+source ./completions/bat-completions.nu
+source ./completions/rustup-completions.nu
+source ./completions/vscode-completions.nu
+source ./completions/ssh-completions.nu
+source ./completions/curl-completions.nu

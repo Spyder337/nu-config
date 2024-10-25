@@ -1,6 +1,13 @@
 # Nu Configs
 
-## `env.nu`
+## Installation
+
+Note that the source references to the completions folder must be deleted.
+Currently they don't use relative paths.
+
+## Nu files
+
+### `env.nu`
 
 Handles:
 
@@ -9,7 +16,7 @@ Handles:
 
 Having `env.nu` run first assures that files are created so that `config.nu` can read them.
 
-## `config.nu`
+### `config.nu`
 
 When in doubt the preferred location for placing things in config.
 Handles:
@@ -18,14 +25,23 @@ Handles:
 - Aliases
 - Append global namespace
 
+### `configs/commands.nu`
+
+Contains all of the custom commands for the shell.
+
+### `configs/aliases.nu`
+
+Contains all of the custom aliases for the shell.
+
 ## Plugins
 
 0. `nu_plugin_compress`
 1. `nu_plugin_emoji`
 2. `nu_plugin_gstat`
 3. `nu_plugin_highlight`
+4. `nu_plugin_query`
 
-# Completion Support
+## Completion Support
 
 - git
 - gh
@@ -36,7 +52,7 @@ Handles:
 - curl
 - bat
 
-# Todo:
+## Todo:
 
 - [x] Welcome message
 - [x] Set the current theme inn omp-config.nu based on how init is called.

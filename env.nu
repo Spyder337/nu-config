@@ -210,7 +210,7 @@ def init_completions [verbose: bool = false] {
 
 			#	If the config contains a reference to the path then don't add it.
 			if ($config_txt | str contains $op) != true {
-				return $op
+				return $"./completions/($f_name)"
 			}
 		} else {
 			if $verbose == true {
