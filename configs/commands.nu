@@ -213,7 +213,10 @@ def install_python [] {
 #Returns the day of the week and the date.
 def full_date [] -> string {
   let d = ((date now) | date to-record)
-  $"It's [(ansi darkturquoise)(day_of_week $d.day)(ansi reset)] [(ansi hotpinkb)(mdy_date)(ansi reset)]"
+  let m = month_string $d.month
+  let d = $d.day
+  let d_s = day_string $d
+  $"It's [(ansi darkturquoise)(day_of_week $d) ($m) ($d_s)(ansi reset)] \n[(ansi hotpinkb)(mdy_date)(ansi reset)]"
 }
 
 #Description:
@@ -241,6 +244,51 @@ def day_of_week [ day: int ]  -> string {
     }
   } | first
   return $dow
+}
+
+def month_string [month: int] -> string {
+  if ($month == 1) {
+    return "January"
+  } else if ($month == 2) {
+    return "February"
+  } else if ($month == 3) {
+    return "March"
+  } else if ($month == 4) {
+    return "April"
+  } else if ($month == 5) {
+    return "May"
+  } else if ($month == 6) {
+    return "June"
+  } else if ($month == 7) {
+    return "July"
+  } else if ($month == 8) {
+    return "August"
+  } else if ($month == 9) {
+    return "September"
+  } else if ($month == 10) {
+    return "October"
+  } else if ($month == 11) {
+    return "November"
+  } else if ($month == 12) {
+    return "December"
+  }
+}
+
+def day_string [day: int] {
+  let d_s = $"($day)"
+  let len = $d_s | str length
+  if ($d_s | str ends-with "1") {
+    return $"($d_s)st"
+  } else if ($d_s | str ends-with "2") {
+    return $"($d_s)nd"
+  } else if ($d_s | str ends-with "3") {
+    return $"($d_s)rd"
+  } else {
+    if ((($d_s | str ends-with "0") == true) and ((($len == 1) == true))) {
+      return $d_s
+    }
+    return $"($d_s)th"
+  }
 }
 
 # Returns the Date in the Day-Month-Year format.
@@ -309,8 +357,8 @@ def repos-list [ include_paths: bool = false] -> table {
 # Generates a welcome message when nushell starts up.
 def welcome_msg [] {
   print $"(full_date)"
-  let c = cal -t
-  print $c
+  #let c = cal -t
+  ##print $c
   #print $"Current Repos:"
   #repos-list
 }
