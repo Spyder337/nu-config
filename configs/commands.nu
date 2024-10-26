@@ -133,11 +133,22 @@ def fetch_python_source [] -> any {
 def fetch_latest_python_version [dl_latest: bool = true] {
   let dss  = "#content > div > section > article > div > div:nth-child(1) > ul > li > ul > li > a"
   let doc = fetch_python_source
+
   if ($doc != null) == false {
     return "Could not fetch the version from the url."
   }
-  let dl_link = $doc | query web --query $dss --attribute href | flatten | first
-  print $dl_link
+
+  let links = $doc | query web --query $dss --attribute href | flatten
+  mut link = ""
+  if ($dl_latest) == true {
+    $link = ($links | where {|l| $l | str ends-with ".tgz"} | first)
+  } else {
+    let selection  = ($links | where {|l| $l | str ends-with ".tgz"} | take 40 | fzf)
+    $link = ($selection | regex '\bhttps:[a-z\:\/\.0-9A-Z\-]*\b' | first).match
+  }
+  curl -L $link | save ('~/Downloads/python.tgz') --force
+  #let dl_link = $doc | query web --query $dss --attribute href | flatten | first
+  #print $dl_link
 }
 
 # Description
