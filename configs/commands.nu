@@ -87,7 +87,7 @@ def fetch_git_ignore [ignore_file: string] {
 # Currently only works on Linux machines.
 def install_emacs [] {
   if (sys host).name == "Windows" {
-    print "This function is unavailable on Windows."
+    winget install GNU.Emacs
     return
   } else if (sys host).name == "macOS" {
     print "This function is unavailable on OS/X."
