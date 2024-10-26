@@ -140,12 +140,14 @@ def fetch_latest_python_version [dl_latest: bool = true] {
 
   let links = $doc | query web --query $dss --attribute href | flatten
   mut link = ""
+
   if ($dl_latest) == true {
     $link = ($links | where {|l| $l | str ends-with ".tgz"} | first)
   } else {
     let selection  = ($links | where {|l| $l | str ends-with ".tgz"} | take 40 | fzf)
     $link = ($selection | regex '\bhttps:[a-z\:\/\.0-9A-Z\-]*\b' | first).match
   }
+
   curl -L $link | save ('~/Downloads/python.tgz') --force
   #let dl_link = $doc | query web --query $dss --attribute href | flatten | first
   #print $dl_link
@@ -209,16 +211,32 @@ def install_python [] {
 
 def full_date [] -> string {
   let d = ((date now) | date to-record)
-  print $"Target Date: ($d.day)"
-  $"(day_of_week $d.day)"
+  $"It's [(ansi darkturquoise)(day_of_week $d.day)(ansi reset)] [(ansi hotpinkb)(mdy_date)(ansi reset)]"
 }
 
 def day_of_week [ day: int ]  -> string {
   let c: table = (cal -t)
-  print $"Target Date: ($day)"
-  let row = $c | where {|r| $"($r.su)" == $"($day)" or $"($r.mo)" == $"($day)" or $"($r.tu)" == $"($day)" or $"($r.we)" == $"($day)" or $"($r.th)" == $"($day)" or $"($r.fr)" == $"($day)" or $"($r.sa)" == $"($day)"}
-  print $row 
-  return "N/A"
+  # print $"Target Date: ($day)"
+  let dow = $c | each {|r|
+    if ($"($r.su)" | str contains $"($day)") == true {
+      return "Sunday"
+    } else if ($"($r.mo)" | str contains $"($day)") == true {
+      return "Monday"
+    } else if ($"($r.tu)" | str contains $"($day)") == true {
+      return "Tuesday"
+    } else if ($"($r.we)" | str contains $"($day)") == true {
+      return "Wednesday"
+    } else if ($"($r.th)" | str contains $"($day)") == true {
+      return "Thursday"
+    } else if ($"($r.fr)" | str contains $"($day)") == true {
+      return "Friday"
+    } else if ($"($r.sa)" | str contains $"($day)") == true {
+      return "Saturday"
+    } else {
+      return null
+    }
+  } | first
+  return $dow
 }
 
 # Returns the Date in the Day-Month-Year format.
@@ -286,7 +304,7 @@ def repos-list [ include_paths: bool = false] -> table {
 
 # Generates a welcome message when nushell starts up.
 def welcome_msg [] {
-  print $"Today's Date  \(DD-MM-YYYY\): (ansi light_green)(dmy_date)(ansi reset)"
+  print $"(full_date)"
   let c = cal -t
   print $c
   #print $"Current Repos:"
