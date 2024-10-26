@@ -215,8 +215,9 @@ def full_date [] -> string {
   let d = ((date now) | date to-record)
   let m = month_string $d.month
   let d = $d.day
+  let wd = day_of_week $d
   let d_s = day_string $d
-  $"It's [(ansi darkturquoise)(day_of_week $d) ($m) ($d_s)(ansi reset)] \n[(ansi hotpinkb)(mdy_date)(ansi reset)]"
+  $"(ansi dodgerblue1)Welcome!(ansi reset)\nIt's [(ansi darkturquoise)($wd) ($m) ($d_s)(ansi reset)] \n     [(ansi hotpinkb)(mdy_date)(ansi reset)]"
 }
 
 #Description:
