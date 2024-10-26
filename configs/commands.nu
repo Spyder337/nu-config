@@ -246,6 +246,7 @@ def day_of_week [ day: int ]  -> string {
   return $dow
 }
 
+# Takes a month number and returns the string representation.
 def month_string [month: int] -> string {
   if ($month == 1) {
     return "January"
@@ -274,7 +275,8 @@ def month_string [month: int] -> string {
   }
 }
 
-def day_string [day: int] {
+# Takes a number and changes it to a sequential format 21 => 21st.
+def day_string [day: int] -> string {
   let d_s = $"($day)"
   let len = $d_s | str length
   if ($d_s | str ends-with "1") {
