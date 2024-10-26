@@ -2,8 +2,12 @@
 
 ## Installation
 
-Note that the source references to the completions folder must be deleted.
-Currently they don't use relative paths.
+The configuration requires several tools:
+
+- [fzf](https://github.com/junegunn/fzf)
+- [z oxide](https://github.com/ajeetdsouza/zoxide)
+- [carapace](https://github.com/carapace-sh/carapace-bin)
+- [oh my posh](https://ohmyposh.dev/docs/)
 
 ## Nu files
 
@@ -55,12 +59,15 @@ Contains all of the custom aliases for the shell.
 ## Todo:
 
 - [x] Welcome message
+  - [x] Day of week command
+  - [x] Formatted dates
 - [x] Set the current theme inn omp-config.nu based on how init is called.
   - [x] **Remote:** Predictable out path for a fetched theme.
     - [x] Use curl to request the theme file.
     - [x] Save the output to custom-theme.omp.json
   - [x] If there is already a local file use that one.
 - [x] Basic completions
+  - [x] Easy completion management.
 - [x] Fetching `.gitignore` files.
 - [x] Rust cargo shortcuts for adding crates
   - [x] Default
@@ -70,7 +77,12 @@ Contains all of the custom aliases for the shell.
   - [x] List all repos
 - [x] Program Install
   - [x] Emacs
+    - [x] Windows: Winget
+    - [x] Linux: Clone & Build
   - [x] Python
+    - [x] Fetch Version Info
+    - [x] Download latest
+    - [x] Download from list
 - [/] Dwarf Fortress Ref
   - [/] Tips/Tricks
   - [ ] Rooom Qualities
