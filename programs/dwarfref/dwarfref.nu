@@ -8,9 +8,28 @@ let tips: record = ("data/tips.json" | open)
 
 def get_noble_info (title: string) -> record {
   let t = $nobles | get "Positions" | where {|p| $p.Title == $title} | first
-  let r = $room_tiers | get $t."Quarters"
-  print $r
-  return {}
+  let keys = $t | columns
+  print $"Position: ($t."Title")"
+  print $"Url: ($t."Url")"
+  let vals = []
+  if ($keys | any {|k| $k | str contains "Quarters"}) {
+    let idx = $t."Quarters" | into int
+    print $"Quarters: ((($room_tiers."Tiers" | get $idx)."Descriptors")."Quarters")"
+  }
+  if ($keys | any {|k| $k | str contains "Office"}) {
+    let idx = $t."Office" | into int
+    print $"Office: ((($room_tiers."Tiers" | get $idx)."Descriptors")."Office")"
+  }
+  if ($keys | any {|k| $k | str contains "Dining Room"}) {
+    let idx = $t."Dining Room" | into int
+    print $"Dining Room: ((($room_tiers."Tiers" | get $idx)."Descriptors").'Dining Room')"
+  }
+  if ($keys | any {|k| $k | str contains "Tomb"}) {
+    let idx = $t."Tomb" | into int
+    print $"Tomb: ((($room_tiers."Tiers" | get $idx)."Descriptors")."Tomb")"
+  }
+  print ""
+  # print $keys
 }
 
 def random_tip () -> string {
@@ -24,7 +43,7 @@ def all_tips () -> string {
   return $t
 }
 
-#get_noble_info "Baron"
-#get_noble_info "Expedition Leader"
-#random_tip
+get_noble_info "Baron"
+get_noble_info "Expedition Leader"
+random_tip
 #all_tips
