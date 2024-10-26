@@ -209,11 +209,15 @@ def install_python [] {
 #   Date/Time   #
 #################
 
+#Description:
+#Returns the day of the week and the date.
 def full_date [] -> string {
   let d = ((date now) | date to-record)
   $"It's [(ansi darkturquoise)(day_of_week $d.day)(ansi reset)] [(ansi hotpinkb)(mdy_date)(ansi reset)]"
 }
 
+#Description:
+#Takes in a day of the month and returns the week day for that day.
 def day_of_week [ day: int ]  -> string {
   let c: table = (cal -t)
   # print $"Target Date: ($day)"
