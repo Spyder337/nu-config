@@ -5,4 +5,4 @@ plugin/
 plugins/
 .vs/
 configs/.zoxide.nu
-configs/oh-my-posh/
+configs/oh-my-posh/*.*
