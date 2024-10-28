@@ -145,7 +145,7 @@ def init_omp [] {
 
 	# Download a theme from a remote if a local theme file does not exist.
 	if ($OMP_LOCAL_THEME | path exists) == false {
-			curl -Ls $OMP_REMOTE_THEME --print | save $OMP_LOCAL_THEME --force
+			http get -r $OMP_REMOTE_THEME | save $OMP_LOCAL_THEME --force
 	}
 
 	# Initialize OMP with the custom theme config.
