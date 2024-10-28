@@ -11,24 +11,39 @@ def get_noble_info (title: string) -> record {
   let keys = $t | columns
   print $"Position: ($t."Title")"
   print $"Url: ($t."Url")"
-  let vals = []
+  let t = table
+  mut vals = {
+    "Quarters":{}, 
+    "Office":{}, 
+    "Dining Room":{}, 
+    "Tomb":{}
+  }
   if ($keys | any {|k| $k | str contains "Quarters"}) {
     let idx = $t."Quarters" | into int
-    print $"Quarters: ((($room_tiers."Tiers" | get $idx)."Descriptors")."Quarters")"
+    let name = (($room_tiers."Tiers" | get $idx)."Descriptors")."Quarters"
+    $vals.Quarters = {"Tier":$idx, "Name":$name}
   }
   if ($keys | any {|k| $k | str contains "Office"}) {
     let idx = $t."Office" | into int
-    print $"Office: ((($room_tiers."Tiers" | get $idx)."Descriptors")."Office")"
+    let name = (($room_tiers."Tiers" | get $idx)."Descriptors")."Office"
+    $vals.Office = {"Tier":$idx, "Name":$name}
   }
   if ($keys | any {|k| $k | str contains "Dining Room"}) {
     let idx = $t."Dining Room" | into int
-    print $"Dining Room: ((($room_tiers."Tiers" | get $idx)."Descriptors").'Dining Room')"
+    let name = (($room_tiers."Tiers" | get $idx)."Descriptors").'Dining Room'
+    $vals.'Dining Room' = {"Tier":$idx, "Name":$name}
   }
   if ($keys | any {|k| $k | str contains "Tomb"}) {
     let idx = $t."Tomb" | into int
-    print $"Tomb: ((($room_tiers."Tiers" | get $idx)."Descriptors")."Tomb")"
+    let name = (($room_tiers."Tiers" | get $idx)."Descriptors")."Tomb"
+    $vals.Tomb = {"Tier":$idx, "Name":$name}
   }
-  print ""
+  if ($vals | values | all {|v| $v == ""}) == true {
+    print ""
+  } else {
+    print ($vals | table)
+    print ""
+  }
   # print $keys
 }
 
