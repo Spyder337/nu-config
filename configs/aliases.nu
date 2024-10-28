@@ -33,3 +33,4 @@ alias lf = lf-rust
 alias repos = repos-list
 alias code = exec r#'C:\Program Files\Microsoft VS Code Insiders\Code - Insiders.exe'#
 alias obsidian = exec r#'C:\Users\spyder\AppData\Local\Programs\Obsidian\Obsidian.exe'#
+alias emacs = exec r#'C:\Program Files\Emacs\emacs-29.2\bin\emacs.exe'#
