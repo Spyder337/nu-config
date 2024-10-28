@@ -120,7 +120,7 @@ const $COMPLETIONS_PATH = [$NU_PATH, 'completions'] | path join
 #############################
 #   Environment Variables   #
 #############################
-$env.EDITOR = 'C:\Program Files\Microsoft VS Code Insiders\Code - Insiders.exe'
+$env.Editor = ([$env.ProgramFiles, "Microsoft VS Code Insiders", "Code - Insiders.exe"] | path join)
 $env.GitIgnore_Repo_Base_URL = 'https://raw.githubusercontent.com/github/gitignore/main/'
 $env.Git_User_Name = 'Spyder337'
 $env.REPO_DIR = ('~\repos' | path expand)
@@ -134,6 +134,7 @@ $env.CARGO_BIN = ('~\.cargo\bin' | path expand)
 $env.NU_CONFIG = $CONFIG_PATH
 $env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
 $env.WinGet_Path = ()
+$env.SteamApps = ([$env.'ProgramFiles(x86)', "Steam", "steamapps", "common"] | path join)
 
 # Description:
 #	Initializes an Oh My Posh theme and configuration if they are not found.
@@ -186,7 +187,7 @@ def init_completions [verbose: bool = false] {
 		"https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/cargo/cargo-completions.nu",
 		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/bat/bat-completions.nu",
 		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/rustup/rustup-completions.nu",
-		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/vscode/vscode-completions.nu",
+		#"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/vscode/vscode-completions.nu",
 		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/ssh/ssh-completions.nu",
 		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/curl/curl-completions.nu"
 	]
