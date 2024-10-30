@@ -83,9 +83,4 @@ Contains all of the custom aliases for the shell.
     - [x] Fetch Version Info
     - [x] Download latest
     - [x] Download from list
-- [/] Dwarf Fortress Ref
-  - [/] Tips/Tricks
-  - [ ] Rooom Qualities
-    - [ ] Localize room tiers
-  - [ ] Nobles List
-  - [ ] Fortress Tiers
+  - [ ] Rust
