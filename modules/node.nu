@@ -1,5 +1,5 @@
 
-export def create_npm_project [ts_enabled: bool = true, es_lint_enabled: bool = true] {
+export def create_npm_project [--ts_enabled (-t), --es_lint_enabled (-e)] {
   print "Initializing node project..."
   npm init
 

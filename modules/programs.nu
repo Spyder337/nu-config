@@ -35,7 +35,6 @@ export def install_emacs [] {
   sudo make install
 }
 
-# Description:
 # Fetch the html document for the page.
 export def fetch_web_doc [url: string] -> any {
   try {
@@ -46,7 +45,6 @@ export def fetch_web_doc [url: string] -> any {
   }
 }
 
-# Description:
 # Fetches the python source page.
 export def fetch_python_source [] -> any {
   let url = "https://www.python.org/downloads/source/"

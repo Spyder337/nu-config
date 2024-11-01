@@ -902,10 +902,11 @@ $env.config = {
 source ./configs/.zoxide.nu
 source ./configs/oh-my-posh\omp-config.nu
 source ./configs/aliases.nu
-# strings save_nushell_theme $env.Themes
+
 use ./modules/ welcome
-use ./modules/ strings
+use ./modules/ welcome daily_quote
 welcome
+
 source ./completions/git-completions.nu
 source ./completions/gh-completions.nu
 source ./completions/cargo-completions.nu

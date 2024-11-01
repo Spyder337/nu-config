@@ -1,6 +1,6 @@
 
 # Returns a list of the soulash 2 entity file paths.
-def soulash_entities [] {
+def entities [] {
   let sp = [$env.SteamApps,  "Soulash 2", "data", "mods", "core_2"] | path join
   let ep = [$sp, "entities"] | path join
   let old = $env.PWD
@@ -15,12 +15,12 @@ def soulash_entities [] {
 
 # Query the soulash entities for an entity with a matching id.
 export def soulash_item_query_id [id: int] {
-  let e = soulash_entities
+  let e = entities
   $e | find $id
 }
 
 # Query the soulash entities by name.
 export def soulash_item_query_str [name: string] {
-  let e = soulash_entities
+  let e = entities
   $e | find $name
 }

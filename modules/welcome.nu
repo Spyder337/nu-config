@@ -7,3 +7,8 @@ export def main [] {
 Today is (ansi -e $w_c)($t.DayOfWeek)(ansi reset) the (ansi -e $w_c)($t.Day)(ansi reset) of (ansi -e $w_c)($t.Month)(ansi reset).
 The Date is (ansi -e $w_c)($t.Date)(ansi reset)"
 }
+
+export def daily_quote [] {
+  let quotes = (open $"($env.NU_CONFIG)/../quotes.json")
+  print $quotes
+}

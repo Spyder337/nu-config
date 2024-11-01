@@ -19,7 +19,7 @@ export def "crates_async" [] {
 }
 
 # Adds basic, tokio, reqwest and optionally select.
-export def "crates_web" [parsing: bool] {
+export def "crates_web" [--parsing (-p)] {
   crates_async
   cargo add reqwest
   if $parsing {

@@ -9,7 +9,7 @@ export def "gitignore" [ignore_file: string] {
 # Displays a list of current git repos.
 #
 # include_paths: Whether to include the path to the repo in the table.
-export def list [--include_paths (-i) = false] -> table {
+export def list [--include_paths (-i)] -> table {
   let ignored_dirs = ["**/.git", "**/.obsidian", "**/*.md", "**/plans/**"]
   let res  = glob ~/repos/*/* --exclude $ignored_dirs | each {|p|
     let parent = $"(($p | path dirname) | path basename)"
@@ -17,10 +17,10 @@ export def list [--include_paths (-i) = false] -> table {
     let r_name = $"($p | path basename)"
     match $parent {
       "Spyder337" => {$r_type = "Working"},
-      "cloned" => {$r_type = "Cloned Builds"},
+      "cloned" => {$r_type = "Others"},
       _ => {}
     }
-    mut row = {"Repo Type":$"($r_type)", "Repo Name":($p | ansi link --text $"($r_name)")}
+    mut row = {"Type":$"($r_type)", "Repo Name":($p | ansi link --text $"($r_name)")}
     if ($include_paths) {
       $row = $row | insert  "Path" {$p}
     }
