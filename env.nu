@@ -120,6 +120,7 @@ const $COMPLETIONS_PATH = [$NU_PATH, 'completions'] | path join
 #############################
 #   Environment Variables   #
 #############################
+use ./modules/ *
 $env.Editor = ([$env.ProgramFiles, "Microsoft VS Code Insiders", "Code - Insiders.exe"] | path join)
 $env.GitIgnore_Repo_Base_URL = 'https://raw.githubusercontent.com/github/gitignore/main/'
 $env.Git_User_Name = 'Spyder337'
@@ -135,6 +136,7 @@ $env.NU_CONFIG = $CONFIG_PATH
 $env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
 $env.WinGet_Path = ()
 $env.SteamApps = ([$env.'ProgramFiles(x86)', "Steam", "steamapps", "common"] | path join)
+$env.Themes = strings css_to_nushell ($"($env.NU_CONFIG)/css_themes.css" | open)
 
 # Description:
 #	Initializes an Oh My Posh theme and configuration if they are not found.

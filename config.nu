@@ -903,8 +903,9 @@ source ./configs/.zoxide.nu
 source ./configs/oh-my-posh\omp-config.nu
 source ./configs/commands.nu
 source ./configs/aliases.nu
-
+# strings save_nushell_theme $env.Themes
 welcome_msg
+
 source ./completions/git-completions.nu
 source ./completions/gh-completions.nu
 source ./completions/cargo-completions.nu
