@@ -94,4 +94,7 @@ $env.NU_PLUGIN_DIRS = [
 # $env.PATH = ($env.PATH | uniq)
 
 use ./modules/ *
-source ./configs/environment.nu
+use ./modules/ strings
+use ./modules/ init
+init
+$env.Themes = init themes

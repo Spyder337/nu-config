@@ -1,4 +1,4 @@
-
+# Converts hex strings to an ansi format.
 export def hex_to_ansi [foreground: string, background: string = "", attr: string = ""] -> record {
   mut $r = {}
   $r = $r | insert fg $foreground
@@ -11,6 +11,7 @@ export def hex_to_ansi [foreground: string, background: string = "", attr: strin
   return $r
 }
 
+# Converts a css theme into a record for ansi.
 export def css_to_nushell [theme: string] -> record {
   let vals = $theme | lines
   mut themes = {}
