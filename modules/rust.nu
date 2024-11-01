@@ -5,7 +5,7 @@
 # - Serde
 # - Serde_json
 # - Lazy_static
-export def default_crates [] {
+export def "crates_defaults" [] {
   cargo add dirs_next
   cargo add serde --features derive
   cargo add serde_json
@@ -13,16 +13,24 @@ export def default_crates [] {
 }
 
 # Adds basic crates and tokio.
-export def default_async_crates [] {
-  default_crates
+export def "crates_async" [] {
+  crates_defaults
   cargo add tokio --features full
 }
 
 # Adds basic, tokio, reqwest and optionally select.
-export def default_web_crates [parsing: bool] {
-  default_async_crates
+export def "crates_web" [parsing: bool] {
+  crates_async
   cargo add reqwest
   if $parsing {
     cargo add select
+  }
+}
+
+export def "files" [] {
+  let files = (glob **/src/**/*.{rs, toml})
+  $files | each { |path|
+    let link = $"($path | path relative-to ($env.PWD))"
+    $"($path)" | ansi link --text $link
   }
 }
