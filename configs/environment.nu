@@ -10,17 +10,17 @@ path add r#'C:\Program Files\Microsoft VS Code Insiders'#
 #############################
 #   Constant declarations   #
 #############################
-const NU_PATH = ('~/AppData/Roaming/nushell' | path expand)
-const $CONFIG_PATH = ('~\AppData\Roaming\nushell\configs' | path expand)
-const $OMP_PATH = [$CONFIG_PATH, 'oh-my-posh'] | path join
+export const NU_PATH = ('~/AppData/Roaming/nushell' | path expand)
+export const $CONFIG_PATH = ('~\AppData\Roaming\nushell\configs' | path expand)
+export const $OMP_PATH = ([$CONFIG_PATH, 'oh-my-posh'] | path join)
 # This section is dedicated to initializing oh-my-posh.
 # This is the location to the oh-my-posh main config file.
-const $OMP_CONFIG = [$OMP_PATH,  'omp-config.nu'] | path join
+export const $OMP_CONFIG = ([$OMP_PATH,  'omp-config.nu'] | path join)
 # There is a default remote file to fetch.
-const $OMP_REMOTE_THEME = 'https://gist.githubusercontent.com/Spyder337/57192e3b740060d852a326e086780bf7/raw/7cc721390892cc9a2db7e529fb5da7929409be43/custom-theme.omp.json'
+export const $OMP_REMOTE_THEME = 'https://gist.githubusercontent.com/Spyder337/57192e3b740060d852a326e086780bf7/raw/7cc721390892cc9a2db7e529fb5da7929409be43/custom-theme.omp.json'
 # The location on the disk where the theme is located.
-const $OMP_LOCAL_THEME = [$OMP_PATH, 'custom-theme.omp.json'] | path join
-const $COMPLETIONS_PATH = [$NU_PATH, 'completions'] | path join
+export const $OMP_LOCAL_THEME = ([$OMP_PATH, 'custom-theme.omp.json'] | path join)
+export const $COMPLETIONS_PATH = ([$NU_PATH, 'completions'] | path join)
 
 #############################
 #   Environment Variables   #
