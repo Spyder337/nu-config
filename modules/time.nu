@@ -1,11 +1,17 @@
+# The current time HH:MM:SS
+export def main [] -> string {
+  let d = ((date now) | date to-record)
+  return $"($d.hour):($d.minute):($d.second)"
+}
+
 #Description:
 #Returns the day of the week and the date.
-export def full_date [] -> string {
+export def "full" [] -> record {
   let d = ((date now) | date to-record)
-  let m = month_string $d.month
+  let m = str month $d.month
   let d = $d.day
   let wd = day_of_week $d
-  let d_s = day_string $d
+  let d_s = str day $d
   # The welcome line ansi
   let w_c = strings hex_to_ansi $env.Themes.dark.secondary-500.Code
   # Date line ansi
@@ -15,14 +21,13 @@ export def full_date [] -> string {
   # Abbreviated Date
   let mdy_s = strings hex_to_ansi $env.Themes.dark.accent-800.Code
   # Combine strings
-  return $"(ansi -e $w_c)Welcome!(ansi reset)
-It's [($date_line)]
-     [(ansi -e $mdy_s)(mdy_date)(ansi reset)]"
+  let rec = {"DayOfWeek":$wd, "Day": $d_s, "Month":$m, "Date": (mdy)}
+  return $rec
 }
 
 #Description:
 #Takes in a day of the month and returns the week day for that day.
-export def day_of_week [ day: int ]  -> string {
+export def "day_of_week" [ day: int ]  -> string {
   let c: table = (cal -t)
   # print $"Target Date: ($day)"
   let dow = $c | each {|r|
@@ -48,7 +53,7 @@ export def day_of_week [ day: int ]  -> string {
 }
 
 # Takes a month number and returns the string representation.
-export def month_string [month: int] -> string {
+export def "str month" [month: int] -> string {
   if ($month == 1) {
     return "January"
   } else if ($month == 2) {
@@ -77,7 +82,7 @@ export def month_string [month: int] -> string {
 }
 
 # Takes a number and changes it to a sequential format 21 => 21st.
-export def day_string [day: int] -> string {
+export def "str day" [day: int] -> string {
   let d_s = $"($day)"
   let len = $d_s | str length
   if ($d_s | str ends-with "1") {
@@ -95,19 +100,13 @@ export def day_string [day: int] -> string {
 }
 
 # Returns the Date in the Day-Month-Year format.
-export def dmy_date [] -> string {
+export def "dmy" [] -> string {
   let d = ((date now) | date to-record)
   $"($d.day)-($d.month)-($d.year)"
 }
 
 # Returns the Date in the Month-Day-Year format.
-export def mdy_date [] -> string {
+export def "mdy" [] -> string {
   let d = ((date now) | date to-record)
   $"($d.month)-($d.day)-($d.year)"
-}
-
-# Returns the current time.
-export def time_now [] -> string {
-  let d = ((date now) | date to-record)
-  $"($d.hour):($d.minute):($d.second)"
 }
