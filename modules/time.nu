@@ -54,6 +54,9 @@ export def "day_of_week" [ day: int ]  -> string {
 
 # Takes a month number and returns the string representation.
 export def "str month" [month: int] -> string {
+  if (($month < 1) or ($month > 12)) {
+    return null
+  }
   if ($month == 1) {
     return "January"
   } else if ($month == 2) {
@@ -82,7 +85,7 @@ export def "str month" [month: int] -> string {
 }
 
 # Takes a number and changes it to a sequential format 21 => 21st.
-export def "str day" [day: int] -> string {
+export def "str day" [day: int] -> string { 
   let d_s = $"($day)"
   let len = $d_s | str length
   if ($d_s | str ends-with "1") {
