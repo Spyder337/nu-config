@@ -12,23 +12,6 @@ export const OMP_REMOTE_THEME = 'https://gist.githubusercontent.com/Spyder337/57
 export const OMP_LOCAL_THEME = ([$OMP_PATH, 'custom-theme.omp.json'] | path join)
 export const COMPLETIONS_PATH = ([$NU_PATH, 'completions'] | path join)
 
-export-env {
-  $env.Editor = ([$env.ProgramFiles, "Microsoft VS Code Insiders", "Code - Insiders.exe"] | path join)
-  $env.GitIgnore_Repo_Base_URL = 'https://raw.githubusercontent.com/github/gitignore/main/'
-  $env.Git_User_Name = 'Spyder337'
-  $env.REPO_DIR = ('~\repos' | path expand)
-  $env.Personal_Repos = ([$env.REPO_DIR, $env.Git_User_Name] | path join)
-  $env.Cloned_Repos = ([$env.REPO_DIR, 'cloned'] | path join)
-  $env.Plans_Dir = ([$env.REPO_DIR, 'plans'] | path join)
-  $env.Notes_Dir = ('~\.vaults\notes' | path expand)
-  $env.OMP_THEME = ($OMP_LOCAL_THEME)
-  $env.NU_COMPLETION_DIR = ($COMPLETIONS_PATH)
-  $env.CARGO_BIN = ('~\.cargo\bin' | path expand)
-  $env.NU_CONFIG = ($CONFIG_PATH)
-  $env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
-  $env.WinGet_Path = ()
-  $env.SteamApps = ([$env.'ProgramFiles(x86)', "Steam", "steamapps", "common"] | path join)
-}
 
 export def main [] {
   path_init
