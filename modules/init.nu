@@ -35,7 +35,6 @@ export def main [] {
   omp
   z_oxide
   completions
-	$env.Themes = themes
 }
 
 #	Returns a record containing themes.
