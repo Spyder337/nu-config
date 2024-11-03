@@ -905,7 +905,7 @@ source ./configs/aliases.nu
 
 use ./modules/ welcome
 use ./modules/ welcome daily_quote
-welcome
+print (welcome)
 
 source ./completions/git-completions.nu
 source ./completions/gh-completions.nu

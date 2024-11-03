@@ -4,8 +4,7 @@ export def main [] -> string {
   return $"($d.hour):($d.minute):($d.second)"
 }
 
-#Description:
-#Returns the day of the week and the date.
+# Returns the day of the week and the date.
 export def "full" [] -> record {
   let d = ((date now) | date to-record)
   let m = str month $d.month
@@ -25,26 +24,56 @@ export def "full" [] -> record {
   return $rec
 }
 
-#Description:
-#Takes in a day of the month and returns the week day for that day.
-export def "day_of_week" [ day: int ]  -> string {
+# Takes in a day of the month and returns the week day for that day.
+# 
+# If the short flag is supplied than a three letter abbreviation of the day
+# is returned.
+export def "day_of_week" [ day: int, --short (-s) ]  -> string {
   let c: table = (cal -t)
   # print $"Target Date: ($day)"
   let dow = $c | each {|r|
     if ($"($r.su)" | str contains $"($day)") == true {
-      return "Sunday"
+      if ($short) {
+        return "Sun"
+      } else {
+        return "Sunday"
+      }
     } else if ($"($r.mo)" | str contains $"($day)") == true {
-      return "Monday"
+      if ($short) {
+        return "Mon"
+      } else {
+        return "Monday"
+      }
     } else if ($"($r.tu)" | str contains $"($day)") == true {
-      return "Tuesday"
+      if ($short) {
+        return "Tue"
+      } else {
+        return "Tuesday"
+      }
     } else if ($"($r.we)" | str contains $"($day)") == true {
-      return "Wednesday"
+      if ($short) {
+        return "Wed"
+      } else {
+        return "Wednesday"
+      }  
     } else if ($"($r.th)" | str contains $"($day)") == true {
-      return "Thursday"
+      if ($short) {
+        return "Thu"
+      } else {
+        return "Thursday"
+      }  
     } else if ($"($r.fr)" | str contains $"($day)") == true {
-      return "Friday"
+      if ($short) {
+        return "Fri"
+      } else {
+        return "Friday"
+      }
     } else if ($"($r.sa)" | str contains $"($day)") == true {
-      return "Saturday"
+      if ($short) {
+        return "Sat"
+      } else {
+        return "Saturday"
+      }  
     } else {
       return null
     }
@@ -112,4 +141,10 @@ export def "dmy" [] -> string {
 export def "mdy" [] -> string {
   let d = ((date now) | date to-record)
   $"($d.month)-($d.day)-($d.year)"
+}
+
+# Returns the Date in the Year-Month-Day format.
+export def "ymd" [] -> string {
+  let d = ((date now) | date to-record)
+  $"($d.year)-($d.month)-($d.day)"
 }

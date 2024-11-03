@@ -92,17 +92,17 @@ $env.NU_PLUGIN_DIRS = [
 # path add ($env.CARGO_HOME | path join "bin")
 # path add ($env.HOME | path join ".local" "bin")
 # $env.PATH = ($env.PATH | uniq)
-export const NU_PATH = ('~/AppData/Roaming/nushell' | path expand)
-export const CONFIG_PATH = ('~\AppData\Roaming\nushell\configs' | path expand)
-export const OMP_PATH = ([$CONFIG_PATH, 'oh-my-posh'] | path join)
+const NU_PATH = ('~/AppData/Roaming/nushell' | path expand)
+const CONFIG_PATH = ('~\AppData\Roaming\nushell\configs' | path expand)
+const OMP_PATH = ([$CONFIG_PATH, 'oh-my-posh'] | path join)
 # This section is dedicated to initializing oh-my-posh.
 # This is the location to the oh-my-posh main config file.
-export const OMP_CONFIG = ([$OMP_PATH,  'omp-config.nu'] | path join)
+const OMP_CONFIG = ([$OMP_PATH,  'omp-config.nu'] | path join)
 # There is a default remote file to fetch.
-export const OMP_REMOTE_THEME = 'https://gist.githubusercontent.com/Spyder337/57192e3b740060d852a326e086780bf7/raw/7cc721390892cc9a2db7e529fb5da7929409be43/custom-theme.omp.json'
+const OMP_REMOTE_THEME = 'https://gist.githubusercontent.com/Spyder337/57192e3b740060d852a326e086780bf7/raw/7cc721390892cc9a2db7e529fb5da7929409be43/custom-theme.omp.json'
 # The location on the disk where the theme is located.
-export const OMP_LOCAL_THEME = ([$OMP_PATH, 'custom-theme.omp.json'] | path join)
-export const COMPLETIONS_PATH = ([$NU_PATH, 'completions'] | path join)
+const OMP_LOCAL_THEME = ([$OMP_PATH, 'custom-theme.omp.json'] | path join)
+const COMPLETIONS_PATH = ([$NU_PATH, 'completions'] | path join)
 
 $env.Editor = ([$env.ProgramFiles, "Microsoft VS Code Insiders", "Code - Insiders.exe"] | path join)
 $env.GitIgnore_Repo_Base_URL = 'https://raw.githubusercontent.com/github/gitignore/main/'
@@ -119,6 +119,9 @@ $env.NU_CONFIG = ($CONFIG_PATH)
 $env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
 $env.WinGet_Path = ()
 $env.SteamApps = ([$env.'ProgramFiles(x86)', "Steam", "steamapps", "common"] | path join)
+
+$env.LastQuote = {"author": "", "quote": ""}
+$env.LastQuoteUpdate = ""
 
 use ./modules/ *
 use ./modules/ strings
