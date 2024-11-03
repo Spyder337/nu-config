@@ -6,4 +6,3 @@ export use ./strings.nu
 export use ./time.nu
 export use ./welcome.nu
 export use ./git.nu
-export use ./init.nu

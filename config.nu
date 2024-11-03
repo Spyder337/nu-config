@@ -899,6 +899,29 @@ $env.config = {
     ]
 }
 
+$env.Nu_Path = ('~/AppData/Roaming/nushell' | path expand)
+$env.Nu_ConfigPath = ('~\AppData\Roaming\nushell\configs' | path expand)
+$env.OMP_DirPath = ([$env.Nu_ConfigPath, 'oh-my-posh'] | path join)
+# This section is dedicated to initializing oh-my-posh.
+# This is the location to the oh-my-posh main config file.
+$env.OMP_ConfigPath = ([$env.OMP_DirPath,  'omp-config.nu'] | path join)
+# The location on the disk where the theme is located.
+$env.OMP_LocalTheme = ([$env.OMP_DirPath, 'custom-theme.omp.json'] | path join)
+$env.CompletionsPath = ([$env.Nu_Path, 'completions'] | path join)
+$env.REPO_DIR = ('~\repos' | path expand)
+$env.Personal_Repos = ([$env.REPO_DIR, $env.GitHubUserName] | path join)
+$env.Cloned_Repos = ([$env.REPO_DIR, 'cloned'] | path join)
+$env.Plans_Dir = ([$env.REPO_DIR, 'plans'] | path join)
+$env.Notes_Dir = ('~\.vaults\notes' | path expand)
+$env.OMP_THEME = ($env.OMP_LocalTheme)
+$env.NU_COMPLETION_DIR = ($env.CompletionsPath)
+$env.CARGO_BIN = ('~\.cargo\bin' | path expand)
+$env.NU_CONFIG = ($env.Nu_ConfigPath)
+$env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
+
+use ./modules/ *
+use ./modules/ strings
+
 source ./configs/.zoxide.nu
 source ./configs/oh-my-posh\omp-config.nu
 source ./configs/aliases.nu

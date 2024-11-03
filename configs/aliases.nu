@@ -20,7 +20,7 @@ alias ivs = git gitignore "Visual Studio"
 alias irs = git gitignore "Rust"
 alias gc = git clone --depth=1
 alias add = git add .
-alias com = git commit -m $"Updated: (time dmy) (time)"
+alias com = git commit -m $"Updated: (time date) (time)"
 alias push = git push
 
 #####################

@@ -39,7 +39,7 @@ export def daily_quote [] -> table<author: string, quote: string> {
   # then generate a new quote and update LastQuote and LastQuoteUpdate
   let q = random quote
   $jenv.DailyQuote.LastQuote = $q
-  $jenv.DailyQuote.LastQuoteUpdate = (time ymd)
+  $jenv.DailyQuote.LastQuoteUpdate = (time date -f "ymd")
   $jenv | to json | save $jpath --force
   return $jenv.DailyQuote.LastQuote
 }

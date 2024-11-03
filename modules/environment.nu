@@ -1,43 +1,44 @@
 use std "path add"
-use strings.nu
-export const NU_PATH = ('~/AppData/Roaming/nushell' | path expand)
-export const CONFIG_PATH = ('~\AppData\Roaming\nushell\configs' | path expand)
-export const OMP_PATH = ([$CONFIG_PATH, 'oh-my-posh'] | path join)
-# This section is dedicated to initializing oh-my-posh.
-# This is the location to the oh-my-posh main config file.
-export const OMP_CONFIG = ([$OMP_PATH,  'omp-config.nu'] | path join)
-# There is a default remote file to fetch.
-export const OMP_REMOTE_THEME = 'https://gist.githubusercontent.com/Spyder337/57192e3b740060d852a326e086780bf7/raw/7cc721390892cc9a2db7e529fb5da7929409be43/custom-theme.omp.json'
-# The location on the disk where the theme is located.
-export const OMP_LOCAL_THEME = ([$OMP_PATH, 'custom-theme.omp.json'] | path join)
-export const COMPLETIONS_PATH = ([$NU_PATH, 'completions'] | path join)
+# Create a function to initialize the environment.
+# - (strings css_to_nushell ($"($NU_PATH)/configs/css_themes.css" | open))
 
+export-env {
+	load-env (($"($env.Nu_Path)/env.json" | open).Env | into record)
+}
 
 export def main [] {
-  path_init
-  omp
-  z_oxide
-  completions
+	path_init
+	omp
+	z_oxide
+	completions
 }
 
-#	Returns a record containing themes.
-export def themes [] -> record {
-	return (strings css_to_nushell ($"($NU_PATH)/configs/css_themes.css" | open))
-}
+# Create a function to load in environment variables from env.json.
+export def load [] {
 
+}
+# Create a function to store the state of the environment.
+export def store [] {
+
+}
+# 
+# Initialize Oh-my-posh
+# Initialize ZOxide
+# Initialize Completions
+# Initialize Themes
 def omp [] {
-  if ($OMP_PATH | path exists) == false {
-		mkdir $OMP_PATH
+  if ($env.OMP_DirPath | path exists) == false {
+		mkdir $env.OMP_DirPath
 	}
 
 	# Download a theme from a remote if a local theme file does not exist.
-	if ($OMP_LOCAL_THEME | path exists) == false {
-			http get -r $OMP_REMOTE_THEME | save $OMP_LOCAL_THEME --force
+	if ($env.OMP_LocalTheme | path exists) == false {
+			http get -r $env.OMP_RemoteTheme | save $env.OMP_LocalTheme --force
 	}
 
 	# Initialize OMP with the custom theme config.
-	if ($OMP_CONFIG | path exists) == false {
-		oh-my-posh init nu --config $OMP_LOCAL_THEME --print | save $OMP_CONFIG --force
+	if ($env.OMP_ConfigPath | path exists) == false {
+		oh-my-posh init nu --config $env.OMP_LocalTheme --print | save $env.OMP_ConfigPath --force
 	}
 }
 
@@ -49,8 +50,8 @@ def z_oxide [] {
 
 def completions [--verbose (-v) = false] {
   	# Create the directory for completions to go if it does not exist.
-	if ($COMPLETIONS_PATH | path exists) == false {
-		mkdir $COMPLETIONS_PATH
+	if ($env.CompletionsPath | path exists) == false {
+		mkdir $env.CompletionsPath
 	}
 		
 	let urls = [
@@ -73,7 +74,7 @@ def completions [--verbose (-v) = false] {
 		#	Get the file name from the url
 		let f_name = ($url | regex '(([a-z]*-[a-z]*)\.nu)' | first).match
 		#	Create the file's output path
-		let op = [$COMPLETIONS_PATH, $f_name] | path join
+		let op = [$env.CompletionsPath, $f_name] | path join
 		if ($op | path exists) == false {
 			print $"Generating ($f_name)"
 			print $"Destination: \"($op)\""
