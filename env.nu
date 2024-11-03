@@ -93,5 +93,6 @@ $env.NU_PLUGIN_DIRS = [
 # path add ($env.HOME | path join ".local" "bin")
 # $env.PATH = ($env.PATH | uniq)
 
-use ./modules/environment.nu
+use ./scripts/environment.nu
+
 environment

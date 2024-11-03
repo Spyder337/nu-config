@@ -2,7 +2,7 @@
 #
 # Requires an ignore file name that matches one in their repo.
 export def "gitignore" [ignore_file: string] {
-  let url = $"($env.GitIgnore_Repo_Base_URL)($ignore_file).gitignore"
+  let url = $"($env.GitIgnoreRepoUrl)($ignore_file).gitignore"
   http get $url | save ".gitignore"
 }
 

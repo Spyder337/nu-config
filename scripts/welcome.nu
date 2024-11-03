@@ -1,3 +1,4 @@
+use environment.nu
 # Displays the shell's welcome message.
 export def main [] -> string {
   # The welcome line ansi
@@ -5,7 +6,7 @@ export def main [] -> string {
   let t = time full
   let q = daily_quote
   # print $q
-  let msg = $"Welcome (ansi -e $w_c)($env.Git_User_Name)(ansi reset)!
+  let msg = $"Welcome (ansi -e $w_c)($env.GitHubUserName)(ansi reset)!
 Today is (ansi -e $w_c)($t.DayOfWeek)(ansi reset) the (ansi -e $w_c)($t.Day)(ansi reset) of (ansi -e $w_c)($t.Month)(ansi reset).
 The Date is (ansi -e $w_c)($t.Date)(ansi reset)
 
@@ -19,7 +20,7 @@ The Date is (ansi -e $w_c)($t.Date)(ansi reset)
 export def daily_quote [] -> table<author: string, quote: string> {
   # Get the current date and the environment from the json file.
   let n = (date now)
-  let jpath = $"($env.NU_CONFIG)/../env.json"
+  let jpath = $"($env.Nu_Path)/data/env.json"
   mut jenv = ((open $jpath))
   # Create shorthand references
   let lu = $jenv.DailyQuote."LastQuoteUpdate"
@@ -49,7 +50,7 @@ export def daily_quote [] -> table<author: string, quote: string> {
 # The file path is nushell/quotes.json
 export def "random quote" [] -> table<author: string, quote: string> {
   # Open Quotes Json file
-  let quotes = ((open $"($env.NU_CONFIG)/../quotes.json"))
+  let quotes = ((open $"($env.NU_Path)/data/quotes.json"))
   # Get the keys to iterate through the record
   let keys = $quotes | columns
   # Map each entry in keys into a record with the author and quote.
