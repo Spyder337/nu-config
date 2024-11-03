@@ -29,3 +29,7 @@ export def list [--include_paths (-i)] -> table {
   let t = ($res | table)
   return $t
 }
+
+export def ls [] -> list {
+  return ((git ls-files --exclude-standard ':!:.vs/*' ':!:*.json' ':!:*.css' ':!:.gitignore' ':!:*.md') | split row "\n")
+}

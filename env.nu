@@ -120,9 +120,6 @@ $env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
 $env.WinGet_Path = ()
 $env.SteamApps = ([$env.'ProgramFiles(x86)', "Steam", "steamapps", "common"] | path join)
 
-$env.LastQuote = {"author": "", "quote": ""}
-$env.LastQuoteUpdate = ""
-
 use ./modules/ *
 use ./modules/ strings
 use ./modules/ init
