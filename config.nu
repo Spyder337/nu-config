@@ -928,7 +928,7 @@ alias push = git push
 #####################
 #   Miscellaneous   #
 #####################
-alias cd = z
+# alias cd = z
 alias cat = bat
 alias seed = random chars
 alias lf = rust files
@@ -936,6 +936,9 @@ alias repos = git list
 alias code = exec r#'C:\Program Files\Microsoft VS Code Insiders\Code - Insiders.exe'#
 alias obsidian = exec r#'C:\Users\spyder\AppData\Local\Programs\Obsidian\Obsidian.exe'#
 alias emacs = exec r#'C:\Program Files\Emacs\emacs-29.2\bin\emacs.exe'#
+alias gs = web google_search
+alias ys = web google_search -w "www.youtube.com"
+
 source ./configs/.zoxide.nu
 source ./configs/oh-my-posh\omp-config.nu
 

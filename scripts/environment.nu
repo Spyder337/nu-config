@@ -3,6 +3,12 @@ use std "path add"
 # - (strings css_to_nushell ($"($NU_PATH)/configs/css_themes.css" | open))
 
 export-env {
+	
+	path add ~/.cargo/bin
+	path add ~/.bin/go/bin
+	path add ~/.bin/zig
+	path add r#'C:\Program Files\Microsoft VS Code Insiders'#
+
 	$env.Nu_Path = ('~/AppData/Roaming/nushell' | path expand)
 	$env.Nu_ConfigPath = ('~\AppData\Roaming\nushell\configs' | path expand)
 	$env.OMP_DirPath = ([$env.Nu_ConfigPath, 'oh-my-posh'] | path join)
@@ -21,46 +27,13 @@ export-env {
 	$env.CARGO_BIN = ('~\.cargo\bin' | path expand)
 	$env.NU_CONFIG = ($env.Nu_ConfigPath)
 	$env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
+
 	load-env (($"($env.Nu_Path)/data/env.json" | open).Env | into record)
+
 	$env.Personal_Repos = ([$env.REPO_DIR, $env.GitHubUserName] | path join)
 }
 
-#########################
-#   Project Creation    #
-#########################
-export alias cdc = rust crates_default
-export alias cdac = rust crates_async
-export alias cdwc = rust crates_web
 
-#########################
-#   Change Directory    #
-#########################
-export alias cdr = cd $env.Personal_Repos
-export alias cdn = cd $env.Notes_Dir
-export alias cdp = cd $env.Plans_Dir
-export alias cfg = cd $env.NU_CONFIG
-
-###################
-#   Git export aliases   #
-###################
-export alias ivs = git gitignore "Visual Studio"
-export alias irs = git gitignore "Rust"
-export alias gc = git clone --depth=1
-export alias add = git add .
-export alias com = git commit -m $"Updated: (time date) (time)"
-export alias push = git push
-
-#####################
-#   Miscellaneous   #
-#####################
-export alias cd = z
-export alias cat = bat
-export alias seed = random chars
-export alias lf = rust files
-export alias repos = git list
-export alias code = exec r#'C:\Program Files\Microsoft VS Code Insiders\Code - Insiders.exe'#
-export alias obsidian = exec r#'C:\Users\spyder\AppData\Local\Programs\Obsidian\Obsidian.exe'#
-export alias emacs = exec r#'C:\Program Files\Emacs\emacs-29.2\bin\emacs.exe'#
 
 export def main [] {
 	path_init
@@ -82,23 +55,34 @@ export def store [] {
 # Initialize ZOxide
 # Initialize Completions
 # Initialize Themes
-def omp [] {
+def omp [--verbose (-v)] {
   if ($env.OMP_DirPath | path exists) == false {
+		if $verbose {
+		print $"Creating directory...\nPath: ($env.OMP_DirPath)"
+		}
 		mkdir $env.OMP_DirPath
 	}
 
 	# Download a theme from a remote if a local theme file does not exist.
 	if ($env.OMP_LocalTheme | path exists) == false {
-			http get -r $env.OMP_RemoteTheme | save $env.OMP_LocalTheme --force
+		if $verbose {
+			print $"Fetching remote theme...\nUrl: ($env.OMP_RemoteTheme)"
+			print $"Saving file to:\nPath: ($env.OMP_LocalTheme)"
+		}
+		http get -r $env.OMP_RemoteTheme | save $env.OMP_LocalTheme --force
 	}
 
 	# Initialize OMP with the custom theme config.
 	if ($env.OMP_ConfigPath | path exists) == false {
+		if $verbose {
+			print $"Initializing oh-my-posh...\nUsing Theme: ($env.OMP_LocalTheme)
+	Saving file...\nPath: ($env.OMP_ConfigPath)"
+		}
 		oh-my-posh init nu --config $env.OMP_LocalTheme --print | save $env.OMP_ConfigPath --force
 	}
 }
 
-def z_oxide [] {
+def z_oxide [--verbose (-v)] {
   if ($env.Z_OXIDE_PATH | path exists) == false {
     zoxide init nushell | save -f $env.Z_OXIDE_PATH
   }
@@ -132,8 +116,10 @@ def completions [--verbose (-v) = false] {
 		#	Create the file's output path
 		let op = [$env.CompletionsPath, $f_name] | path join
 		if ($op | path exists) == false {
-			print $"Generating ($f_name)"
-			print $"Destination: \"($op)\""
+			if $verbose {
+				print $"Generating ($f_name)"
+				print $"Destination: \"($op)\""
+			}
 			#	Fetch the page and save it
 			http get -r $url | save -f $op
 			sleep 2sec
@@ -163,8 +149,4 @@ def completions [--verbose (-v) = false] {
 }
 
 def path_init [] {
-  path add ~/.cargo/bin
-  path add ~/.bin/go/bin
-  path add ~/.bin/zig
-  path add r#'C:\Program Files\Microsoft VS Code Insiders'#
 }

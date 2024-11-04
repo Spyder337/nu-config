@@ -7,3 +7,4 @@ export use ./time.nu
 export use ./welcome.nu
 export use ./git.nu
 export use ./environment.nu
+export use ./web.nu
