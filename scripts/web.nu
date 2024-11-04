@@ -16,7 +16,8 @@ export def google_search [query: string, --verbose (-v), --website (-w): string]
   if ($website != null) {
     $query = $query + $' site:($website)'
   }
-  let query = $'q=($query)' | str replace " " "+"
+
+  let query = $'($query)' | str replace " " "+"
   let url = $'($rootUrl)($query)'
   if $verbose {
     print $url
