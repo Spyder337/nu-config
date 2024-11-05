@@ -25,7 +25,15 @@ export def google_search [query: string, --verbose (-v), --website (-w): string]
   start $url
 }
 
-export def build_query [$query: string] -> {
+# TODO: Take in a query record
+# {
+#   "Query":"",
+#   "Params":{ ... },
+#   "Domain":""
+# }
+# Generate a request url with the record.
+# Return the url.
+export def build_query [$query: string] -> string {
 # Google Query Parameters
 # &hl=en
 # &as_q=Cat+Feline
@@ -43,6 +51,7 @@ export def build_query [$query: string] -> {
 # &tbs=
 }
 
-export def fetch_html [url: string] -> string {
+# Fetch a webpage with the url.
+export def fetch [url: string] -> string {
   http get -r $url
 }

@@ -3,7 +3,6 @@ use std "path add"
 # - (strings css_to_nushell ($"($NU_PATH)/configs/css_themes.css" | open))
 
 export-env {
-	
 	path add ~/.cargo/bin
 	path add ~/.bin/go/bin
 	path add ~/.bin/zig
@@ -33,32 +32,40 @@ export-env {
 	$env.Personal_Repos = ([$env.REPO_DIR, $env.GitHubUserName] | path join)
 }
 
-
-
-export def main [] {
-	path_init
+export def main [] -> none {
 	omp
 	z_oxide
 	completions
 }
 
 # Create a function to load in environment variables from env.json.
-export def load [] {
+export def load [] -> none {
 
 }
 # Create a function to store the state of the environment.
-export def store [] {
+export def store [] -> none {
 
 }
+
+export def cd [path?: string] -> none {
+	if $path == null {
+		^zi "."
+	}
+	else {
+		^zi $path
+	}
+}
+
 # 
 # Initialize Oh-my-posh
 # Initialize ZOxide
 # Initialize Completions
 # Initialize Themes
-def omp [--verbose (-v)] {
+def omp [--verbose (-v)] -> none {
   if ($env.OMP_DirPath | path exists) == false {
 		if $verbose {
-		print $"Creating directory...\nPath: ($env.OMP_DirPath)"
+			print "Oh-my-posh directory not found."
+			print $"Creating directory...\nPath: ($env.OMP_DirPath)"
 		}
 		mkdir $env.OMP_DirPath
 	}
@@ -76,19 +83,22 @@ def omp [--verbose (-v)] {
 	if ($env.OMP_ConfigPath | path exists) == false {
 		if $verbose {
 			print $"Initializing oh-my-posh...\nUsing Theme: ($env.OMP_LocalTheme)
-	Saving file...\nPath: ($env.OMP_ConfigPath)"
+Saving file...\nPath: ($env.OMP_ConfigPath)"
 		}
 		oh-my-posh init nu --config $env.OMP_LocalTheme --print | save $env.OMP_ConfigPath --force
 	}
 }
 
-def z_oxide [--verbose (-v)] {
+def z_oxide [--verbose (-v)] -> none {
   if ($env.Z_OXIDE_PATH | path exists) == false {
+		if $verbose {
+			print $"Initializing zoxide...\nUsing file: ($env.Z_OXIDE_PATH)"
+		}
     zoxide init nushell | save -f $env.Z_OXIDE_PATH
   }
 }
 
-def completions [--verbose (-v) = false] {
+def completions [--verbose (-v) = false] -> none {
   	# Create the directory for completions to go if it does not exist.
 	if ($env.CompletionsPath | path exists) == false {
 		mkdir $env.CompletionsPath
@@ -112,7 +122,7 @@ def completions [--verbose (-v) = false] {
 	#	paths is an empty list.
 	let paths = $urls | each { |url|
 		#	Get the file name from the url
-		let f_name = ($url | regex '(([a-z]*-[a-z]*)\.nu)' | first).match
+		let f_name = ($url | regex '(([a-z]+-[a-z]*)\.nu)' | first).match
 		#	Create the file's output path
 		let op = [$env.CompletionsPath, $f_name] | path join
 		if ($op | path exists) == false {
@@ -146,7 +156,4 @@ def completions [--verbose (-v) = false] {
 	
 	#	Save the new sources to the config.
 	$sources | save --append ($nu.config-path)
-}
-
-def path_init [] {
 }

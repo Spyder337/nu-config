@@ -42,3 +42,27 @@ export def css_to_nushell [theme: string] -> record {
 export def save_nushell_theme [theme: record] {
   print $theme | to json
 }
+
+export def dokkodo [] -> string {
+  mut out = ""
+  mut lines = ("data/dokkodo.json" | open -r) | lines
+  $lines = $lines | skip 1 | take (($lines | length) - 2)
+  $lines = $lines | each {|l| $l | str replace -a "\\\"" "" | str replace "," ""}
+  let len = $lines | length
+  let rule_ansi = {
+    fg: $'($env.Themes.simple.accent.Code)'
+  }
+  let text_ansi = {
+    fg: $'($env.Themes.simple.text.Code)'
+  }
+  $out = $out ++ $'(ansi -e $text_ansi)Dokkōdō by Miyamoto Musashi
+'
+  for i in 0..($len - 1) {
+    $out = $out ++ $'(ansi -e $rule_ansi)Rule ($i + 1):(ansi reset)
+'
+    $out = $out ++ $'(ansi -e $text_ansi)($lines | get $i)(ansi reset)
+    
+'
+  }
+  $out
+}

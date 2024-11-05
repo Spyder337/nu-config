@@ -35,10 +35,11 @@ export def install_emacs [] {
   sudo make install
 }
 
+use web.nu fetch
 # Fetches the python source page.
 export def fetch_python_source [] -> any {
   let url = "https://www.python.org/downloads/source/"
-  let doc = fetch_web_doc $url
+  let doc = fetch $url
   return $doc
 }
 
@@ -87,7 +88,10 @@ export def fetch_latest_python_ver_num [] -> string {
 export def is_python_installed [] -> bool {
   try {
     if ((sys host).name == "Windows") == true {
-      let out = (py -V)
+      let out = (which py)
+      if ($out | length) == 0 {
+        return false
+      }
       return true
     }
   } catch {

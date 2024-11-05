@@ -143,6 +143,7 @@ let zoxide_completer = {|spans|
 let multiple_completer = {|spans|
     match $spans.0 {
         z => $zoxide_completer
+        cd => $zoxide_completer
         _ => $carapace_completer
     } | do $in $spans
 }
@@ -929,7 +930,9 @@ alias push = git push
 #####################
 #   Miscellaneous   #
 #####################
-# alias cd = z
+alias core-cd = cd
+# use environment cd
+# alias cd = environment cd
 alias cat = bat
 alias seed = random chars
 alias lf = rust files
