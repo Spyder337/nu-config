@@ -1,7 +1,4 @@
-export def dbPath [] {([$env.Nu_Path, "data", "env.db"] | path join)}
-
 export def convert_quotes [] -> none {
-  stor import -f (dbPath)
   let quotes = (([$env.Nu_Path, "data", "quotes.json"] | path join) | open | into record)
   let keys = $quotes | columns
   mut cnt = 0;
@@ -15,8 +12,8 @@ export def convert_quotes [] -> none {
     }
   }
   let inserted = (insert quotes $quotes)
-  rm (dbPath)
-  stor export -f (dbPath)
+  rm ($env.DatabasePath)
+  stor export -f ($env.DatabasePath)
   print $'Inserted Quotes: ($inserted)'
 }
 
@@ -27,18 +24,17 @@ AUTHOR: string,
 QUOTE: string>>,
 --refresh (-r)  # If enabled updates the env.db file
 ] -> int {
-  let db = stor import -f (dbPath)
   mut cnt = 0
   for $q in $quotes {
-    let res = ($db | query db "SELECT * FROM Quotes WHERE QUOTE = :quote" -p {quote:$q.QUOTE})
+    let res = ($env.Database | query db "SELECT * FROM Quotes WHERE QUOTE = :quote" -p {quote:$q.QUOTE})
     if ($res | length) == 0 {
       (insert quote $q)
       $cnt = $cnt + 1
     }
   }
   if $refresh {
-    rm (dbPath)
-    stor export -f (dbPath)
+    rm ($env.DatabasePath)
+    stor export -f ($env.DatabasePath)
   }
   return $cnt
 }
@@ -53,7 +49,7 @@ export def "insert quote" [quote: record<
   # If the id for the quote is out of bounds generate a new one.
   mut idx = -1
   if $quote.ID == -1 {
-    $idx = ((dbPath) | open | query db "SELECT * FROM Quotes") | length
+    $idx = ($env.Database | query db "SELECT * FROM Quotes") | length
   } else {
     $idx = $quote.ID
   }
@@ -61,8 +57,8 @@ export def "insert quote" [quote: record<
   stor insert -t "Quotes" -d {ID: $idx, QUOTE: $quote.QUOTE, AUTHOR: $quote.AUTHOR}
   # If we need to update the database then update the file.
   if $refresh {
-    rm (dbPath)
-    stor export -f (dbPath)
+    rm ($env.DatabasePath)
+    stor export -f ($env.DatabasePath)
   }
 }
 
@@ -75,7 +71,7 @@ export def "get quote" [
   ] {
   mut q = null
   if $id != null {
-    $q = ((dbPath) | open | query db "SELECT * FROM Quotes WHERE ID=:id" -p {id:$id}) | first
+    $q = ($env.Database | query db "SELECT * FROM Quotes WHERE ID=:id" -p {id:$id}) | first
   } else {
     $q = (random quote)
   }
@@ -89,36 +85,35 @@ export def "get quote" [
 # 2. AUTHOR
 # 3. QUOTE
 def "random quote" [] {
-  let len = ((dbPath) | open | query db "SELECT * FROM Quotes") | length
+  let len = ($env.Database | query db "SELECT * FROM Quotes") | length
   let id = random int 0..($len - 1)
   return (get quote -i $id)
 }
 
 # Returns the daily quote.
 export def daily_quote [] -> string {
-  let q = ((dbPath) | open | query db "SELECT * FROM DailyQuote WHERE DOQ=:date" -p {date: (date now | format date "%F")})
+  let q = ($env.Database | query db "SELECT * FROM DailyQuote WHERE DOQ=:date" -p {date: (date now | format date "%F")})
+  mut quote = {}
   if ($q | length)  == 0 {
-    return generate_daily
+    $quote = generate_daily
   } else {
     let i = ($q | first)
-    let q = (get quote -i $i.QUOTE_ID)
-    
-    return $"\"($q.QUOTE)\"
-    - ($q.AUTHOR)"
+    $quote = (get quote -i $i.QUOTE_ID)
   }
+    
+  return $"\"($quote.QUOTE)\"
+  - ($quote.AUTHOR)"
 }
 
 # Generates a new daily note.
 def generate_daily [] -> string {
-  let len =  ((dbPath) | open  | query db "SELECT * FROM DailyQuote") | length
-  let qlen = ((dbPath) | open | query db "SELECT * FROM Quotes") | length
+  let len =  ($env.Database | query db "SELECT * FROM DailyQuote") | length
+  let qlen = ($env.Database | query db "SELECT * FROM Quotes") | length
   let qid = (random int 0..($qlen - 1))
-  let q = ((dbPath) | open | query db "SELECT * FROM Quotes WHERE ID=:id" -p {id: $qid}) | first
+  let q = ($env.Database | query db "SELECT * FROM Quotes WHERE ID=:id" -p {id: $qid}) | first
   let id = if $len == 0 {0} else {$len - 1}
   let r = {ID:$id, QUOTE_ID: $qid, DOQ: (date now | format date "%F")}
-  insert_daily $r
-  rm (dbPath)
-  stor export -f (dbPath)
+  insert_daily $r -r
   return $q
 }
 
@@ -127,16 +122,30 @@ export def insert_daily [daily: record<
   QUOTE_ID: int,
   DOQ: string
 >,
---refresh (-r)] -> {
+--refresh (-r)
+] -> {
   stor insert -t DailyQuote -d $daily
   if $refresh {
-    rm (dbPath)
-    stor export -f (dbPath)
+    rm ($env.DatabasePath)
+    stor export -f ($env.DatabasePath)
   }
 }
 
 export def update_quote [q_id: int] {
 
+}
+
+export def "insert env" [
+  val: record<Key: string, Value: string>
+  --refresh (-r) # If enabled updates the env.db file
+] {
+  let id = ($env.Database | query db "SELECT * FROM Env" | length)
+  let envVar = {ID: $id, KEY: $val.Key, VALUE: $val.Value}
+  stor insert -t Env -d $envVar
+  if $refresh {
+    rm ($env.DatabasePath)
+    stor export -f ($env.DatabasePath)
+  }
 }
 
 

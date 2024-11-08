@@ -3,12 +3,6 @@ use std "path add"
 # - (strings css_to_nushell ($"($NU_PATH)/configs/css_themes.css" | open))
 
 export-env {
-	path add ~/.cargo/bin
-	path add ~/.bin/go/bin
-	path add ~/.bin/zig
-	path add r#'C:\Program Files\Microsoft VS Code Insiders'#
-	path add ~/.bin/sqlite
-
 	$env.Nu_Path = ('~/AppData/Roaming/nushell' | path expand)
 	$env.Nu_ConfigPath = ('~\AppData\Roaming\nushell\configs' | path expand)
 	$env.OMP_DirPath = ([$env.Nu_ConfigPath, 'oh-my-posh'] | path join)
@@ -27,16 +21,26 @@ export-env {
 	$env.CARGO_BIN = ('~\.cargo\bin' | path expand)
 	$env.NU_CONFIG = ($env.Nu_ConfigPath)
 	$env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
+	$env.DatabasePath = ([$env.NU_Path, "data", "env.db"] | path join)
+	$env.Database = (stor import -f $env.DatabasePath)
 
 	load-env (($"($env.Nu_Path)/data/env.json" | open).Env | into record)
 
 	$env.Personal_Repos = ([$env.REPO_DIR, $env.GitHubUserName] | path join)
 }
 
-export def --env main [] -> none {
-	omp
-	z_oxide
-	completions
+export def --env main [--verbose (-v)] -> none {
+	if $verbose {
+		paths -v
+		omp -v
+		z_oxide -v
+		completions -v
+	} else {
+		paths
+		omp
+		z_oxide
+		completions
+	}
 }
 
 export def cd [path?: string] -> none {
@@ -53,7 +57,9 @@ export def cd [path?: string] -> none {
 # Initialize ZOxide
 # Initialize Completions
 # Initialize Themes
-def omp [--verbose (-v)] -> none {
+def omp [
+	--verbose (-v) # Prints out extra information to the console.
+	] -> none {
   if ($env.OMP_DirPath | path exists) == false {
 		if $verbose {
 			print "Oh-my-posh directory not found."
@@ -81,7 +87,9 @@ Saving file...\nPath: ($env.OMP_ConfigPath)"
 	}
 }
 
-def z_oxide [--verbose (-v)] -> none {
+def z_oxide [
+	--verbose (-v) # Prints out extra information to the console.
+] -> none {
   if ($env.Z_OXIDE_PATH | path exists) == false {
 		if $verbose {
 			print $"Initializing zoxide...\nUsing file: ($env.Z_OXIDE_PATH)"
@@ -90,7 +98,9 @@ def z_oxide [--verbose (-v)] -> none {
   }
 }
 
-def completions [--verbose (-v) = false] -> none {
+def completions [
+	--verbose (-v)	# Prints out extra information to the console.
+	] -> none {
   	# Create the directory for completions to go if it does not exist.
 	if ($env.CompletionsPath | path exists) == false {
 		mkdir $env.CompletionsPath
@@ -150,6 +160,30 @@ def completions [--verbose (-v) = false] -> none {
 	$sources | save --append ($nu.config-path)
 }
 
-export def --env aliases [] {
-
+export def --env paths [
+	--verbose (-v)	# Prints extra information to the console.
+] {
+	let paths = [
+		('~/.cargo/bin' | path expand)
+		('~/.bin/go/bin' | path expand)
+		('~/.bin/zig' | path expand)
+		r#'C:\Program Files\Microsoft VS Code Insiders'# 
+		('~/.bin/sqlite' | path expand)
+	]
+	let total = $paths | length
+	mut cnt = 0
+	mut added = 0
+	for $path in $paths {
+		if ($env.PATH | find $path | length) == 0 {
+			if $verbose {
+				print $'Adding "($path)" to $env.Path...'
+			}
+			path add $path
+			$added = $added + 1
+		}
+		$cnt = $cnt + 1
+	}
+	if $verbose {
+		print $"Added ($added)/($cnt) new paths"
+	}
 }

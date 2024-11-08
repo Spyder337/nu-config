@@ -49,7 +49,14 @@ CREATE TABLE IF NOT EXISTS main.Tasks(
   ID        INT         PRIMARY KEY NOT NULL,
   DESC      TEXT   NOT NULL,
   NAME      TEXT   NOT NULL,
+  TYPE      INT    NOT NULL,
   CREATED   DATE   NOT NULL,
   DUE       DATE,
   COMPLETED BOOL        NOT NULL
 );
+-- Contains the string environment variables.
+CREATE TABLE IF NOT EXISTS main.Env(
+  ID        INT   PRIMARY KEY   NOT NULL,
+  KEY       TEXT  NOT NULL,
+  VALUE     TEXT  NOT NULL
+)
