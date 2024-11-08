@@ -7,6 +7,7 @@ export-env {
 	path add ~/.bin/go/bin
 	path add ~/.bin/zig
 	path add r#'C:\Program Files\Microsoft VS Code Insiders'#
+	path add ~/.bin/sqlite
 
 	$env.Nu_Path = ('~/AppData/Roaming/nushell' | path expand)
 	$env.Nu_ConfigPath = ('~\AppData\Roaming\nushell\configs' | path expand)
@@ -32,19 +33,10 @@ export-env {
 	$env.Personal_Repos = ([$env.REPO_DIR, $env.GitHubUserName] | path join)
 }
 
-export def main [] -> none {
+export def --env main [] -> none {
 	omp
 	z_oxide
 	completions
-}
-
-# Create a function to load in environment variables from env.json.
-export def load [] -> none {
-
-}
-# Create a function to store the state of the environment.
-export def store [] -> none {
-
 }
 
 export def cd [path?: string] -> none {
@@ -156,4 +148,8 @@ def completions [--verbose (-v) = false] -> none {
 	
 	#	Save the new sources to the config.
 	$sources | save --append ($nu.config-path)
+}
+
+export def --env aliases [] {
+
 }

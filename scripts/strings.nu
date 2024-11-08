@@ -45,7 +45,8 @@ export def save_nushell_theme [theme: record] {
 
 export def dokkodo [] -> string {
   mut out = ""
-  mut lines = ("data/dokkodo.json" | open -r) | lines
+  let path = [$env.Nu_Path, "data", "dokkodo.json"] | path join
+  mut lines = ($path | open -r) | lines
   $lines = $lines | skip 1 | take (($lines | length) - 2)
   $lines = $lines | each {|l| $l | str replace -a "\\\"" "" | str replace "," ""}
   let len = $lines | length

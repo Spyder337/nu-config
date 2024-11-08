@@ -901,6 +901,14 @@ $env.config = {
 }
 
 use ./scripts/ *
+use web google_search
+use time "update msg"
+use database "random quote"
+use welcome
+use environment
+
+source ./configs/.zoxide.nu
+source ./configs/oh-my-posh\omp-config.nu
 
 #########################
 #   Project Creation    #
@@ -924,7 +932,7 @@ alias ivs = git gitignore "Visual Studio"
 alias irs = git gitignore "Rust"
 alias gc = git clone --depth=1
 alias add = git add .
-alias com = git commit -m $"Updated: (time date) (time)"
+alias com = git commit -m $"Updated: (date now | format date '%t%F%n%t%t%T')"
 alias push = git push
 
 #####################
@@ -940,13 +948,9 @@ alias repos = git list
 alias code = exec $env.Editor
 alias obsidian = exec r#'C:\Users\spyder\AppData\Local\Programs\Obsidian\Obsidian.exe'#
 alias emacs = exec r#'C:\Program Files\Emacs\emacs-29.2\bin\emacs.exe'#
-alias gs = web google_search
-alias ys = web google_search -w "www.youtube.com"
+alias gs = google_search
+alias ys = google_search -w "www.youtube.com"
 
-source ./configs/.zoxide.nu
-source ./configs/oh-my-posh\omp-config.nu
-
-use welcome
 print (welcome)
 
 source ./completions/git-completions.nu
