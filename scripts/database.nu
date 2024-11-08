@@ -14,14 +14,14 @@ export def convert_quotes [] -> none {
       $cnt = $cnt + 1
     }
   }
-  let inserted = insert_quotes $quotes
+  let inserted = (insert quotes $quotes)
   rm (dbPath)
   stor export -f (dbPath)
   print $'Inserted Quotes: ($inserted)'
 }
 
 # Inserts a list of quotes into the database.
-export def insert_quotes [quotes: list<record<
+export def "insert quotes" [quotes: list<record<
 ID: int, 
 AUTHOR: string, 
 QUOTE: string>>,
@@ -31,7 +31,7 @@ QUOTE: string>>,
   for $q in $quotes {
     let res = ($db | query db "SELECT * FROM Quotes WHERE QUOTE = :quote" -p {quote:$q.QUOTE})
     if ($res | length) == 0 {
-      insert_quote $q
+      (insert quote $q)
       $cnt = $cnt + 1
     }
   }
@@ -45,20 +45,38 @@ QUOTE: string>>,
 # Inserts a quote into the sqlite database.
 # 
 # --refresh (-r): Whether to update the database file or leave changes in memory.
-export def insert_quote [quote: record<
+export def "insert quote" [quote: record<
   ID: int, 
   AUTHOR: string, 
   QUOTE: string>,
   --refresh (-r)] {
-  stor insert -t "Quotes" -d $quote
+  # If the id for the quote is out of bounds generate a new one.
+  mut idx = -1
+  if $quote.ID == -1 {
+    $idx = ((dbPath) | open | query db "SELECT * FROM Quotes") | length
+  } else {
+    $idx = $quote.ID
+  }
+  # Combine the new id with the old data and insert it in the table.
+  stor insert -t "Quotes" -d {ID: $idx, QUOTE: $quote.QUOTE, AUTHOR: $quote.AUTHOR}
+  # If we need to update the database then update the file.
   if $refresh {
     rm (dbPath)
     stor export -f (dbPath)
   }
 }
 
-export def quote [--id (-i): int] {
-  let q = ((dbPath) | open | query db "SELECT * FROM Quotes WHERE ID=:id" -p {id:$id}) | first
+# Returns a quote.
+# 
+# If id is null then a random quote is returned.
+# Otherwise a quote with a matching id is returned.
+export def "get quote" [--id (-i): int] {
+  mut q = null
+  if $id != null {
+    $q = ((dbPath) | open | query db "SELECT * FROM Quotes WHERE ID=:id" -p {id:$id}) | first
+  } else {
+    $q = (random quote)
+  }
   return $q
 }
 
@@ -68,10 +86,10 @@ export def quote [--id (-i): int] {
 # 1. ID
 # 2. AUTHOR
 # 3. QUOTE
-export def "random quote" [] {
+def "random quote" [] {
   let len = ((dbPath) | open | query db "SELECT * FROM Quotes") | length
   let id = random int 0..($len - 1)
-  return (quote -i $id)
+  return (get quote -i $id)
 }
 
 # Returns the daily quote.
@@ -81,7 +99,7 @@ export def daily_quote [] -> string {
     return generate_daily
   } else {
     let i = ($q | first)
-    let q = ((dbPath) | open | query db "SELECT * FROM Quotes WHERE ID=:id" -p {id:$i.QUOTE_ID}) | first
+    let q = (get quote -i $i.QUOTE_ID)
     
     return $"\"($q.QUOTE)\"
     - ($q.AUTHOR)"
@@ -89,7 +107,7 @@ export def daily_quote [] -> string {
 }
 
 # Generates a new daily note.
-export def generate_daily [] -> string {
+def generate_daily [] -> string {
   let len =  ((dbPath) | open  | query db "SELECT * FROM DailyQuote") | length
   let qlen = ((dbPath) | open | query db "SELECT * FROM Quotes") | length
   let qid = (random int 0..($qlen - 1))
