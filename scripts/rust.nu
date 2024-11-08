@@ -19,7 +19,9 @@ export def "crates_async" [] {
 }
 
 # Adds basic, tokio, reqwest and optionally select.
-export def "crates_web" [--parsing (-p)] {
+export def "crates_web" [
+  --parsing (-p)  # Adds the select crate for html parsing.
+  ] {
   crates_async
   cargo add reqwest
   if $parsing {
@@ -27,8 +29,13 @@ export def "crates_web" [--parsing (-p)] {
   }
 }
 
-export def "files" [] {
-  let files = (glob **/src/**/*.{rs, toml})
+# Outputs a list of files in a cargo workspace.
+# $env.PWD must be the workspace root.
+export def "files" [
+  --virtual (-v)  # Enable if there is a virtual workspace.
+] {
+  let globStr: glob = if $virtual { ("**/src/**/*.{rs, toml}" | into glob) } else { ("src/**/*.{rs, toml}" | into glob) }
+  let files = (glob $globStr)
   $files | each { |path|
     let link = $"($path | path relative-to ($env.PWD))"
     $"($path)" | ansi link --text $link

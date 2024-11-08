@@ -29,7 +29,16 @@ export-env {
 	$env.Personal_Repos = ([$env.REPO_DIR, $env.GitHubUserName] | path join)
 }
 
-export def --env main [--verbose (-v)] -> none {
+#	Initializes environment variables.
+#	
+# Initializes:
+# - Path variables
+# - Oh-my-posh
+# - Z Oxide
+# - Completions
+export def --env main [
+	--verbose (-v)	#	Outputs extra information about what's happening.
+	] -> none {
 	if $verbose {
 		paths -v
 		omp -v
@@ -52,11 +61,11 @@ export def cd [path?: string] -> none {
 	}
 }
 
-# 
 # Initialize Oh-my-posh
 # Initialize ZOxide
 # Initialize Completions
 # Initialize Themes
+
 def omp [
 	--verbose (-v) # Prints out extra information to the console.
 	] -> none {
