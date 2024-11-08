@@ -36,6 +36,11 @@ export def ls [] -> list {
   return ((git ls-files --exclude-standard ':!:.vs/*' ':!:*.json' ':!:*.css' ':!:.gitignore' ':!:*.md') | split row "\n")
 }
 
+export def com [changes: list<string>] -> string {
+  let msg = (update msg -c $changes)
+  git commit -m $msg
+}
+
 # An update string for commit messages.
 #
 # The format is

@@ -20,7 +20,7 @@ alias ivs = git gitignore "Visual Studio"
 alias irs = git gitignore "Rust"
 alias gc = git clone --depth=1
 alias add = git add .
-alias com = git commit -m $"Updated: (date now | format date '%t%F%n%t%t%T')"
+alias com = git com
 alias push = git push
 
 #####################

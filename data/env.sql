@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS main.Quotes (
   AUTHOR  TEXT   NOT NULL,
   QUOTE   TEXT  NOT NULL
 );
+
 --  The current daily quote will be queryed with the current date.
 --  Maintains quote history over time.
 
@@ -31,12 +32,14 @@ CREATE TABLE IF NOT EXISTS main.Quotes (
 --  UPDATE main.DailyQuote
 --  SET QUOTE_ID = 0;
 --  PRAGMA foreign_keys = ON;
+
 CREATE TABLE IF NOT EXISTS main.DailyQuote(
   ID        INT   PRIMARY KEY NOT NULL,
-  QUOTE_ID  INT   NOT NULL,
-  DOQ       TEXT  NOT NULL,
+  QUOTE_ID  INT   NOT NULL,   --  ID in Quotes table
+  DOQ       TEXT  NOT NULL,   --  Date of Quote: When the daily quote was created.
   FOREIGN KEY(QUOTE_ID) REFERENCES Quotes(ID)
 );
+
 --  Tasks have yet to be implemented.
 --  Functions Required:
 --  Get
@@ -47,16 +50,17 @@ CREATE TABLE IF NOT EXISTS main.DailyQuote(
 --  Update
 CREATE TABLE IF NOT EXISTS main.Tasks(
   ID        INT         PRIMARY KEY NOT NULL,
-  DESC      TEXT   NOT NULL,
-  NAME      TEXT   NOT NULL,
-  TYPE      INT    NOT NULL,
-  CREATED   DATE   NOT NULL,
-  DUE       DATE,
-  COMPLETED BOOL        NOT NULL
+  NAME      TEXT   NOT NULL,        --  The short hand task name
+  DESC      TEXT   NOT NULL,        --  Description/Meta information about the task.
+  TYPE      INT    NOT NULL,        --  The Task type as an int. There will be an enum.
+  CREATED   DATE   NOT NULL,        --  Date the task was created/assigned.
+  DUE       DATE,                   --  Date of the task's deadline.
+  COMPLETED BOOL        NOT NULL    --  Whether the task is completed.
 );
+
 -- Contains the string environment variables.
 CREATE TABLE IF NOT EXISTS main.Env(
   ID        INT   PRIMARY KEY   NOT NULL,
-  KEY       TEXT  NOT NULL,
-  VALUE     TEXT  NOT NULL
+  KEY       TEXT  NOT NULL,         --  Key in $env. $env.Key
+  VALUE     TEXT  NOT NULL          --  Value for $env.Key. Maybe add extra parsing options, for tables in json etc.
 )
