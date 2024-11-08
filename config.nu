@@ -902,7 +902,7 @@ $env.config = {
 
 use ./scripts/ *
 use web google_search
-use time "update msg"
+use git "update msg"
 use database *
 use welcome
 use environment

@@ -67,3 +67,15 @@ export def dokkodo [] -> string {
   }
   $out
 }
+
+export def "format day" [$num: string] {
+  let c = $'($num)' | split chars | last
+  mut postfix = ""
+  match $c {
+    "1" => {$postfix = "st"}
+    "2" => {$postfix = "nd"}
+    "3" => {$postfix = "rd"}
+    _ => {$postfix = "th"}
+  }
+  return $'($num)($postfix)'
+}

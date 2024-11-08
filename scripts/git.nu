@@ -9,7 +9,9 @@ export def "gitignore" [ignore_file: string] {
 # Displays a list of current git repos.
 #
 # include_paths: Whether to include the path to the repo in the table.
-export def list [--include_paths (-i)] -> table {
+export def list [
+  --include_paths (-i)  # If enabled a full path column is added to the table.
+  ] -> table {
   let ignored_dirs = ["**/.git", "**/.obsidian", "**/*.md", "**/plans/**"]
   let res  = glob ~/repos/*/* --exclude $ignored_dirs | each {|p|
     let parent = $"(($p | path dirname) | path basename)"
@@ -32,4 +34,27 @@ export def list [--include_paths (-i)] -> table {
 
 export def ls [] -> list {
   return ((git ls-files --exclude-standard ':!:.vs/*' ':!:*.json' ':!:*.css' ':!:.gitignore' ':!:*.md') | split row "\n")
+}
+
+# An update string for commit messages.
+#
+# The format is
+# 'Updated:   Year-Month-Day
+#             HH:MM:SS
+# 
+# Changess:
+# - change 1
+# - change 2
+# ... rest
+export def "update msg" [
+  --changes (-c): list<string>  # List of change comments.
+  ] {
+  mut msg = $'Updated: ((date now | format date "%t%F%n%t%t%T"))'
+  $msg = $msg ++ "\n\nChanges:\n"
+  if $changes != null {
+    for $i in $changes {
+      $msg = $msg ++ $"- ($i)\n"
+    }
+  }
+  $msg
 }

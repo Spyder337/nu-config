@@ -25,7 +25,8 @@ export def "insert quotes" [quotes: list<record<
 ID: int, 
 AUTHOR: string, 
 QUOTE: string>>,
---refresh (-r)] -> int {
+--refresh (-r)  # If enabled updates the env.db file
+] -> int {
   let db = stor import -f (dbPath)
   mut cnt = 0
   for $q in $quotes {
@@ -43,13 +44,12 @@ QUOTE: string>>,
 }
 
 # Inserts a quote into the sqlite database.
-# 
-# --refresh (-r): Whether to update the database file or leave changes in memory.
 export def "insert quote" [quote: record<
   ID: int, 
   AUTHOR: string, 
   QUOTE: string>,
-  --refresh (-r)] {
+  --refresh (-r)  # If enabled updates the env.db file
+  ] {
   # If the id for the quote is out of bounds generate a new one.
   mut idx = -1
   if $quote.ID == -1 {
@@ -70,7 +70,9 @@ export def "insert quote" [quote: record<
 # 
 # If id is null then a random quote is returned.
 # Otherwise a quote with a matching id is returned.
-export def "get quote" [--id (-i): int] {
+export def "get quote" [
+  --id (-i): int  # Quote ID in the database.
+  ] {
   mut q = null
   if $id != null {
     $q = ((dbPath) | open | query db "SELECT * FROM Quotes WHERE ID=:id" -p {id:$id}) | first
