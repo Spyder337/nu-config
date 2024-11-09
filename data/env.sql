@@ -36,16 +36,12 @@ CREATE TABLE IF NOT EXISTS main.DailyQuote(
   FOREIGN KEY(QUOTE_ID) REFERENCES Quotes(ID)
 );
 
---  Tasks have yet to be implemented.
---  Functions Required:
---  Get
---  All
---  Filter Due Date
---  Filter Creation Date
---  Insert
---  Update
+--  Types:
+--  0: Single Event Task
+--  1: Recurring Task
+--  2: No Due Date
 CREATE TABLE IF NOT EXISTS main.Tasks(
-  ID        INT         PRIMARY KEY NOT NULL,
+  ID        INT    PRIMARY KEY NOT NULL,
   NAME      TEXT   NOT NULL,        --  The short hand task name
   DESC      TEXT   NOT NULL,        --  Description/Meta information about the task.
   TYPE      INT    NOT NULL,        --  The Task type as an int. There will be an enum.
@@ -54,9 +50,20 @@ CREATE TABLE IF NOT EXISTS main.Tasks(
   COMPLETED BOOL        NOT NULL    --  Whether the task is completed.
 );
 
+--  Contains the Main-Sub task relationship allowing for tasks to be broken
+--  down into sub tasks.
+CREATE TABLE IF NOT EXISTS main.SubTasks(
+  ID        INT   PRIMARY KEY   NOT NULL,
+  MAIN      INT   NOT NULL,
+  SUB       INT   NOT NULL,
+  FOREIGN KEY(MAIN) REFERENCES Tasks(ID),
+  FOREIGN KEY(SUB)  REFERENCES Tasks(ID)
+); 
+
 -- Contains the string environment variables.
+-- Records are stored as json text and serialized in the script.
 CREATE TABLE IF NOT EXISTS main.Env(
   ID        INT   PRIMARY KEY   NOT NULL,
   KEY       TEXT  NOT NULL,         --  Key in $env. $env.Key
   VALUE     TEXT  NOT NULL          --  Value for $env.Key. Maybe add extra parsing options, for tables in json etc.
-)
+);

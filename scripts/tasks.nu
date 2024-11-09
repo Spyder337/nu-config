@@ -1,12 +1,17 @@
-# Lists all current tasks.
+# Displays all current tasks or a task if an id is provided.
 export def main [id?: int] {
   if $id == null {
-    database get task -a
+    let tasks = (database get task -a)
+    for $t in $tasks {
+      print (display ($t | into record))
+    }
   } else {
-    database get task $id
+    let t = (database get task $id)
+    print (display ($t | into record))
   }
 }
 
+# Create a new task
 export def create [] {
   let name = input "Task Name: "
   let desc = input "Task Desc: "
@@ -18,4 +23,41 @@ export def create [] {
   let rec = {ID:$id, NAME:$name, DESC:$desc, TYPE:$type, CREATED:$created, DUE:$due, COMPLETED:$completed}
   stor insert -t Tasks -d $rec
   database refresh
+}
+
+def within [dur: duration] -> list<record> {
+  mut tasks = $env.Database | query db "SELECT * FROM Tasks"
+  let end = (date now) + $dur
+  
+  $tasks = $tasks | where {|t| $t | ($t.DUE | into datetime) <= $end }
+  $tasks
+}
+
+# Print tasks for the current week.
+export def week [] -> list<record> {
+  let $tasks = within 1wk
+  $tasks
+}
+
+# Print tasks for the month.
+export def month [] -> list<record> {
+  mut tasks = within 4wk
+  $tasks
+}
+
+# Print tasks for the year.
+export def year [] {
+  mut tasks = within 54wk
+  $tasks
+}
+
+def display [task: record<ID: int, DESC: string, NAME: string, CREATED: string, DUE: string, COMPLETED: int, TYPE: int>] {
+  let com = if $task.COMPLETED == 0 {char -u "274E"} else {char -u "2611"}
+  let due = ($task.DUE | format date "%A, %B, %d%n%tAt %T")
+  mut $msg = ""
+  $msg = $msg ++ $"Task: ($task.NAME)\n"
+  $msg = $msg ++ $"Desc: ($task.DESC)\n"
+  $msg = $msg ++ $"Due: ($due)\n"
+  $msg = $msg ++ $"Completed: ($com)\n"
+  return $msg
 }

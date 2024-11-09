@@ -910,7 +910,6 @@ source ./configs/.zoxide.nu
 source ./configs/oh-my-posh\omp-config.nu
 source ./scripts/aliases.nu
 
-sleep 1sec
 welcome -c
 
 source ./completions/git-completions.nu
