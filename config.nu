@@ -900,7 +900,9 @@ $env.config = {
     ]
 }
 
-use ./scripts/ *
+use completions *
+use scripts *
+use scripts/core *
 use web google
 use git "update msg"
 use database *
@@ -912,10 +914,3 @@ source ./scripts/aliases.nu
 
 welcome -c
 
-source ./completions/git-completions.nu
-source ./completions/gh-completions.nu
-source ./completions/cargo-completions.nu
-source ./completions/bat-completions.nu
-source ./completions/rustup-completions.nu
-source ./completions/ssh-completions.nu
-source ./completions/curl-completions.nu
