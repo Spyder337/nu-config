@@ -2,11 +2,8 @@ export use ./node.nu
 export use ./programs.nu
 export use ./rust.nu
 export use ./soulash.nu
-export use ./strings.nu
-export use ./time.nu
 export use ./welcome.nu
 export use ./git.nu
-export use ./environment.nu
 export use ./web.nu
-export use ./database.nu
 export use ./tasks.nu
+export use ./core/mod.nu

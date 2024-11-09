@@ -158,8 +158,6 @@ export def "insert task" [task: record<
   COMPLETED: bool>,
   --refresh (-r)  # If enabled updates the env.db file
   ] {
-  let id = ($env.Database | query db "SELECT * FROM Tasks" | length)
-  $task.ID = $id
   stor insert -t Tasks -d $task
   if $refresh {
     refresh
