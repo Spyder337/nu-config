@@ -2,7 +2,9 @@ use environment.nu
 use database.nu
 use strings.nu "format day"
 # Displays the shell's welcome message.
-export def main [] -> string {
+export def main [
+  --clear (-c)  # Clears the screen before displaying the welcome message.  
+] -> none {
   # The welcome line ansi
   let w_c = strings hex_to_ansi $env.Themes.dark.secondary-500.Code
   # The daily quote
@@ -11,7 +13,10 @@ export def main [] -> string {
   mut msg = $"Welcome (ansi -e $w_c)($env.GitHubUserName)(ansi reset)!"
   $msg = $msg ++ $"\n\n(date msg $w_c)"
   $msg = $msg ++ $"\n\n($q)"
-  return $msg
+  if $clear {
+    clear -k
+  }
+  print $msg
 }
 
 # Outputs a message with the current date.

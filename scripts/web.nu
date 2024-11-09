@@ -9,7 +9,7 @@
 # Flags:
 # - verbose (v): Prints extra information.
 # - website (w): Limits search to a website or domain.
-export def google_search [query: string, --verbose (-v), --website (-w): string] {
+export def google [query: string, --verbose (-v), --website (-w): string] {
   let rootUrl = 'https://www.google.com/search?'
   mut query = $'q=($query)'
 

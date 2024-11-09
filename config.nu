@@ -901,7 +901,7 @@ $env.config = {
 }
 
 use ./scripts/ *
-use web google_search
+use web google
 use git "update msg"
 use database *
 use welcome
@@ -911,8 +911,7 @@ source ./configs/oh-my-posh\omp-config.nu
 source ./scripts/aliases.nu
 
 sleep 1sec
-clear -k
-print (welcome)
+welcome -c
 
 source ./completions/git-completions.nu
 source ./completions/gh-completions.nu

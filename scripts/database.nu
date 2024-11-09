@@ -164,3 +164,20 @@ export def "insert task" [task: record<
     refresh
   }
 }
+
+# Gets a specific task or all.
+export def "get task" [
+  --all (-a),   # Gets all tasks from the database.
+  id?: int      # Id must be present if the all flag is not used.
+] {
+  if $all == null and $id == null {
+    print "Invalid flag and parameter combination. See help."
+    return null
+  } else if $all != null {
+    let res = $env.Database | query db "SELECT * FROM Tasks"
+    return $res
+  } else if $id != null {
+    let res = $env.Database | query db "SELECT * FROM Tasks WHERE ID=:id" -p {id:$id} | first
+    return $res
+  }
+}

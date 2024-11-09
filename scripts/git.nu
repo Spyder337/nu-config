@@ -59,7 +59,7 @@ export def com [changes?: list<string>] -> string {
 export def "update msg" [
   --changes (-c): list<string>  # List of change comments.
   ] {
-  mut msg = $'Updated: ((date now | format date "%t%F%n%T"))'
+  mut msg = $'Updated: ((date now | format date "%F%n%T"))'
   $msg = $msg ++ "\n\nChanges:\n"
   if $changes != null {
     for $i in $changes {
