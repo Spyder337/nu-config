@@ -10,10 +10,6 @@
 --  6. Themes (?)
 --  7. E-Book Library integration (Rust interactions?)
 
--- DROP TABLE [IF EXISTS] Quotes;
--- DROP TABLE [IF EXISTS] DailyQuote;
--- DROP TABLE [IF EXISTS] Tasks;
-
 --  Current store for all quotes.
 CREATE TABLE IF NOT EXISTS main.Quotes (
   ID      INT         PRIMARY KEY NOT NULL,

@@ -36,8 +36,13 @@ export def ls [] -> list {
   return ((git ls-files --exclude-standard ':!:.vs/*' ':!:*.json' ':!:*.css' ':!:.gitignore' ':!:*.md') | split row "\n")
 }
 
-export def com [changes: list<string>] -> string {
-  let msg = (update msg -c $changes)
+export def com [changes?: list<string>] -> string {
+  mut msg = null
+  if ($changes == null) {
+    $msg = (update msg)
+  } else {
+    $msg = (update msg -c $changes)
+  }
   git commit -m $msg
 }
 
@@ -54,7 +59,7 @@ export def com [changes: list<string>] -> string {
 export def "update msg" [
   --changes (-c): list<string>  # List of change comments.
   ] {
-  mut msg = $'Updated: ((date now | format date "%t%F%n%t%t%T"))'
+  mut msg = $'Updated: ((date now | format date "%t%F%n%T"))'
   $msg = $msg ++ "\n\nChanges:\n"
   if $changes != null {
     for $i in $changes {

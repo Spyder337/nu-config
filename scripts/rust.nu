@@ -5,7 +5,7 @@
 # - Serde
 # - Serde_json
 # - Lazy_static
-export def "crates_defaults" [] {
+export def "init defaults" [] {
   cargo add dirs_next
   cargo add serde --features derive
   cargo add serde_json
@@ -13,16 +13,16 @@ export def "crates_defaults" [] {
 }
 
 # Adds basic crates and tokio.
-export def "crates_async" [] {
-  crates_defaults
+export def "init async" [] {
+  init defaults
   cargo add tokio --features full
 }
 
 # Adds basic, tokio, reqwest and optionally select.
-export def "crates_web" [
+export def "init web" [
   --parsing (-p)  # Adds the select crate for html parsing.
   ] {
-  crates_async
+  init async
   cargo add reqwest
   if $parsing {
     cargo add select

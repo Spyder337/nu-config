@@ -6,7 +6,7 @@ export def main [] -> string {
   # The welcome line ansi
   let w_c = strings hex_to_ansi $env.Themes.dark.secondary-500.Code
   # The daily quote
-  let q = (database daily_quote)
+  let q = (database get daily quote)
   
   mut msg = $"Welcome (ansi -e $w_c)($env.GitHubUserName)(ansi reset)!"
   $msg = $msg ++ $"\n\n(date msg $w_c)"

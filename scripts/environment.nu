@@ -24,8 +24,7 @@ export-env {
 	$env.DatabasePath = ([$env.NU_Path, "data", "env.db"] | path join)
 	$env.Database = (stor import -f $env.DatabasePath)
 
-	load-env (($"($env.Nu_Path)/data/env.json" | open).Env | into record)
-
+	env database
 	$env.Personal_Repos = ([$env.REPO_DIR, $env.GitHubUserName] | path join)
 }
 
@@ -50,6 +49,17 @@ export def --env main [
 		z_oxide
 		completions
 	}
+}
+
+def --env "env database" [] {
+	mut vars = $env.Database | query db "SELECT KEY as Key, VALUE as Value from Env" | each {|i|
+		{$'($i.Key)':$i.Value}
+	} | into record
+	let themes = ($vars | get "Themes" | from json | into record)
+	let games = ($vars | get "Games" | from json | into record)
+	$vars = $vars | update "Themes" $themes
+	$vars = $vars | update "Games" $games
+	load-env $vars
 }
 
 export def cd [path?: string] -> none {

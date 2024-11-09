@@ -1,3 +1,8 @@
+export def refresh [] {
+  rm ($env.DatabasePath)
+  stor export -f ($env.DatabasePath)
+}
+
 export def convert_quotes [] -> none {
   let quotes = (([$env.Nu_Path, "data", "quotes.json"] | path join) | open | into record)
   let keys = $quotes | columns
@@ -11,9 +16,7 @@ export def convert_quotes [] -> none {
       $cnt = $cnt + 1
     }
   }
-  let inserted = (insert quotes $quotes)
-  rm ($env.DatabasePath)
-  stor export -f ($env.DatabasePath)
+  let inserted = (insert quotes -r $quotes)
   print $'Inserted Quotes: ($inserted)'
 }
 
@@ -33,8 +36,7 @@ QUOTE: string>>,
     }
   }
   if $refresh {
-    rm ($env.DatabasePath)
-    stor export -f ($env.DatabasePath)
+    refresh
   }
   return $cnt
 }
@@ -57,8 +59,7 @@ export def "insert quote" [quote: record<
   stor insert -t "Quotes" -d {ID: $idx, QUOTE: $quote.QUOTE, AUTHOR: $quote.AUTHOR}
   # If we need to update the database then update the file.
   if $refresh {
-    rm ($env.DatabasePath)
-    stor export -f ($env.DatabasePath)
+    refresh
   }
 }
 
@@ -91,11 +92,11 @@ def "random quote" [] {
 }
 
 # Returns the daily quote.
-export def daily_quote [] -> string {
+export def "get daily quote" [] -> string {
   let q = ($env.Database | query db "SELECT * FROM DailyQuote WHERE DOQ=:date" -p {date: (date now | format date "%F")})
   mut quote = {}
   if ($q | length)  == 0 {
-    $quote = generate_daily
+    $quote = generate daily
   } else {
     let i = ($q | first)
     $quote = (get quote -i $i.QUOTE_ID)
@@ -106,18 +107,18 @@ export def daily_quote [] -> string {
 }
 
 # Generates a new daily note.
-def generate_daily [] -> string {
+def "generate daily" [] -> string {
   let len =  ($env.Database | query db "SELECT * FROM DailyQuote") | length
   let qlen = ($env.Database | query db "SELECT * FROM Quotes") | length
   let qid = (random int 0..($qlen - 1))
   let q = ($env.Database | query db "SELECT * FROM Quotes WHERE ID=:id" -p {id: $qid}) | first
   let id = if $len == 0 {0} else {$len - 1}
   let r = {ID:$id, QUOTE_ID: $qid, DOQ: (date now | format date "%F")}
-  insert_daily $r -r
+  insert daily $r -r
   return $q
 }
 
-export def insert_daily [daily: record<
+def "insert daily" [daily: record<
   ID: int,
   QUOTE_ID: int,
   DOQ: string
@@ -126,12 +127,11 @@ export def insert_daily [daily: record<
 ] -> {
   stor insert -t DailyQuote -d $daily
   if $refresh {
-    rm ($env.DatabasePath)
-    stor export -f ($env.DatabasePath)
+    refresh
   }
 }
 
-export def update_quote [q_id: int] {
+export def "update quote" [q_id: int] {
 
 }
 
@@ -143,18 +143,24 @@ export def "insert env" [
   let envVar = {ID: $id, KEY: $val.Key, VALUE: $val.Value}
   stor insert -t Env -d $envVar
   if $refresh {
-    rm ($env.DatabasePath)
-    stor export -f ($env.DatabasePath)
+    refresh
   }
 }
 
-
-export def insert_task [task: record<
+# Insert a task record into the database.
+export def "insert task" [task: record<
   ID: int, 
   NAME: string, 
-  DESC: string, 
+  DESC: string,
+  TYPE: int, 
   CREATED: string, 
   DUE: string, 
-  COMPLETED: bool>] {
-
+  COMPLETED: bool>,
+  --refresh (-r)  # If enabled updates the env.db file
+  ] {
+  let id = ($env.Database | query db "SELECT * FROM Tasks" | length)
+  stor insert -t Tasks -d $task
+  if $refresh {
+    refresh
+  }
 }
