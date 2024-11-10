@@ -29,6 +29,7 @@ alias push = git push
 alias core-cd = cd
 # use environment cd
 # alias cd = environment cd
+alias tsc = npx tsc --pretty --outDir js
 alias cat = bat
 alias seed = random chars
 alias lf = rust files

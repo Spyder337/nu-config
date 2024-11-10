@@ -16,6 +16,7 @@ export-env {
 	$env.Cloned_Repos = ([$env.REPO_DIR, 'cloned'] | path join)
 	$env.Plans_Dir = ([$env.REPO_DIR, 'plans'] | path join)
 	$env.Notes_Dir = ('~\.vaults\notes' | path expand)
+	$env.Repos_Dir = ($env.REPO_DIR | path join "Spyder337")
 	$env.OMP_THEME = ($env.OMP_LocalTheme)
 	$env.NU_COMPLETION_DIR = ($env.CompletionsPath)
 	$env.CARGO_BIN = ('~\.cargo\bin' | path expand)
@@ -188,7 +189,9 @@ export def --env paths [
 		('~/.bin/zig' | path expand)
 		r#'C:\Program Files\Microsoft VS Code Insiders'# 
 		('~/.bin/sqlite' | path expand)
-	]
+		'C:\Users\spyder\AppData\Local\Microsoft\WinGet\Packages\Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe'
+		'C:\Users\spyder\AppData\Local\fnm_multishells\12344_1731155837176\'
+		]
 	let total = $paths | length
 	mut cnt = 0
 	mut added = 0

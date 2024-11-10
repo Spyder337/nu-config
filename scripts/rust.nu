@@ -29,6 +29,59 @@ export def "init web" [
   }
 }
 
+export def --env "new" [
+  --type (-t): string,
+  --crates (-c): string,
+  name: string,
+] {
+
+  let t = match $type {
+    "bin" => { 
+      cargo new $name --edition 2024 --type bin 
+    }
+    "lib" => {
+      cargo new $name --edition 2024 --type lib
+    }
+    null => {
+      cargo new $name --edition 2024
+    }
+    _ => {
+      print -e "Incorrect type. Valid: ['bin', 'lib']"
+      null
+    }
+  }
+
+  if $t == null {
+    return null
+  }
+
+  # Update Cargo.toml to be compatible with 2024 Rust
+  let old = $env.PWD
+  cd $name
+  mut text = 'cargo-features = ["edition2024"]'
+  $text = $text ++ "\n\n" ++ (open -r "Cargo.toml")
+  $text | save -f "Cargo.toml"
+  
+  # Handle adding any crates
+  let c = match $crates {
+    "basic" =>  {
+      (init defaults)
+    }
+    "async" =>  {
+      (init async)
+    }
+    "web"   =>  {
+      (init web)
+    }
+    _       =>  {
+      print -e "Incorrect selection. Valid selections: ['basic', 'async', 'web']"
+    }
+  }
+  
+  # Return to the parent directory
+  cd $old
+}
+
 # Outputs a list of files in a cargo workspace.
 # $env.PWD must be the workspace root.
 export def "files" [
