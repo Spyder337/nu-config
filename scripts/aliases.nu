@@ -4,7 +4,7 @@
 alias cdr = cd $env.Personal_Repos
 alias cdn = cd $env.Notes_Dir
 alias cdp = cd $env.Plans_Dir
-alias cfg = cd $env.NU_CONFIG
+alias cfg = cd $nu.default-config-dir
 
 ###################
 #   Git aliases   #
