@@ -1,11 +1,4 @@
 #########################
-#   Project Creation    #
-#########################
-alias cdc = rust crates_default
-alias cdac = rust crates_async
-alias cdwc = rust crates_web
-
-#########################
 #   Change Directory    #
 #########################
 alias cdr = cd $env.Personal_Repos
