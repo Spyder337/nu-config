@@ -85,24 +85,37 @@ Contains all of the misc scripts.
 
 ## Todo:
 
-- [x] Welcome message
-  - [x] Day of week command
-  - [x] Formatted dates
-- [x] Set the current theme inn omp-config.nu based on how init is called.
-  - [x] **Remote:** Predictable out path for a fetched theme.
-    - [x] Use curl to request the theme file.
-    - [x] Save the output to custom-theme.omp.json
-  - [x] If there is already a local file use that one.
-- [x] Basic completions
-  - [x] Easy completion management.
-- [x] Fetching `.gitignore` files.
-- [x] Rust cargo shortcuts for adding crates
-  - [x] Default
-  - [x] Async
-  - [x] Web
-- [x] Repo Commands
-  - [x] List all repos
+- [x] Environment
+  - [x] Welcome message
+    - [x] Day of week command
+    - [x] Formatted dates
+  - [x] Set the current theme inn omp-config.nu based on how init is called.
+    - [x] **Remote:** Predictable out path for a fetched theme.
+      - [x] Use curl to request the theme file.
+      - [x] Save the output to custom-theme.omp.json
+    - [x] If there is already a local file use that one.
+  - [ ] Task management
+    - [x] Storage
+    - [x] Creation
+    - [x] Duration filters
+    - [ ] Completed filters
+    - [ ] Displays
+      - [ ] Single task
+      - [ ] Multiple tasks
+- [x] Completions
+- [x] Git
+  - [x] Fetching `.gitignore` files.
+  - [x] Repo Commands
+    - [x] List all repos
+- [x] Rust
+  - [x] Crate Presets
+    - [x] Default
+    - [x] Async
+    - [x] Web
 - [x] Program Install
+  - [ ] NeoVim
+    - [ ] Windows: Winget
+    - [ ] Linux: Clone & Build
   - [x] Emacs
     - [x] Windows: Winget
     - [x] Linux: Clone & Build
