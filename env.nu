@@ -94,6 +94,7 @@ $env.NU_PLUGIN_DIRS = [
 # $env.PATH = ($env.PATH | uniq)
 
 use ./scripts/ *
-use ./scripts/core/ *
-use environment
+use ./scripts/lib/ *
+use ./scripts/qol/ *
+use ./scripts/lib/environment.nu
 environment

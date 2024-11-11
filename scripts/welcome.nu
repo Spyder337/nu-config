@@ -1,7 +1,7 @@
-use core/environment.nu
-use core/database.nu
-use core/strings.nu "format day"
-use core/strings.nu hex_to_ansi
+use lib/environment.nu
+use lib/database.nu
+use lib/strings.nu "format day"
+use lib/strings.nu hex_to_ansi
 # Displays the shell's welcome message.
 export def main [
   --clear (-c)  # Clears the screen before displaying the welcome message.  

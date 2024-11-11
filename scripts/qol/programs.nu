@@ -35,7 +35,7 @@ export def install_emacs [] {
   sudo make install
 }
 
-use web.nu fetch
+use ../lib/web.nu fetch
 # Fetches the python source page.
 export def fetch_python_source [] -> any {
   let url = "https://www.python.org/downloads/source/"

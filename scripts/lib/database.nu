@@ -169,14 +169,17 @@ export def "get task" [
   --all (-a),   # Gets all tasks from the database.
   id?: int      # Id must be present if the all flag is not used.
 ] {
-  if $all == null and $id == null {
-    print "Invalid flag and parameter combination. See help."
-    return null
-  } else if $all != null {
-    let res = $env.Database | query db "SELECT * FROM Tasks"
+  mut $res = [[];[]]
+  if not $all {
+    if $id == null {
+      print "Invalid flag and parameter combination. See help."
+      return null
+    } else {
+      $res = $env.Database | query db "SELECT * FROM Tasks WHERE ID=:id" -p {id:$id} | first
+      return ($res | into record)
+    }
+  } else {
+    $res = $env.Database | query db "SELECT * FROM Tasks"
     return $res
-  } else if $id != null {
-    let res = $env.Database | query db "SELECT * FROM Tasks WHERE ID=:id" -p {id:$id} | first
-    return ($res | into record)
   }
 }

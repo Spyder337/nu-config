@@ -1,9 +1,5 @@
-export use ./node.nu
-export use ./programs.nu
-export use ./rust.nu
 export use ./soulash.nu
 export use ./welcome.nu
-export use ./git.nu
-export use ./web.nu
 export use ./tasks.nu
-export use ./core/mod.nu
+export use ./lib/mod.nu
+export use ./qol/mod.nu

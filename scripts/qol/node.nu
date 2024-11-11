@@ -1,4 +1,4 @@
-use git.nu gitignore
+use gitn.nu gitignore
 
 export def --env "new" [
   --ts_enabled (-t), 

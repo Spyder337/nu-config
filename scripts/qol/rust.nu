@@ -74,7 +74,7 @@ export def --env "new" [
       (init web)
     }
     _       =>  {
-      print -e "Incorrect selection. Valid selections: ['basic', 'async', 'web']"
+      print "No crates added to the workspace."
     }
   }
   

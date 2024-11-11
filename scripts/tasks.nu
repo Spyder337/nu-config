@@ -1,5 +1,5 @@
-use ./core/database.nu
-use ./core/time.nu
+use ./lib/database.nu
+use ./lib/time.nu
 
 # Displays all current tasks or a task if an id is provided.
 export def main [id?: int] {
@@ -15,7 +15,7 @@ export def main [id?: int] {
 }
 
 # Create a new task
-export def new [] {
+export def --env new [] {
   let name = input "Task Name: "
   let desc = input "Task Desc: "
   let type = (input "Task Type: " | into int)

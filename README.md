@@ -29,32 +29,59 @@ Handles:
 - Aliases
 - Append global namespace
 
-### `configs/commands.nu`
+### `scripts/aliases.nu`
 
-Contains all of the custom commands for the shell.
+Contains all of the aliases for the shell. It was a module, however, module aliases are namespaced behind the module name. That's not very demure.
 
-### `configs/aliases.nu`
+### `scripts/core`
 
-Contains all of the custom aliases for the shell.
+Contains the main modules to interact with the environment, manipulate databases, etc.
+
+Modules:
+
+- Database: Environment database store interactions.
+- Environment: Editing environment settings.
+- Strings: Converts or formats data to strings.
+- Time: Gets a time/datetime string.
+
+### `scripts/qol`
+
+Contains all the extra functionality for comfort.
+
+Modules:
+
+- Git: Git QoL commands.
+- Node: Node QoL commands.
+- Programs: Program installation.
+- Rust: Rust QoL commands.
+
+### 'scripts'
+
+Contains all of the misc scripts.
+
+- Soulash: Entity querying.
+- Tasks: ToDo/Task management.
+- Welcome: Shell welcome display.
 
 ## Plugins
 
-0. `nu_plugin_compress`
-1. `nu_plugin_emoji`
-2. `nu_plugin_gstat`
-3. `nu_plugin_highlight`
-4. `nu_plugin_query`
+- `nu_plugin_compress`
+- `nu_plugin_emoji`
+- `nu_plugin_gstat`
+- `nu_plugin_highlight`
+- `nu_plugin_query`
+- `nu_plugin_regex`
 
 ## Completion Support
 
-- git
-- gh
-- cargo
-- rustup
-- vscode
-- ssh
-- curl
 - bat
+- cargo
+- curl
+- gh
+- git
+- rustup
+- ssh
+- vscode
 
 ## Todo:
 
