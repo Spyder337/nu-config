@@ -16,11 +16,11 @@ alias cfg = cd $env.NU_CONFIG
 ###################
 #   Git aliases   #
 ###################
-alias ivs = git gitignore "Visual Studio"
-alias irs = git gitignore "Rust"
+alias ivs = gitn gitignore "Visual Studio"
+alias irs = gitn gitignore "Rust"
 alias gc = git clone --depth=1
 alias add = git add .
-alias com = git com
+alias com = gitn com
 alias push = git push
 
 #####################
