@@ -900,17 +900,8 @@ $env.config = {
     ]
 }
 
-# use completions *
-# use scripts *
-# use scripts/core *
-# use web google
-# use git "update msg"
-# use database *
-# use welcome
-
 source ./configs/.zoxide.nu
 source ./configs/oh-my-posh\omp-config.nu
 source ./scripts/aliases.nu
 
 welcome -c
-

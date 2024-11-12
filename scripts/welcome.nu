@@ -1,13 +1,13 @@
 use lib/environment.nu
 use lib/database.nu
 use lib/strings.nu "format day"
-use lib/strings.nu hex_to_ansi
+use lib/strings.nu escape
 # Displays the shell's welcome message.
 export def main [
   --clear (-c)  # Clears the screen before displaying the welcome message.  
 ] -> none {
   # The welcome line ansi
-  let w_c = hex_to_ansi $env.Themes.dark.secondary-500.Code
+  let w_c = escape -f ($env.Themes.dark.secondary-500.Code)
   # The daily quote
   let q = (database get daily quote)
   

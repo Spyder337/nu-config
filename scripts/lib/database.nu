@@ -51,7 +51,7 @@ export def "insert quote" [quote: record<
   # If the id for the quote is out of bounds generate a new one.
   mut idx = -1
   if $quote.ID == -1 {
-    $idx = ($env.Database | query db "SELECT * FROM Quotes") | length
+    $idx = ($env.Database | query db "SELECT COUNT(*) FROM Quotes").0."COUNT(*)"
   } else {
     $idx = $quote.ID
   }
@@ -86,12 +86,12 @@ export def "get quote" [
 # 2. AUTHOR
 # 3. QUOTE
 def "random quote" [] {
-  let len = ($env.Database | query db "SELECT * FROM Quotes") | length
+  let len = ($env.Database | query db "SELECT COUNT(*) FROM Quotes").0."COUNT(*)"
   let id = random int 0..($len - 1)
   return (get quote -i $id)
 }
 
-# Returns the daily quote.
+# Returns the daily quote as a formatted string.
 export def "get daily quote" [] -> string {
   let q = ($env.Database | query db "SELECT * FROM DailyQuote WHERE DOQ=:date" -p {date: (date now | format date "%F")})
   mut quote = {}
@@ -109,7 +109,7 @@ export def "get daily quote" [] -> string {
 # Generates a new daily note.
 def "generate daily" [] -> string {
   let len =  ($env.Database | query db "SELECT * FROM DailyQuote") | length
-  let qlen = ($env.Database | query db "SELECT * FROM Quotes") | length
+  let qlen = ($env.Database | query db "SELECT COUNT(*) FROM Quotes").0."COUNT(*)"
   let qid = (random int 0..($qlen - 1))
   let q = ($env.Database | query db "SELECT * FROM Quotes WHERE ID=:id" -p {id: $qid}) | first
   let id = if $len == 0 {0} else {$len - 1}
@@ -118,6 +118,8 @@ def "generate daily" [] -> string {
   return $q
 }
 
+# Insert a new daily quote entry.
+# Used to generate the daily quote only.
 def "insert daily" [daily: record<
   ID: int,
   QUOTE_ID: int,
@@ -131,8 +133,27 @@ def "insert daily" [daily: record<
   }
 }
 
-export def "update quote" [q_id: int] {
-
+# Updates a quote with the new values provided in the record.
+#
+# The keys in data must match the columns for Quotes.
+# - ID
+# - AUTHOR
+# - QUOTE
+export def "update quote" [
+  q_id: int,      # Quote id.
+  data: record,   # Record containing the keys to update for the quote.
+] {
+  let keys = $data | columns
+  mut queryStr = $""
+  for $key in $keys {
+    if ($key == ($keys | last)) {
+      $queryStr = $queryStr ++ " = " ++ $key
+    } else {
+      $queryStr = $queryStr ++ " = " ++ $key ++ ", \n"
+    }
+  }
+  $queryStr = $"UPDATE Quotes ($queryStr) WHERE ID=:id"
+  let res = ($env.Database | query db $queryStr -p {id: $q_id})
 }
 
 export def "insert env" [

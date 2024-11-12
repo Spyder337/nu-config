@@ -27,6 +27,7 @@ export-env {
 
 	env database
 	$env.Personal_Repos = ([$env.REPO_DIR, $env.GitHubUserName] | path join)
+	$env.Themes2 = open ([$nu.default-config-dir, "data", "colors.nu"] | path join)
 }
 
 #	Initializes environment variables.
@@ -53,7 +54,7 @@ export def --env main [
 }
 
 def --env "env database" [] {
-	mut vars = $env.Database | query db "SELECT KEY as Key, VALUE as Value from Env" | each {|i|
+	mut vars = $env.Database | query db "SELECT KEY as Key, VALUE as Value FROM Env" | each {|i|
 		{$'($i.Key)':$i.Value}
 	} | into record
 	let themes = ($vars | get "Themes" | from json | into record)

@@ -1,12 +1,27 @@
-# Converts hex strings to an ansi format.
-export def hex_to_ansi [foreground: string, background: string = "", attr: string = ""] -> record {
+# Converts hex strings to an ansi escape format.
+# 
+# If no flags are provided then an empty record is returned.
+# Common Attributes:
+# 0:   : Reset
+# 1: b : Bold
+# 2: d : Faint
+# 3: i : Italic
+# 4: u : Underline
+# 9: s : Strikethrough
+export def escape [
+  --foreground (-f): string
+  --background (-b): string
+  --attribute (-a): string
+] -> record {
   mut $r = {}
-  $r = $r | insert fg $foreground
-  if (($background | str length ) >= 1) {
+  if $foreground != null {
+    $r = $r | insert fg $foreground
+  }
+  if ($background != null) {
     $r = $r | insert bg $background
   }
-  if (($attr | str length ) >= 1) {
-    $r = $r | insert attr $attr
+  if $attribute != null {
+    $r = $r | insert attr $attribute
   }
   return $r
 }
@@ -32,7 +47,7 @@ export def css_to_nushell [theme: string] -> record {
     } else {
       let name = ($val | regex '([a-z|0-9]+\-*([0-9]*))').match | first
       let hex_code = ($val | regex "#([a-f|0-9]{1,6})").match | first
-      let vis = $'(ansi -e (hex_to_ansi $hex_code))(char --unicode "2B1B")(ansi reset)'
+      let vis = $'(ansi -e (escape -f $hex_code))(char --unicode "2B1B")(ansi reset)'
       $rec = $rec | insert $name { Code: $hex_code, Appearance: $vis }
     }
   }

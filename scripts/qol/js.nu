@@ -1,8 +1,8 @@
 use gitn.nu gitignore
 
 export def --env "new" [
-  --ts_enabled (-t), 
-  --es_lint_enabled (-e),
+  --ts_enabled (-t),        # If provided adds typescript to the project.
+  --es_lint_enabled (-e),   # If provided adds es lint to the project.
   name?: string             # If provided creates a directory.
   ] {
 
@@ -39,7 +39,6 @@ export def --env "new" [
     # touch "index.ts"
     
   }
-
 
   # TODO: Make this step less painful.
   # There must be a way to load in presets.

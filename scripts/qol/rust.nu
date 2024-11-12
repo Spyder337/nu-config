@@ -30,9 +30,9 @@ export def "init web" [
 }
 
 export def --env "new" [
-  --type (-t): string,
-  --crates (-c): string,
-  name: string,
+  --type (-t): string,      # Type of crate. Values: [bin, lib]
+  --crates (-c): string,    # Crate preset to include: [basic, async, web]
+  name: string,             # Name of the new crate
 ] {
 
   let t = match $type {

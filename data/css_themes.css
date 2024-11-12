@@ -6,6 +6,14 @@
   --accent: #da52a8;
 }
 
+:root[data-theme="vibrant"] {
+  --text: #FFFFFF;
+  --background: #10061b;
+  --primary: #E83A9D;
+  --secondary: #804074;
+  --accent: #FF0090;
+}
+
 :root[data-theme="light"] {
   --text-50: #f1eafb;
   --text-100: #e3d5f6;
@@ -68,6 +76,7 @@
   --accent-950: #15040f;
 
 }
+
 :root[data-theme="dark"] {
   --text-50: #0b0415;
   --text-100: #17092a;
