@@ -1,4 +1,4 @@
-export def refresh [] {
+export def refresh [] -> none {
   rm ($env.DatabasePath)
   stor export -f ($env.DatabasePath)
 }
@@ -203,4 +203,40 @@ export def "get task" [
     $res = $env.Database | query db "SELECT * FROM Tasks"
     return $res
   }
+}
+
+# Updates a task with new values.
+# 
+# Valid Keys
+# ID
+# NAME
+# DESC
+# CREATED
+# DUE
+# COMPLPETED
+export def "update task" [
+    id: int         # Id of the task to update.
+    data: record    # Record containing the columns to update.
+  ] {
+  stor update -t Tasks -u $data -w $"ID = ($id)"
+  refresh
+}
+
+export def getTasks [
+  --complete
+  --incomplete
+] {
+  if ($incomplete and $complete) {
+    print "Incompatible flags. --incomplete and --complete are mutually exclusive."
+    return null
+  }
+  
+  mut query = ""
+  if $incomplete {
+    $query = $query ++ "WHERE COMPLETED = 0"
+  } else if $complete {
+    $query = $query ++ "WHERE COMPLETED = 1"
+  }
+  mut tasks = $env.Database | query db $"SELECT * FROM Tasks ($query)"
+  $tasks
 }

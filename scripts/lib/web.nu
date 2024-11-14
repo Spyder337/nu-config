@@ -5,7 +5,7 @@
 # + => And operator
 # - => Not operator
 # "" => Exact match
-#
+#      
 # Flags:
 # - verbose (v): Prints extra information.
 # - website (w): Limits search to a website or domain.
