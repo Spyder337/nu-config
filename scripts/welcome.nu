@@ -2,6 +2,7 @@ use lib/environment.nu
 use lib/database.nu
 use lib/strings.nu "format day"
 use lib/strings.nu escape
+use tasks.nu
 # Displays the shell's welcome message.
 export def main [
   --clear (-c)  # Clears the screen before displaying the welcome message.  
@@ -18,6 +19,7 @@ export def main [
     clear -k
   }
   print $msg
+  tasks week
 }
 
 # Outputs a message with the current date.

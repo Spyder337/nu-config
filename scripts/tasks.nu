@@ -98,7 +98,7 @@ def within [
   $tasks = $tasks | where {|t|
     let due = $t.DUE | into datetime
     # print $"DUE: ($due)\nEND: ($end)\n"
-    ($due <= $end) and ($due >= (date now)) 
+    ($due <= $end) and ($due >= $start) 
   }
   print $timeframe
   $tasks
