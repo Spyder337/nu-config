@@ -18,6 +18,8 @@ export def main [
       $tasks = database getTasks --incomplete
     } else if $complete {
       $tasks = database getTasks --complete
+    } else {
+      $tasks = database getTasks
     }
     for $t in $tasks {
       print (display ($t | into record))
@@ -89,7 +91,7 @@ def display [task: record<ID: int, DESC: string, NAME: string, CREATED: string, 
 def within [
   dur: duration
   ] -> list<record> {
-  mut tasks = $env.Database | query db "SELECT * FROM Tasks"
+  mut tasks = database getTasks
   let start = (date now)
   let end = $start + $dur
   let timeframe = [["Start" "End"]; [(time $start) (time $end)] [($start | format date "%T") ($end | format date "%T")]]
