@@ -5,5 +5,6 @@ plugin/
 plugins/
 .vs/
 .vscode/
+configs/
 configs/.zoxide.nu
 configs/oh-my-posh/
