@@ -6,14 +6,12 @@ export def refresh [] -> none {
 export def convert_quotes [] -> none {
   let quotes = (([$env.Nu_Path, "data", "quotes.json"] | path join) | open | into record)
   let keys = $quotes | columns
-  mut cnt = 0;
   mut quotes  = []
   for $key in $keys {
     let author = $key
     let qlen = $quotes | get $key | length
     for $quote in ($quotes | get $key) {
-      $quotes = $quotes ++ {"ID": $cnt, "AUTHOR": $author, "QUOTE": $quote}
-      $cnt = $cnt + 1
+      $quotes = $quotes ++ {"AUTHOR": $author, "QUOTE": $quote}
     }
   }
   let inserted = (insert quotes -r $quotes)
@@ -43,20 +41,13 @@ QUOTE: string>>,
 
 # Inserts a quote into the sqlite database.
 export def "insert quote" [quote: record<
-  ID: int, 
   AUTHOR: string, 
   QUOTE: string>,
   --refresh (-r)  # If enabled updates the env.db file
   ] {
   # If the id for the quote is out of bounds generate a new one.
-  mut idx = -1
-  if $quote.ID == -1 {
-    $idx = ($env.Database | query db "SELECT COUNT(*) FROM Quotes").0."COUNT(*)"
-  } else {
-    $idx = $quote.ID
-  }
   # Combine the new id with the old data and insert it in the table.
-  stor insert -t "Quotes" -d {ID: $idx, QUOTE: $quote.QUOTE, AUTHOR: $quote.AUTHOR}
+  stor insert -t "Quotes" -d {QUOTE: $quote.QUOTE, AUTHOR: $quote.AUTHOR}
   # If we need to update the database then update the file.
   if $refresh {
     refresh
@@ -112,8 +103,7 @@ def "generate daily" [] -> string {
   let qlen = ($env.Database | query db "SELECT COUNT(*) FROM Quotes").0."COUNT(*)"
   let qid = (random int 0..($qlen - 1))
   let q = ($env.Database | query db "SELECT * FROM Quotes WHERE ID=:id" -p {id: $qid}) | first
-  let id = if $len == 0 {0} else {$len - 1}
-  let r = {ID:$id, QUOTE_ID: $qid, DOQ: (date now | format date "%F")}
+  let r = {QUOTE_ID: $qid, DOQ: (date now | format date "%F")}
   insert daily $r -r
   return $q
 }
@@ -121,7 +111,6 @@ def "generate daily" [] -> string {
 # Insert a new daily quote entry.
 # Used to generate the daily quote only.
 def "insert daily" [daily: record<
-  ID: int,
   QUOTE_ID: int,
   DOQ: string
 >,
@@ -160,17 +149,42 @@ export def "insert env" [
   val: record<Key: string, Value: string>
   --refresh (-r) # If enabled updates the env.db file
 ] {
-  let id = ($env.Database | query db "SELECT * FROM Env" | length)
-  let envVar = {ID: $id, KEY: $val.Key, VALUE: $val.Value}
+  let envVar = {KEY: $val.Key, VALUE: $val.Value}
   stor insert -t Env -d $envVar
   if $refresh {
     refresh
   }
 }
 
+# Get environment variable by a column and a value.
+export def "get env" [
+  query?: record<Key: string, Val: string>   # COLUMN and value to filter by.
+] -> {
+  mut qStr = $"SELECT * FROM"
+
+  if $query != null {
+    $qStr = $qStr ++ $" WHERE ($query.Key) = ($query.Val)"
+  }
+
+  let res = $env.Database | query db $qStr
+  if ($res | is-empty) {
+    return null
+  } else {
+    return ($res | first)
+  }
+}
+
+export def "count" [table: string, condition?: string] {
+  mut query = $"SELECT COUNT\(*\) FROM ($table)"
+  if $condition != null {
+    $query = $query ++ $" WHERE ($condition)"
+  }
+  let res = $env.Database | query db $query
+  return $res."COUNT(*)".0
+}
+
 # Insert a task record into the database.
 export def "insert task" [task: record<
-  ID: int, 
   NAME: string, 
   DESC: string,
   TYPE: int, 
@@ -178,11 +192,16 @@ export def "insert task" [task: record<
   DUE: string, 
   COMPLETED: bool>,
   --refresh (-r)  # If enabled updates the env.db file
-  ] {
-  stor insert -t Tasks -d $task
-  if $refresh {
-    refresh
-  }
+  ] -> bool {
+    try {
+      stor insert -t Tasks -d $task
+      if $refresh {
+        refresh
+      }
+      return true
+    } catch {
+      return false
+    }
 }
 
 # Gets a specific task or all.
@@ -196,8 +215,11 @@ export def "get task" [
       print "Invalid flag and parameter combination. See help."
       return null
     } else {
-      $res = $env.Database | query db "SELECT * FROM Tasks WHERE ID=:id" -p {id:$id} | first
-      return ($res | into record)
+      $res = $env.Database | query db "SELECT * FROM Tasks WHERE ID=:id" -p {id:$id}
+      if ($res | is-empty) {
+        return null
+      }
+      return ($res | first | into record)
     }
   } else {
     $res = $env.Database | query db "SELECT * FROM Tasks"
@@ -217,14 +239,20 @@ export def "get task" [
 export def "update task" [
     id: int         # Id of the task to update.
     data: record    # Record containing the columns to update.
-  ] {
-  stor update -t Tasks -u $data -w $"ID = ($id)"
-  refresh
+  ] -> bool {
+  try {
+    stor update -t Tasks -u $data -w $"ID = ($id)"
+    refresh
+    return true
+  } catch {
+    return false
+  }
 }
 
+# Returns all tasks with flags to filter completed.
 export def getTasks [
-  --complete
-  --incomplete
+  --complete      # If set returns the completed tasks
+  --incomplete    # If set returns the incomplete tasks
 ] {
   if ($incomplete and $complete) {
     print "Incompatible flags. --incomplete and --complete are mutually exclusive."
@@ -239,4 +267,15 @@ export def getTasks [
   }
   mut tasks = $env.Database | query db $"SELECT * FROM Tasks ($query)"
   $tasks
+}
+
+# Removes a task from the database if it exists.
+export def "delete task" [id: int] -> bool {
+  try {
+    stor delete -t Tasks -w $"ID = ($id)"
+    refresh
+    return true
+  } catch {
+    return false
+  }
 }

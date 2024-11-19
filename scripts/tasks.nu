@@ -1,5 +1,6 @@
 use ./lib/database.nu
 use ./lib/time.nu
+use ./lib/strings.nu [encode escape]
 
 # Displays all current tasks or a task if an id is provided.
 export def main [
@@ -26,6 +27,10 @@ export def main [
     }
   } else {
     let t = (database get task $id)
+    if ($t == null) {
+      print $"Could not find a task with ID=($id)"
+      return null
+    }
     print (display ($t | into record))
   }
 }
@@ -38,8 +43,7 @@ export def --env new [] {
   let created = $'(date now | format date "%F %T")'
   let due = (input "Due date (YYYY-MM-DD HH:mm:ss): ")
   let completed = (input "Completed (true|false): " | into bool)
-  let id = (database get task -a | length)
-  let rec = {ID:$id, NAME:$name, DESC:$desc, TYPE:$type, CREATED:$created, DUE:$due, COMPLETED:$completed}
+  let rec = {NAME:$name, DESC:$desc, TYPE:$type, CREATED:$created, DUE:$due, COMPLETED:$completed}
   stor insert -t Tasks -d $rec
   database refresh
   return null
@@ -66,25 +70,32 @@ export def year [] {
 # Marks a task as completed.
 export def mark [
   id: int   # Task to mark.
-  ] {
+  ] -> none {
   database update task $id {COMPLETED: 1}
 }
 
 # Marks a task as incomplete.
 export def unmark [
   id: int   # Task to unmark.
-  ] {
+  ] -> none {
   database update task $id {COMPLETED: 0}
+}
+
+export def remove [id: int] {
+  database delete task $id
 }
 
 def display [task: record<ID: int, DESC: string, NAME: string, CREATED: string, DUE: string, COMPLETED: int, TYPE: int>] {
   let com = if $task.COMPLETED == 0 {char -u "274E"} else {char -u "2705"}
   let due = ($task.DUE | format date "%A, %B, %d%n%tAt %T")
-  mut $msg = ""
-  $msg = $msg ++ $"Task \(($task.ID)\): ($task.NAME)\n"
-  $msg = $msg ++ $"Desc: ($task.DESC)\n"
-  $msg = $msg ++ $"Due: ($due)\n"
-  $msg = $msg ++ $"Completed: ($com)\n"
+  let label = escape --foreground "#FFFFFF"
+  let content = escape --foreground "#FFBBFF"
+  mut $msg = "\n"
+  $msg = $msg ++ $'(encode $label $"Task \(($task.ID)\): ")'
+  $msg = $msg ++ $'(encode $content $task.NAME)' ++ "\n"
+  $msg = $msg ++ (encode $label $"Desc: ") ++ (encode $content $task.DESC) ++ "\n"
+  $msg = $msg ++ (encode $label $"Due: ") ++ (encode $content $task.DUE) ++ "\n"
+  $msg = $msg ++ (encode $label $"Completed: ") ++ ($com)
   return $msg
 }
 

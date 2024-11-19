@@ -2,6 +2,7 @@ use lib/environment.nu
 use lib/database.nu
 use lib/strings.nu "format day"
 use lib/strings.nu escape
+use lib/strings.nu encode
 use tasks.nu
 # Displays the shell's welcome message.
 export def main [
@@ -13,7 +14,7 @@ export def main [
   let q = (database get daily quote)
   
   mut msg = $"Welcome (ansi -e $w_c)($env.GitHubUserName)(ansi reset)!"
-  $msg = $msg ++ $"\n\n(date msg $w_c)"
+  $msg = $msg ++ $"\n\n(main date $w_c)"
   $msg = $msg ++ $"\n\n($q)"
   if $clear {
     clear -k
@@ -27,7 +28,7 @@ export def main [
 # Format:
 # Today is {day} the {day_fmt} of {month}.
 # The Date is {mm-dd-yyyy}.
-export def "date msg" [
+export def "main date" [
   highlight_code?: record  # Represents an ansi encoding. Fields fg, bg, attr.
   ] -> string {
   # The day as a padded integer string
@@ -41,11 +42,12 @@ export def "date msg" [
   let date = (date now | format date "%m-%d-%Y")
   mut msg = ""
   if $highlight_code != null {
-    $msg = $'Today is (ansi -e $highlight_code)($weekDay)(ansi reset) the (ansi -e $highlight_code)($d)(ansi reset) of (ansi -e $highlight_code)($month)(ansi reset).
-The date is (ansi -e $highlight_code)($date)(ansi reset).'
+    $msg = $'Today is (encode $highlight_code $weekDay) the '
+    $msg = $msg ++ $"(encode $highlight_code $d) of (encode $highlight_code $month)."
+    $msg = $msg ++ "\n" ++ $"The date is (encode $highlight_code $date)."
   } else {
-    $msg = $'Today is ($weekDay) the ($d) of ($month).
-The date is ($date).'
+    $msg = $'Today is ($weekDay) the ($d) of ($month).'
+    $msg = $msg ++ "\n" ++ $'The date is ($date).'
   }
   return $msg
 }

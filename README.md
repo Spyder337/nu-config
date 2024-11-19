@@ -94,14 +94,15 @@ Contains all of the misc scripts.
       - [x] Use curl to request the theme file.
       - [x] Save the output to custom-theme.omp.json
     - [x] If there is already a local file use that one.
-  - [ ] Task management
+  - [x] Task management
     - [x] Storage
     - [x] Creation
     - [x] Duration filters
-    - [ ] Completed filters
-    - [ ] Displays
-      - [ ] Single task
-      - [ ] Multiple tasks
+    - [x] Completed filters
+    - [x] Displays
+      - [x] Single task
+      - [x] Multiple tasks
+      - [ ] Nested Tasks
 - [x] Completions
 - [x] Git
   - [x] Fetching `.gitignore` files.

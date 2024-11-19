@@ -1,6 +1,9 @@
 # Converts hex strings to an ansi escape format.
 # 
 # If no flags are provided then an empty record is returned.
+# 
+# Color Codes are in '#FFFFFF' format.
+# 
 # Common Attributes:
 # 0:   : Reset
 # 1: b : Bold
@@ -8,10 +11,10 @@
 # 3: i : Italic
 # 4: u : Underline
 # 9: s : Strikethrough
-export def escape [
-  --foreground (-f): string
-  --background (-b): string
-  --attribute (-a): string
+export def "escape" [
+  --foreground (-f): string   # Text color.
+  --background (-b): string   # Background color.
+  --attribute (-a): string    # Text Attribute
 ] -> record {
   mut $r = {}
   if $foreground != null {
@@ -24,6 +27,14 @@ export def escape [
     $r = $r | insert attr $attribute
   }
   return $r
+}
+
+# Encodes a string with the ANSI code provided.
+export def "encode" [
+  esc: record     # ANSI Escape Code.
+  str: string     # Text to encode.
+] -> string {
+  $"(ansi -e $esc)($str)(ansi reset)"
 }
 
 # Converts a css theme into a record for ansi.
