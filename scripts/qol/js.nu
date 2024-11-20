@@ -43,7 +43,7 @@ export def --env "new" [
   # TODO: Make this step less painful.
   # There must be a way to load in presets.
   if $es_lint_enabled {
-    print "\(8/($steps)\) Installing ES Lint..."
+    print $"\(8/($steps)\) Installing ES Lint..."
     npm init "@eslint/config@latest" --config eslint-config-standard
   }
 

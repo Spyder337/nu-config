@@ -10,12 +10,11 @@ export def main [
     } else {
       $str = ((date now) | format date "%F")
     }
+  }
+  if $full {
+    $str = ($date | format date "%F %T")
   } else {
-    if $full {
-      $str = ($date | format date "%F %T")
-    } else {
-      $str = ($date | format date "%F")
-    }
+    $str = ($date | format date "%F")
   }
   return $str
 }

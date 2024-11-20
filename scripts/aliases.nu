@@ -1,3 +1,5 @@
+use lib/web.nu google
+
 #########################
 #   Change Directory    #
 #########################
@@ -32,5 +34,6 @@ alias edit = code-insiders
 alias obsidian = exec r#'C:\Users\spyder\AppData\Local\Programs\Obsidian\Obsidian.exe'#
 alias emacs = exec r#'C:\Program Files\Emacs\emacs-29.2\bin\emacs.exe'#
 alias gs = google
-alias ys = google -w "www.youtube.com"
+alias ys = google -w "youtube.com"
+alias ghs = google -w "github.com"
 alias clr = clear -k
