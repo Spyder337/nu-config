@@ -905,3 +905,5 @@ source ./configs/oh-my-posh\omp-config.nu
 source ./scripts/aliases.nu
 
 welcome -c
+source ./completions/rg-completions.nu
+source ./completions/winget-completions.nu

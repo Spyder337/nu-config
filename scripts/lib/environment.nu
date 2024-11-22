@@ -28,6 +28,7 @@ export-env {
 	env database
 	$env.Personal_Repos = ([$env.REPO_DIR, $env.GitHubUserName] | path join)
 	$env.Themes2 = open ([$nu.default-config-dir, "data", "colors.nuon"] | path join)
+	$env.NeoVim = ('~/AppData/Local/nvim' | path expand)
 }
 
 #	Initializes environment variables.
@@ -133,9 +134,11 @@ def completions [
 		"https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/cargo/cargo-completions.nu"
 		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/bat/bat-completions.nu"
 		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/rustup/rustup-completions.nu"
-		#"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/vscode/vscode-completions.nu"
+		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/vscode/vscode-completions.nu"
 		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/ssh/ssh-completions.nu"
 		"https://github.com/nushell/nu_scripts/raw/refs/heads/main/custom-completions/curl/curl-completions.nu"
+		"https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/rg/rg-completions.nu"
+		"https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/custom-completions/winget/winget-completions.nu"
 	]
 	
 	let config_txt = ($nu.config-path | open)
@@ -192,6 +195,7 @@ export def --env paths [
 		('~/.bin/sqlite' | path expand)
 		'C:\Users\spyder\AppData\Local\Microsoft\WinGet\Packages\Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe'
 		'C:\Users\spyder\AppData\Local\fnm_multishells\12344_1731155837176\'
+		('~/.bin/luarocks-3.11.1-windows-64' | path expand)
 		]
 	let total = $paths | length
 	mut cnt = 0
