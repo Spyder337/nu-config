@@ -20,7 +20,6 @@ export def convert_quotes [] -> none {
 
 # Inserts a list of quotes into the database.
 export def "insert quotes" [quotes: list<record<
-ID: int, 
 AUTHOR: string, 
 QUOTE: string>>,
 --refresh (-r)  # If enabled updates the env.db file
@@ -95,6 +94,38 @@ export def "get daily quote" [] -> string {
     
   return $"\"($quote.QUOTE)\"
   - ($quote.AUTHOR)"
+}
+
+# Returns a record counting occurences of a daily quote.
+export def "daily quotes" [] {
+  let items = ($env.Database.DailyQuote.QUOTE_ID)
+  mut res = []
+  # Keys shares indexes with the list of records.
+  # This lets us get the index of a key by searching for it.
+  mut keys = []
+  # For every entry in Database.DailyQuote
+  # - If the id hasn't been added, add it.
+  # - Else update the record in the list.
+  for i in $items {
+    if ($keys | find $i | is-empty) {
+      $keys = $keys ++ $i
+      $res = $res ++ {ID: $i, COUNT: 1}
+    } else {
+      mut idx = 0
+      # Find index in the list of records by finding the index in keys.
+      for j in 0..(($keys | length) - 1) {
+        if (($keys | get $j) == $i) {
+          $idx = $j
+        }
+      }
+      # Increment COUNT for the record
+      mut rec = ($res | where {$in.ID == $i} | first)
+      $rec.COUNT = $rec.COUNT + 1
+      # Use the index to update the record.
+      $res = $res | update $idx $rec
+    }
+  }
+  $res
 }
 
 # Generates a new daily note.
