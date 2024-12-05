@@ -3,8 +3,8 @@ use std "path add"
 # - (strings css_to_nushell ($"($NU_PATH)/configs/css_themes.css" | open))
 
 export-env {
-	$env.Nu_Path = ('~/AppData/Roaming/nushell' | path expand)
-	$env.Nu_ConfigPath = ('~\AppData\Roaming\nushell\configs' | path expand)
+	$env.Nu_Path = $nu.default-config-dir
+	$env.Nu_ConfigPath = ([$env.Nu_Path, "configs"] | path join)
 	$env.OMP_DirPath = ([$env.Nu_ConfigPath, 'oh-my-posh'] | path join)
 	# This section is dedicated to initializing oh-my-posh.
 	# This is the location to the oh-my-posh main config file.
@@ -22,13 +22,11 @@ export-env {
 	$env.CARGO_BIN = ('~\.cargo\bin' | path expand)
 	$env.NU_CONFIG = ($env.Nu_ConfigPath)
 	$env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
-	$env.DatabasePath = ([$env.NU_Path, "data", "env.db"] | path join)
+	$env.DatabasePath = ([$nu.default-config-dir, "data", "env.db"] | path join)
 	$env.Database = (stor import -f $env.DatabasePath)
 
 	env database
 	$env.Personal_Repos = ([$env.REPO_DIR, $env.GitHubUserName] | path join)
-	$env.Themes2 = open ([$nu.default-config-dir, "data", "colors.nuon"] | path join)
-	$env.NeoVim = ('~/AppData/Local/nvim' | path expand)
 }
 
 #	Initializes environment variables.
@@ -63,15 +61,6 @@ def --env "env database" [] {
 	$vars = $vars | update "Themes" $themes
 	$vars = $vars | update "Games" $games
 	load-env $vars
-}
-
-export def cd [path?: string] -> none {
-	if $path == null {
-		^zi "."
-	}
-	else {
-		^zi $path
-	}
 }
 
 # Initialize Oh-my-posh
@@ -189,13 +178,13 @@ export def --env paths [
 ] {
 	let paths = [
 		('~/.cargo/bin' | path expand)
-		('~/.bin/go/bin' | path expand)
-		('~/.bin/zig' | path expand)
-		r#'C:\Program Files\Microsoft VS Code Insiders'# 
-		('~/.bin/sqlite' | path expand)
-		'C:\Users\spyder\AppData\Local\Microsoft\WinGet\Packages\Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe'
-		'C:\Users\spyder\AppData\Local\fnm_multishells\12344_1731155837176\'
-		('~/.bin/luarocks-3.11.1-windows-64' | path expand)
+		# ('~/.bin/go/bin' | path expand)
+		# ('~/.bin/zig' | path expand)
+		# r#'C:\Program Files\Microsoft VS Code Insiders'# 
+		# ('~/.bin/sqlite' | path expand)
+		# 'C:\Users\spyder\AppData\Local\Microsoft\WinGet\Packages\Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe'
+		# 'C:\Users\spyder\AppData\Local\fnm_multishells\12344_1731155837176\'
+		# ('~/.bin/luarocks-3.11.1-windows-64' | path expand)
 		]
 	let total = $paths | length
 	mut cnt = 0
