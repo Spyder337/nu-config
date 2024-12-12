@@ -3,8 +3,13 @@ use std "path add"
 # - (strings css_to_nushell ($"($NU_PATH)/configs/css_themes.css" | open))
 
 export-env {
+<<<<<<< Updated upstream
 	$env.Nu_Path = $nu.default-config-dir
 	$env.Nu_ConfigPath = ([$env.Nu_Path, "configs"] | path join)
+=======
+	$env.Nu_Path = ('~/AppData/Roaming/nushell' | path expand)
+	$env.Nu_ConfigPath = ('~/AppData/Roaming/nushell/configs' | path expand)
+>>>>>>> Stashed changes
 	$env.OMP_DirPath = ([$env.Nu_ConfigPath, 'oh-my-posh'] | path join)
 	# This section is dedicated to initializing oh-my-posh.
 	# This is the location to the oh-my-posh main config file.
@@ -12,14 +17,14 @@ export-env {
 	# The location on the disk where the theme is located.
 	$env.OMP_LocalTheme = ([$env.OMP_DirPath, 'custom-theme.omp.json'] | path join)
 	$env.CompletionsPath = ([$env.Nu_Path, 'completions'] | path join)
-	$env.REPO_DIR = ('~\repos' | path expand)
+	$env.REPO_DIR = ('~/repos' | path expand)
 	$env.Cloned_Repos = ([$env.REPO_DIR, 'cloned'] | path join)
 	$env.Plans_Dir = ([$env.REPO_DIR, 'plans'] | path join)
-	$env.Notes_Dir = ('~\.vaults\notes' | path expand)
+	$env.Notes_Dir = ('~/.vaults/notes' | path expand)
 	$env.Repos_Dir = ($env.REPO_DIR | path join "Spyder337")
 	$env.OMP_THEME = ($env.OMP_LocalTheme)
 	$env.NU_COMPLETION_DIR = ($env.CompletionsPath)
-	$env.CARGO_BIN = ('~\.cargo\bin' | path expand)
+	$env.CARGO_BIN = ('~/.cargo/bin' | path expand)
 	$env.NU_CONFIG = ($env.Nu_ConfigPath)
 	$env.Z_OXIDE_PATH = ([$env.NU_CONFIG, ".zoxide.nu"] | path join)
 	$env.DatabasePath = ([$nu.default-config-dir, "data", "env.db"] | path join)
@@ -178,6 +183,7 @@ export def --env paths [
 ] {
 	let paths = [
 		('~/.cargo/bin' | path expand)
+<<<<<<< Updated upstream
 		# ('~/.bin/go/bin' | path expand)
 		# ('~/.bin/zig' | path expand)
 		# r#'C:\Program Files\Microsoft VS Code Insiders'# 
@@ -185,6 +191,16 @@ export def --env paths [
 		# 'C:\Users\spyder\AppData\Local\Microsoft\WinGet\Packages\Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe'
 		# 'C:\Users\spyder\AppData\Local\fnm_multishells\12344_1731155837176\'
 		# ('~/.bin/luarocks-3.11.1-windows-64' | path expand)
+=======
+		('~/.bin/go/bin' | path expand)
+		('~/.bin/zig' | path expand)
+		r#'C:\Program Files\Microsoft VS Code Insiders'# 
+		('~/.bin/sqlite' | path expand)
+		'C:/Users/spyder/AppData/Local/Microsoft/WinGet/Packages/Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe'
+		'C:/Users/spyder/AppData/Local/fnm_multishells/12344_1731155837176/'
+		('~/.bin/luarocks-3.11.1-windows-64' | path expand)
+		('~/.bin/llvm-mingw-20241119-ucrt-x86_64/bin' | path expand)
+>>>>>>> Stashed changes
 		]
 	let total = $paths | length
 	mut cnt = 0

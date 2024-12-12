@@ -904,6 +904,7 @@ source ./configs/.zoxide.nu
 source ./configs/oh-my-posh/omp-config.nu
 source ./scripts/aliases.nu
 
+use ./scripts/welcome.nu main
 welcome -c
 source ./completions/git-completions.nu
 source ./completions/gh-completions.nu

@@ -37,3 +37,11 @@ alias gs = google
 alias ys = google -w "youtube.com"
 alias ghs = google -w "github.com"
 alias clr = clear -k
+
+def l [] {
+  lsd -A
+}
+
+def t [] {
+  lsd --tree --depth 2
+}
